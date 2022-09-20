@@ -1,0 +1,211 @@
+@import "./_variables.module";
+
+// ----- MOBILE -----
+@media (min-width:320px)  {
+  .container-shipping-address-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+    background-color: $base-background-color;
+
+    .content {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(auto);
+      background-color: $base-background-color;
+    }
+
+    .form-body {
+      margin: 0 0.625em;
+      padding: 1.25em;
+      .save-button-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        margin-top: 2em;
+        .save-button {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(3em);
+          border-radius: 1.5em;
+          background-color: $orange-base-color;
+          span {
+            color: $base-background-color;
+            text-transform: none;
+          }
+        }
+        .save-button:hover {
+          background-color: lighten($orange-base-color, 5%)
+        }
+        .save-button:active {
+          background-color: lighten($orange-base-color, 10%)
+        }
+        .save-button-disabled {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(3em);
+          border-radius: 1.5em;
+          background-color: $base-background-color-gray;
+          cursor: not-allowed;
+          span {
+            color: $base-background-color;
+            text-transform: none;
+          }
+        }
+      }
+    }
+
+    .text-header {
+      color: $black-base-color;
+      font-size: 1.1em;
+      font-weight: bolder;
+    }
+
+    .column-textfield1 {
+      margin-top: 1.25em;
+      margin-bottom: 1.5em;
+
+      .margin-input1 {
+        margin-bottom: 1.5em;
+      }
+    }
+
+    .column-textfield2 {
+      margin-top: 1.25em;
+      margin-bottom: 1.5em;
+
+      .margin-input1 {
+        margin-bottom: 1.5em;
+      }
+    }
+
+    .column-textfield3 {
+      margin-top: 1.25em;
+      margin-bottom: 1em;
+
+      .margin-input1 {
+        margin-bottom: 1.5em;
+      }
+    }
+
+    .text-subTitle-form {
+      color: $black-base-color;
+      font-size: 1.1em;
+      font-weight: bolder;
+    }
+
+    .btn-save {
+      background-color: $base-background-color-gray;
+      border-radius: 1.25em;
+      font-size: 1em;
+      text-transform: capitalize;
+      margin-top: 1.8em;
+      padding: 0.625em 0 0.625em 0;
+
+      &:hover {
+        background-color: $orange-base-color;
+      }
+    }
+  }
+}
+
+
+// ----- WEBSITE -----
+@media (min-width:1281px) {
+  .container-shipping-address-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+    background-color: $base-background-color;
+
+
+    .content {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(auto);
+      background-color: $base-background-color;
+    }
+
+    .form-body {
+      margin: 1.875em;
+      padding: 1.25em;
+      .save-button-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        margin-top: 2em;
+        .save-button {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(3em);
+          border-radius: 1.5em;
+          background-color: $orange-base-color;
+          span {
+            color: $base-background-color;
+            text-transform: none;
+          }
+        }
+        .save-button:hover {
+          background-color: lighten($orange-base-color, 5%)
+        }
+        .save-button:active {
+          background-color: lighten($orange-base-color, 10%)
+        }
+        .save-button-disabled {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(3em);
+          border-radius: 1.5em;
+          background-color: $base-background-color-gray;
+          cursor: not-allowed;
+          span {
+            color: $base-background-color;
+            text-transform: none;
+          }
+        }
+      }
+    }
+
+    .text-header {
+      color: $black-base-color;
+      font-size: 1.3em;
+      font-weight: bolder;
+    }
+
+    .column-textfield1 {
+      display: flex;
+      justify-content: space-between;
+
+      .margin-input1 {
+        margin-right: 1.5em;
+      }
+
+      .margin-input2 {
+        border-width: medium;
+      }
+    }
+
+    .column-textfield2 {
+      display: flex;
+      justify-content: space-between;
+
+      .margin-input1 {
+        margin-right: 1.5em;
+      }
+
+      .margin-input2 {
+        border-width: medium;
+      }
+    }
+
+    .column-textfield3 {
+      display: flex;
+      justify-content: space-between;
+
+      .margin-input1 {
+        margin-right: 1.5em;
+      }
+
+      .margin-input2 {
+        border-width: medium;
+        margin-bottom: 1em;
+      }
+    }
+
+    .text-subTitle-form {
+      color: $black-base-color;
+      font-size: 1.3em;
+      font-weight: bolder;
+    }
+  }
+}

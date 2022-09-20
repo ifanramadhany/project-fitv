@@ -1,0 +1,6 @@
+export {default as HomePage} from "./HomePage"
+export {default as ShippingAddress} from "./ShippingAddressPage"
+export {default as SelectingLocationPage} from "./SelectingLocationPage"
+export {default as CheckoutPage} from "./CheckoutPage"
+export {default as CheckoutSuccessPage} from "./CheckoutSuccessPage"
+export {default as ProductDetailPage} from "./ProductDetailPage"

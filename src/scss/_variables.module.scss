@@ -1,0 +1,56 @@
+// colors
+$base-background-color: rgb(255, 255, 255);
+$base-background-color-darken: darken($base-background-color, 5%);
+$base-background-color-gray: rgb(199, 212, 224);
+$blue-base-color: rgb(16, 118, 190);
+$blue-base-color-darken: rgb(0, 58, 121);
+$black-base-color: rgb(27, 36, 48);
+$gray-base-color: rgb(120, 122, 145);
+$orange-base-color: rgb(242, 146, 0);
+$orange-base-color-lighten: rgba(248, 220, 181, 1);
+$red-base-color: rgb(242, 76, 76);
+$pink-base-color: rgb(255, 135, 178);
+$green-highlight-color: rgb(193, 255, 215);
+$border-base-color: rgb(71, 181, 255);
+
+// mixins
+@mixin minMaxWidth($width) {
+  min-width: $width;
+  max-width: $width;
+}
+
+@mixin minMaxHeight($height) {
+  min-height: $height;
+  max-height: $height;
+}
+
+@mixin keepTextOneLine() {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@mixin keepTextTwoLine() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+:export {
+  baseBackgroundColor: $base-background-color;
+  baseBackgroundColorDarken: $base-background-color-darken;
+  baseBackgroundColorGray: $base-background-color-gray;
+  blueBaseColor: $blue-base-color;
+  blueBaseColorDarken: $blue-base-color-darken;
+  blackBaseColor: $black-base-color;
+  grayBaseColor: $gray-base-color;
+  orangeBaseColor: $orange-base-color;
+  orangeBaseColorLighten: $orange-base-color-lighten;
+  redBaseColor: $red-base-color;
+  pinkBaseColor: $pink-base-color;
+  greenHighlightColor: $green-highlight-color;
+  borderBaseColor: $border-base-color;
+}

@@ -1,0 +1,734 @@
+@import "./_variables.module";
+
+// ----- MOBILE -----
+@media (min-width:320px)  {
+  .container-home-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+    .content {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(calc(100vh - 4em));
+    }
+    .content-full {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(100vh);
+    }
+    .header-search {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(6.2em);
+      background-color: $blue-base-color;
+      color: $base-background-color;
+      .text-1 {
+        font-size: 0.6em;
+        text-align: center;
+        padding: 0.5em 1em 0 1em;
+      }
+      .text-2 {
+        font-size: 0.7em;
+        text-align: center;
+        padding: 0.5em 0 0.5em 0;
+      }
+      span {
+        color: $orange-base-color;
+      }
+    }
+    .search-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(3.5em);
+      background-color: $blue-base-color;
+      border-radius: 0 0 0.8em 0.8em;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      .search-input {
+        @include minMaxWidth(92vw);
+        @include minMaxHeight(2.2em);
+        background-color: $base-background-color;
+        border-radius: 0.7em;
+      }
+    }
+    .icon-menu-container {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(6em);
+      background-color: $base-background-color;
+      .icon-menu-wrapper {
+        @include minMaxWidth(22em);
+        @include minMaxHeight(5em);
+        background-color: $base-background-color;
+        border-radius: 1em;
+        .the-icon {
+          @include minMaxWidth(20vw);
+          @include minMaxHeight(9vh);
+          cursor: pointer;
+          .icon-size {
+            width:2.5em;
+            height:2.5em;
+          }
+          .icon-text-size  {
+            font-size: 0.6em;
+            text-align: center;
+            line-height: 1.1em;
+            color: $gray-base-color;
+            text-transform: none;
+          }
+        }
+      }
+    }
+    .content-container {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(auto);
+      .product-text-wrapper {
+        @include minMaxWidth(22em);
+        @include minMaxHeight(2em);
+        margin-top: 0.5em;
+        span {
+          font-size: 1em;
+          font-weight: bold;
+          color: $black-base-color;
+        }
+      }
+      .items-product-wrapper {
+        @include minMaxWidth(30em);
+        @include minMaxHeight(auto);
+        .the-item-loading {
+          @include minMaxWidth(10.5em);
+          @include minMaxHeight(16em);
+          margin: 0.5em;
+          border-radius: 0.7em;
+        }
+        .the-item {
+          @include minMaxWidth(10.5em);
+          @include minMaxHeight(16em);
+          margin: 0.5em;
+          border-radius: 0.7em;
+          border: 0.01em solid $gray-base-color;
+          .the-item-img {
+            @include minMaxWidth(100%);
+            @include minMaxHeight(55%);
+            img {
+              height:5em;
+            }
+          }
+          .the-item-title {
+            @include minMaxWidth(100%);
+            @include minMaxHeight(15%);
+            span {
+              font-size: 0.9em;
+              font-weight: 500;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 2; /* number of lines to show */
+              line-clamp: 2;
+              -webkit-box-orient: vertical;
+              margin: 0 1em 0 1em;
+              text-align: center;
+            }
+          }
+          .the-item-price {
+            @include minMaxWidth(100%);
+            @include minMaxHeight(15%);
+            span {
+              font-size: 1.1em;
+              font-weight: 700;
+              margin: 0 1em 0 1em;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              color: $red-base-color;
+            }
+          }
+          .the-item-action {
+            @include minMaxWidth(100%);
+            @include minMaxHeight(15%);
+            .minus-button {
+              @include minMaxWidth(1.5em);
+              @include minMaxHeight(1.5em);
+              background-color: $base-background-color-darken;
+              border-radius: 0.2em;
+              cursor: pointer;
+            }
+            .minus-button:hover {
+              background-color: darken($base-background-color-darken, 5%)
+            }
+            .minus-button:active {
+              background-color: darken($base-background-color-darken, 10%)
+            }
+            .counter {
+              @include minMaxWidth(3.5em);
+              @include minMaxHeight(1.5em);
+              border-radius: 0.2em;
+              margin: 0 0.4em 0 0.4em;
+              border: 0.01em solid $gray-base-color;
+              span {
+                font-size: 1.1em;
+                font-weight: 500;
+              }
+            }
+            .plus-button {
+              @include minMaxWidth(1.5em);
+              @include minMaxHeight(1.5em);
+              background-color: $blue-base-color-darken;
+              border-radius: 0.2em;
+              cursor: pointer;
+            }
+            .plus-button:hover {
+              background-color: lighten($blue-base-color-darken, 5%)
+            }
+            .plus-button:active {
+              background-color: lighten($blue-base-color-darken, 10%)
+            }
+            .add-to-cart-button {
+              @include minMaxWidth(8.5em);
+              @include minMaxHeight(1.6em);
+              background-color: $orange-base-color;
+              border-radius: 0.3em;
+              cursor: pointer;
+              .cart-icon {
+                height: 1.1em;
+                margin-right: 0.4em;
+              }
+              span {
+                @include keepTextOneLine;
+                font-size: 0.5em;
+                color: $base-background-color;
+                text-transform: none;
+              }
+            }
+            .add-to-cart-button:hover {
+              background-color: lighten($orange-base-color, 5%)
+            }
+            .add-to-cart-button:active {
+              background-color: lighten($orange-base-color, 10%)
+            }
+          }
+        }
+        .the-item:last-child {
+          visibility: hidden;
+          @include minMaxHeight(0.1em);
+        }
+      }
+    }
+    .checkout-button-container {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(4.2em);
+      background-color: $blue-base-color-darken;
+      position: fixed;
+      bottom: -4.2em;
+      .total-product {
+        @include minMaxWidth(6.5em);
+        @include minMaxHeight(3em);
+        span {
+          color: $base-background-color;
+          font-size: 1.1em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+      .price-estimate {
+        @include minMaxWidth(6.5em);
+        @include minMaxHeight(3em);
+        border-left: 0.1em solid $base-background-color;
+        span {
+          color: $base-background-color;
+          font-size: 0.75em;
+          margin-left: 0.5em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+      .checkout-button {
+        @include minMaxWidth(9em);
+        @include minMaxHeight(2.6em);
+        background-color: $orange-base-color;
+        border-radius: 1.5em;
+        cursor: pointer;
+        span {
+          color: $base-background-color;
+          font-size: 1em;
+          font-weight: 500;
+          text-transform: none;
+        }
+      }
+      .checkout-button:hover {
+        background-color: lighten($orange-base-color, 5%)
+      }
+      .checkout-button:active {
+        background-color: lighten($orange-base-color, 10%)
+      }
+      .checkout-button-disabled {
+        @include minMaxWidth(9em);
+        @include minMaxHeight(2.6em);
+        border-radius: 1.5em;
+        background-color: $base-background-color-gray;
+        cursor: not-allowed;
+        span {
+          color: $base-background-color;
+          font-size: 1em;
+          font-weight: 500;
+          text-transform: none;
+        }
+      }
+    }
+  }
+  .sign-swipe-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(1em);
+    .sign-swipe {
+      @include minMaxWidth(5em);
+      @include minMaxHeight(0.15em);
+      border-radius: 0.5em;
+      background-color: $gray-base-color;
+    }
+  }
+  .image-title-per-price-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(6em);
+    .image-title-per-price-left {
+      @include minMaxWidth(25%);
+      @include minMaxHeight(6em);
+      padding: 0.2em;
+      .image-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(100%);
+        border: 0.1em solid $base-background-color-gray;
+        border-radius: 0.5em;
+        img {
+          height: 4em;
+        }
+      }
+    }
+    .image-title-per-price-right {
+      @include minMaxWidth(75%);
+      @include minMaxHeight(6em);
+      padding: 0 1em;
+      .title {
+        color: $black-base-color;
+        font-weight: 500;
+        @include keepTextOneLine;
+      }
+      .per {
+        color: $gray-base-color;
+        @include keepTextOneLine;
+      }
+      .price {
+        color: $black-base-color;
+        font-weight: 500;
+        @include keepTextOneLine;
+      }
+    }
+  }
+  .divider {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(0.1em);
+    background-color: $base-background-color-gray;
+    margin: 1em 0;
+  }
+  .selecting-variant-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(3em);
+    margin-top: 0.5em;
+    .variant-button {
+      @include minMaxWidth(5.5em);
+      @include minMaxHeight(2em);
+      margin-right: 0.5em;
+      border: 0.1em solid $base-background-color-gray;
+      border-radius: 0.5em;
+      padding: 0.2em 0.5em;
+      span {
+        font-size: 0.9em;
+        color: $blue-base-color-darken;
+        @include keepTextOneLine()
+      }
+    }
+  }
+  .add-cart-button-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(4em);
+    .add-cart-button {
+      @include minMaxWidth(100%);
+      @include minMaxHeight(3em);
+      border-radius: 1.5em;
+      background-color: $orange-base-color;
+      span {
+        color: $base-background-color;
+        text-transform: none;
+      }
+    }
+    .add-cart-button:hover {
+      background-color: lighten($orange-base-color, 5%)
+    }
+    .add-cart-button:active {
+      background-color: lighten($orange-base-color, 10%)
+    }
+  }
+}
+
+
+// ----- WEBSITE -----
+@media (min-width:1281px) {
+  .container-home-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+    .content {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(calc(100vh - 4em));
+    }
+    .content-full {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(100vh);
+    }
+    .header-search {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(6.5em);
+      background-color: $blue-base-color;
+      color: $base-background-color;
+      .text-1 {
+        font-size: 0.9em;
+        text-align: center;
+        padding: 0.5em 20em 0 20em;
+      }
+      .text-2 {
+        font-size: 1.1em;
+        text-align: center;
+        padding: 0.5em;
+      }
+      span {
+        color: $orange-base-color;
+      }
+    }
+    .search-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(4em);
+      background-color: $blue-base-color;
+      border-radius: 0 0 1em 1em;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      .search-input {
+        @include minMaxWidth(92vw);
+        @include minMaxHeight(2.4em);
+        background-color: $base-background-color;
+      }
+    }
+    .icon-menu-container {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(9em);
+      .icon-menu-wrapper {
+        @include minMaxWidth(69em);
+        @include minMaxHeight(7em);
+        background-color: $base-background-color;
+        border-radius: 1em;
+        .the-icon {
+          @include minMaxWidth(7vw);
+          @include minMaxHeight(7em);
+          .icon-size {
+            width:3.5em;
+            height:3.5em;
+          }
+          .icon-text-size  {
+            font-size: 0.7em;
+            text-align: center;
+            line-height: 1.1em;
+            color: $gray-base-color;
+            text-transform: none;
+          }
+        }
+      }
+    }
+    .content-container {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(auto);
+      .product-text-wrapper {
+        @include minMaxWidth(69em);
+        @include minMaxHeight(2em);
+        margin-top: 2em;
+        span {
+          font-size: 1.5em;
+          font-weight: bold;
+          color: $black-base-color;
+        }
+      }
+      .items-product-wrapper {
+        @include minMaxWidth(72em);
+        @include minMaxHeight(auto);
+        background-color: $base-background-color;
+        .the-item-loading {
+          @include minMaxWidth(15em);
+          @include minMaxHeight(22em);
+          margin: 1.5em;
+          border-radius: 1em;
+        }
+        .the-item {
+          @include minMaxWidth(15em);
+          @include minMaxHeight(22em);
+          margin: 1.5em;
+          border-radius: 1em;
+          border: 0.1em solid $gray-base-color;
+          .the-item-img {
+            @include minMaxWidth(100%);
+            @include minMaxHeight(55%);
+            img {
+              height:7.5em;
+            }
+          }
+          .the-item-title {
+            @include minMaxWidth(100%);
+            @include minMaxHeight(15%);
+            span {
+              font-size: 1em;
+              font-weight: 500;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 2; /* number of lines to show */
+              line-clamp: 2;
+              -webkit-box-orient: vertical;
+              margin: 0 1em 0 1em;
+              text-align: center;
+            }
+          }
+          .the-item-price {
+            @include minMaxWidth(100%);
+            @include minMaxHeight(15%);
+            span {
+              font-size: 1.3em;
+              font-weight: 700;
+              margin: 0 1em 0 1em;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              color: $red-base-color;
+            }
+          }
+          .the-item-action {
+            @include minMaxWidth(100%);
+            @include minMaxHeight(15%);
+            .minus-button {
+              @include minMaxWidth(2em);
+              @include minMaxHeight(2em);
+              background-color: $base-background-color-darken;
+              border-radius: 0.5em;
+              cursor: pointer;
+            }
+            .minus-button:hover {
+              background-color: darken($base-background-color-darken, 5%)
+            }
+            .minus-button:active {
+              background-color: darken($base-background-color-darken, 10%)
+            }
+            .counter {
+              @include minMaxWidth(5em);
+              @include minMaxHeight(2em);
+              border-radius: 0.5em;
+              margin: 0 0.5em 0 0.5em;
+              border: 0.1em solid $gray-base-color;
+              span {
+                font-size: 1.1em;
+                font-weight: 500;
+              }
+            }
+            .plus-button {
+              @include minMaxWidth(2em);
+              @include minMaxHeight(2em);
+              background-color: $blue-base-color-darken;
+              border-radius: 0.5em;
+              cursor: pointer;
+            }
+            .plus-button:hover {
+              background-color: lighten($blue-base-color-darken, 5%)
+            }
+            .plus-button:active {
+              background-color: lighten($blue-base-color-darken, 10%)
+            }
+            .add-to-cart-button {
+              @include minMaxWidth(13em);
+              @include minMaxHeight(2.2em);
+              background-color: $orange-base-color;
+              border-radius: 0.6em;
+              cursor: pointer;
+              .cart-icon {
+                height: 1.5em;
+                margin-right: 0.5em;
+              }
+              span {
+                @include keepTextOneLine;
+                font-size: 0.7em;
+                color: $base-background-color;
+                text-transform: none;
+              }
+            }
+            .add-to-cart-button:hover {
+              background-color: lighten($orange-base-color, 5%)
+            }
+            .add-to-cart-button:active {
+              background-color: lighten($orange-base-color, 10%)
+            }
+          }
+        }
+        .the-item:last-child {
+          visibility: hidden;
+          @include minMaxHeight(0.1em);
+        }
+      }
+    }
+    .checkout-button-container {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(4.5em);
+      background-color: $blue-base-color-darken;
+      position: fixed;
+      bottom: -4.5em;
+      .total-product {
+        @include minMaxWidth(8.5em);
+        @include minMaxHeight(3em);
+        span {
+          color: $base-background-color;
+          font-size: 1.1em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+      .price-estimate {
+        @include minMaxWidth(8.5em);
+        @include minMaxHeight(3em);
+        border-left: 0.1em solid $base-background-color;
+        span {
+          color: $base-background-color;
+          font-size: 0.8em;
+          margin-left: 0.5em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+      .checkout-button {
+        @include minMaxWidth(10.5em);
+        @include minMaxHeight(3em);
+        background-color: $orange-base-color;
+        border-radius: 1.5em;
+        cursor: pointer;
+        span {
+          color: $base-background-color;
+          font-size: 1em;
+          font-weight: 700;
+          text-transform: none;
+        }
+      }
+      .checkout-button:hover {
+        background-color: lighten($orange-base-color, 5%)
+      }
+      .checkout-button:active {
+        background-color: lighten($orange-base-color, 10%)
+      }
+      .checkout-button-disabled {
+        @include minMaxWidth(10.5em);
+        @include minMaxHeight(3em);
+        border-radius: 1.5em;
+        background-color: $base-background-color-gray;
+        cursor: not-allowed;
+        span {
+          color: $base-background-color;
+          font-size: 1em;
+          font-weight: 700;
+          text-transform: none;
+        }
+      }
+    }
+  }
+  .sign-swipe-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(1em);
+    .sign-swipe {
+      @include minMaxWidth(5em);
+      @include minMaxHeight(0.15em);
+      border-radius: 0.5em;
+      background-color: $gray-base-color;
+    }
+  }
+  .image-title-per-price-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(6em);
+    padding: 0 30em;
+    .image-title-per-price-left {
+      @include minMaxWidth(25%);
+      @include minMaxHeight(6em);
+      padding: 0.2em;
+      .image-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(100%);
+        border: 0.1em solid $base-background-color-gray;
+        border-radius: 0.5em;
+        img {
+          height: 4em;
+        }
+      }
+    }
+    .image-title-per-price-right {
+      @include minMaxWidth(75%);
+      @include minMaxHeight(6em);
+      padding: 0 1em;
+      .title {
+        color: $black-base-color;
+        font-weight: 500;
+        @include keepTextOneLine;
+      }
+      .per {
+        color: $gray-base-color;
+        @include keepTextOneLine;
+      }
+      .price {
+        color: $black-base-color;
+        font-weight: 500;
+        @include keepTextOneLine;
+      }
+    }
+  }
+  .divider {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(0.1em);
+    background-color: $base-background-color-gray;
+    margin: 1em 0;
+  }
+  .selecting-variant-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(3em);
+    margin-top: 0.5em;
+    padding: 0 30em;
+    .variant-button {
+      @include minMaxWidth(5.5em);
+      @include minMaxHeight(2em);
+      margin-right: 0.5em;
+      border: 0.1em solid $base-background-color-gray;
+      border-radius: 0.5em;
+      padding: 0.2em 0.5em;
+      span {
+        font-size: 0.9em;
+        color: $blue-base-color-darken;
+        @include keepTextOneLine()
+      }
+    }
+  }
+  .add-cart-button-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(4em);
+    .add-cart-button {
+      @include minMaxWidth(40%);
+      @include minMaxHeight(3em);
+      border-radius: 1.5em;
+      background-color: $orange-base-color;
+      span {
+        color: $base-background-color;
+        text-transform: none;
+      }
+    }
+    .add-cart-button:hover {
+      background-color: lighten($orange-base-color, 5%)
+    }
+    .add-cart-button:active {
+      background-color: lighten($orange-base-color, 10%)
+    }
+  }
+}

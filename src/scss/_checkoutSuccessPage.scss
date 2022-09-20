@@ -1,0 +1,273 @@
+@import "./_variables.module";
+
+// ----- MOBILE -----
+@media (min-width: 320px) {
+  .container-checkout-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+
+    .content {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(100vh);
+      background-color: $base-background-color;
+      .kf-icon-main-text-user-data-billing-details-wrapper {
+        @include minMaxWidth(100vw);
+        @include minMaxHeight(12em);
+        //background-color: cadetblue;
+        padding: 0 2em;
+        .image-wrapper {
+          margin: 0.5em 0;
+          img {
+            border-radius: 50%;
+            height: 3.5em;
+            border: 0.1em solid $base-background-color-gray;
+          }
+        }
+        .main-text {
+          font-size: 1em;
+          font-weight: 700;
+        }
+        .user-data {
+          color: $gray-base-color;
+          @include keepTextTwoLine();
+        }
+        .billing-details {
+          font-size: 0.8em;
+          color: $blue-base-color;
+          font-weight: 700;
+        }
+      }
+      .amount-wrapper {
+        @include minMaxWidth(100vw);
+        @include minMaxHeight(8em);
+        //background-color: pink;
+        padding: 0 2em;
+        .text {
+          font-size: 0.8em;
+          color: $gray-base-color;
+        }
+        .amount {
+          font-size: 2.6em;
+          font-weight: bold;
+          line-height: 0.8;
+        }
+      }
+      .source-of-fund-payroll-saving-card-wrapper {
+        @include minMaxWidth(100vw);
+        @include minMaxHeight(auto);
+        padding: 1em 2em;
+        background-color: $base-background-color-darken;
+        .source-of-fund {
+          padding: 0 0.4em;
+          font-size: 0.8em;
+          color: $gray-base-color;
+        }
+        .payroll-saving-card {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(5.5em);
+          border-radius: 0.5em;
+          .payroll-saving-card-left {
+            @include minMaxWidth(80%);
+            @include minMaxHeight(5.5em);
+            background-color: $base-background-color;
+            border-radius: 0.5em;
+            padding: 0.5em;
+            z-index: 2;
+            border-bottom: 0.5em solid $blue-base-color;
+            .payroll-number {
+              color: $gray-base-color;
+            }
+            .text {
+              font-weight: 500;
+            }
+          }
+          .payroll-saving-card-right{
+            @include minMaxWidth(auto);
+            @include minMaxHeight(5.5em);
+            right: 0;
+            img {
+              height: 5.5em;
+              object-fit: cover;
+              z-index: 1;
+              border-radius: 0 0.5em 0.5em 0;
+            }
+          }
+        }
+      }
+      .continue-button-wrapper {
+        @include minMaxWidth(100vw);
+        @include minMaxHeight(21em);
+        padding: 0 2em;
+        .continue-button {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(3.5em);
+          background-color: $blue-base-color;
+          border-radius: 2em;
+          cursor: pointer;
+          span {
+            color: $base-background-color;
+            font-size: 1em;
+            font-weight: 500;
+            text-transform: none;
+          }
+        }
+        .continue-button:hover {
+          background-color: lighten($blue-base-color, 5%)
+        }
+        .continue-button:active {
+          background-color: lighten($blue-base-color, 10%)
+        }
+        .continue-button-disabled {
+          @include minMaxWidth(100%);
+          @include minMaxHeight((3.5em));
+          border-radius: 2em;
+          background-color: $base-background-color-gray;
+          cursor: not-allowed;
+          span {
+            color: $base-background-color;
+            font-size: 1em;
+            font-weight: 500;
+            text-transform: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// ----- WEBSITE -----
+@media (min-width: 1281px) {
+  .container-checkout-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+
+    .content {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(100vh);
+      background-color: $base-background-color;
+      padding: 0 32em;
+      .kf-icon-main-text-user-data-billing-details-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(12em);
+        //background-color: cadetblue;
+        padding: 0 2em;
+        .image-wrapper {
+          margin: 0.5em 0;
+          img {
+            border-radius: 50%;
+            height: 3.5em;
+            border: 0.1em solid $base-background-color-gray;
+          }
+        }
+        .main-text {
+          font-size: 1em;
+          font-weight: 700;
+        }
+        .user-data {
+          color: $gray-base-color;
+          @include keepTextTwoLine();
+        }
+        .billing-details {
+          font-size: 0.8em;
+          color: $blue-base-color;
+          font-weight: 700;
+        }
+      }
+      .amount-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(8em);
+        //background-color: pink;
+        padding: 0 2em;
+        .text {
+          font-size: 0.8em;
+          color: $gray-base-color;
+        }
+        .amount {
+          font-size: 2.6em;
+          font-weight: bold;
+          line-height: 0.8;
+        }
+      }
+      .source-of-fund-payroll-saving-card-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        padding: 1em 2em;
+        background-color: $base-background-color-darken;
+        .source-of-fund {
+          padding: 0 0.4em;
+          font-size: 0.8em;
+          color: $gray-base-color;
+        }
+        .payroll-saving-card {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(5.5em);
+          border-radius: 0.5em;
+          .payroll-saving-card-left {
+            @include minMaxWidth(80%);
+            @include minMaxHeight(5.5em);
+            background-color: $base-background-color;
+            border-radius: 0.5em;
+            padding: 0.5em;
+            z-index: 2;
+            border-bottom: 0.5em solid $blue-base-color;
+            .payroll-number {
+              color: $gray-base-color;
+            }
+            .text {
+              font-weight: 500;
+            }
+          }
+          .payroll-saving-card-right{
+            @include minMaxWidth(auto);
+            @include minMaxHeight(5.5em);
+            right: 0;
+            img {
+              height: 5.5em;
+              object-fit: cover;
+              z-index: 1;
+              border-radius: 0 0.5em 0.5em 0;
+            }
+          }
+        }
+      }
+      .continue-button-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(13em);
+        padding: 0 2em;
+        .continue-button {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(3em);
+          background-color: $blue-base-color;
+          border-radius: 2em;
+          cursor: pointer;
+          span {
+            color: $base-background-color;
+            font-size: 1em;
+            font-weight: 500;
+            text-transform: none;
+          }
+        }
+        .continue-button:hover {
+          background-color: lighten($blue-base-color, 5%)
+        }
+        .continue-button:active {
+          background-color: lighten($blue-base-color, 10%)
+        }
+        .continue-button-disabled {
+          @include minMaxWidth(100%);
+          @include minMaxHeight((3em));
+          border-radius: 2em;
+          background-color: $base-background-color-gray;
+          cursor: not-allowed;
+          span {
+            color: $base-background-color;
+            font-size: 1em;
+            font-weight: 500;
+            text-transform: none;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,795 @@
+@import "./_variables.module";
+
+// ----- MOBILE -----
+@media (min-width:320px)  {
+  .container-checkout-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+    background-color: $base-background-color;
+    .shipping-address {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(8em);
+      padding: 0 0.8em 0 0.8em;
+      margin-top: 0.8em;
+      .edit-shipping-address {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(3em);
+        background-color: $base-background-color;
+        border-bottom: 0.01em solid $gray-base-color;
+        span {
+          color: $black-base-color;
+          font-weight: 500;
+          font-size: 0.9em;
+        }
+        .change-address-button {
+          span {
+            color: $blue-base-color;
+            font-size: 0.9em;
+            text-transform: none;
+          }
+        }
+      }
+      .receiver-detail {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(6em);
+        .receiver-name {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(2em);
+          .name {
+            font-weight: 500;
+            font-size: 0.9em;
+            @include keepTextOneLine();
+          }
+          .divider-receiver-name {
+            font-size: 0.9em;
+            margin: 0 0.5em 0 0.5em;
+          }
+          .phone-number {
+            font-size: 0.9em;
+          }
+        }
+        .receiver-address {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(3em);
+          span {
+            font-size: 0.8em;
+            color: $gray-base-color;
+            @include keepTextTwoLine()
+          }
+        }
+      }
+    }
+    .shipped-by-items-selecting-shipper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(auto);
+      padding: 0 0.8em 0 0.8em;
+      margin-top: 0.2em;
+      .shipped-by {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(3.5em);
+        border-bottom: 0.01em solid $gray-base-color;
+        font-size: 0.9em;
+        .shipped-by-text {
+          @include minMaxWidth(100%);
+        }
+        .shipped-by-address-distance {
+          @include minMaxWidth(100%);
+          .shipped-by-address {
+            @include minMaxWidth(75%);
+            @include keepTextOneLine();
+            font-weight: 500;
+          }
+          .shipped-by-distance {
+            @include minMaxWidth(25%);
+            font-weight: 500;
+            color: $pink-base-color;
+            text-align: end;
+            @include keepTextOneLine();
+          }
+        }
+      }
+      .the-items-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        border-bottom: 0.01em solid $gray-base-color;
+        .the-item {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(5em);
+          background-color: $base-background-color;
+          border-radius: 0.5em;
+          margin: 0.5em 0 0.5em 0;
+          .image {
+            @include minMaxWidth(25%);
+            @include minMaxHeight(5em);
+            img {
+              width:3.6em;
+              height:3.6em;
+            }
+          }
+          .details-product {
+            @include minMaxWidth(75%);
+            @include minMaxHeight(5em);
+            padding: 0 0.5em 0 0.5em;
+            .product-name {
+              @include minMaxWidth(80%);
+              font-size: 0.9em;
+              font-weight: 500;
+              color: $black-base-color;
+              @include keepTextTwoLine()
+            }
+            .qty-price {
+              @include minMaxWidth(100%);
+              .product-qty {
+                font-size: 0.8em;
+                color: $gray-base-color;
+              }
+              .product-price {
+                font-size: 0.9em;
+                font-weight: 500;
+                color: $red-base-color;
+              }
+            }
+          }
+        }
+        .the-item:last-child {
+          margin: 0.5em 0 1.5em 0;
+        }
+      }
+      .shipper-selected-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(5em);
+        border-bottom: 0.01em solid $gray-base-color;
+        .shipper-selected {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(4em);
+          //border: 0.01em solid $blue-base-color;
+          border-width: 0.01em 0.15em;
+          border-color: $border-base-color;
+          border-style: solid;
+          border-radius: 0.5em;
+          .image {
+            @include minMaxWidth(25%);
+            @include minMaxHeight(3em);
+            img {
+              width:2.5em;
+              height:2.5em;
+            }
+          }
+          .shipper-text-button {
+            @include minMaxWidth(75%);
+            @include minMaxHeight(3.5em);
+            span {
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+    .addition-note-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(4em);
+      padding: 0 0.8em 0 0.8em;
+      margin-top: 1em;
+      .addition-note {
+        border-bottom: 0.01em solid $gray-base-color;
+        span {
+          font-size: 0.9em;
+          font-weight: 500;
+        }
+      }
+    }
+    .summary-payment-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(auto);
+      padding: 0 0.8em 0 0.8em;
+      margin-top: 0.5em;
+      .summary-payment {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        span {
+          font-size: 0.9em;
+        }
+        .summary-payment-text {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(auto);
+          margin: 0.4em 0;
+          font-weight: 500;
+        }
+        .product-price-per-item {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(auto);
+        }
+        .shipping-price {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(auto);
+          .shipping-price-second {
+            font-weight: 500;
+          }
+        }
+        .service-fee {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(auto);
+          .service-fee-second {
+            font-weight: 500;
+          }
+        }
+        .info-about-choosing-shipper-wrapper {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(3em);
+          margin-top: 0.3em;
+          .info-about-choosing-shipper {
+            @include minMaxWidth(98%);
+            @include minMaxHeight(2em);
+            border-radius: 0.5em;
+            background-color: $green-highlight-color;
+            span {
+              font-size: 0.8em;
+            }
+            .bolder {
+              font-size: 0.9em;
+              font-weight: bolder;
+            }
+          }
+        }
+      }
+    }
+    .total-payment-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(5em);
+      padding: 0 0.8em 0 0.8em;
+      margin-top: 1em;
+      .total-payment {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(5em);
+        .total-payment-nominal {
+          @include minMaxHeight(5em);
+          .nominal-text {
+            font-size: 0.7em;
+            font-weight: 500;
+            color: $blue-base-color-darken;
+          }
+          .nominal {
+            font-size: 1.5em;
+            font-weight: 500;
+          }
+        }
+        .total-payment-button {
+          @include minMaxWidth(9em);
+          @include minMaxHeight(3em);
+          background-color: $orange-base-color;
+          border-radius: 1.5em;
+          span {
+            color: $base-background-color;
+            text-transform: none;
+          }
+        }
+        .total-payment-button:hover {
+          background-color: lighten($orange-base-color, 5%)
+        }
+        .total-payment-button:active {
+          background-color: lighten($orange-base-color, 10%)
+        }
+        .total-payment-button-disabled {
+          @include minMaxWidth(9em);
+          @include minMaxHeight(3em);
+          border-radius: 1.5em;
+          background-color: $base-background-color-gray;
+          cursor: not-allowed;
+          span {
+            color: $base-background-color;
+            text-transform: none;
+          }
+        }
+      }
+    }
+  }
+  .selecting-shipper-and-close-drawer-button {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(3em);
+    padding: 0 0.5em;
+    span {
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+  }
+  .shipper-item-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(3.8em);
+    margin: 0.3em 0;
+    border-bottom: 0.01em solid $base-background-color-darken;
+    .image-wrapper {
+      @include minMaxWidth(20%);
+      @include minMaxHeight(3.5em);
+      img {
+        width: 3.8em;
+        height: 3.8em;
+      }
+    }
+    .text-wrapper {
+      @include minMaxWidth(65%);
+      @include minMaxHeight(3.5em);
+      .title-text {
+        font-size: 0.9em;
+        font-weight: bold;
+        @include keepTextOneLine()
+      }
+      .detail-shipper {
+        font-size: 0.6em;
+        text-align: left;
+        color: $gray-base-color;
+        @include keepTextTwoLine();
+        .bolder {
+          font-weight: bold;
+          color: $black-base-color;
+        }
+      }
+      .shipping-estimate {
+        font-size: 0.6em;
+        text-align: left;
+        color: $gray-base-color;
+        @include keepTextTwoLine();
+      }
+      .shipping-price {
+        font-size: 0.7em;
+        text-align: left;
+        font-weight: bold;
+        color: $black-base-color;
+        @include keepTextTwoLine();
+      }
+    }
+    .selected-icon-wrapper {
+      @include minMaxWidth(15%);
+      @include minMaxHeight(3.5em);
+    }
+  }
+  .image-warning-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(auto);
+    padding: 0 0.5em;
+    margin: 1em 0;
+    img {
+      height: 9em;
+    }
+  }
+  .main-text-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(auto);
+    padding: 0 3em;
+    margin: 1.3em 0;
+    span {
+      text-align: center;
+      font-size: 1.1em;
+      font-weight: bold;
+      @include keepTextTwoLine
+    }
+  }
+  .items-not-available-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(auto);
+    padding: 0 3em;
+    margin: 1em 0;
+    .item-not-available {
+      font-size: 0.8em;
+      margin: 0.1em 0;
+      @include keepTextOneLine
+    }
+  }
+  .next-button-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(4em);
+    .next-button {
+      @include minMaxWidth(100%);
+      @include minMaxHeight(3em);
+      border-radius: 1.5em;
+      background-color: $orange-base-color;
+      span {
+        color: $base-background-color;
+        text-transform: none;
+      }
+    }
+    .next-button:hover {
+      background-color: lighten($orange-base-color, 5%)
+    }
+    .next-button:active {
+      background-color: lighten($orange-base-color, 10%)
+    }
+  }
+}
+
+
+// ----- WEBSITE -----
+@media (min-width:1281px) {
+  .container-checkout-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+    background-color: $base-background-color;
+    .shipping-address {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(8em);
+      padding: 0 10em;
+      margin-top: 2em;
+      .edit-shipping-address {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(3.5em);
+        background-color: $base-background-color;
+        border-bottom: 0.01em solid $gray-base-color;
+        span {
+          color: $black-base-color;
+          font-weight: 500;
+          font-size: 0.9em;
+        }
+        .change-address-button {
+          span {
+            color: $blue-base-color;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-transform: none;
+          }
+        }
+      }
+      .receiver-detail {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(8em);
+        .receiver-name {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(2em);
+          .name {
+            font-weight: 500;
+            font-size: 0.9em;
+            @include keepTextOneLine();
+          }
+          .divider-receiver-name {
+            font-size: 0.9em;
+            margin: 0 0.5em 0 0.5em;
+          }
+          .phone-number {
+            font-size: 0.9em;
+          }
+        }
+        .receiver-address {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(3.5em);
+          span {
+            font-size: 0.8em;
+            color: $gray-base-color;
+            @include keepTextTwoLine()
+          }
+        }
+      }
+    }
+    .shipped-by-items-selecting-shipper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(auto);
+      padding: 0 10em;
+      margin-top: 0.2em;
+      .shipped-by {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(4em);
+        border-bottom: 0.01em solid $gray-base-color;
+        font-size: 0.9em;
+        .shipped-by-text {
+          @include minMaxWidth(100%);
+        }
+        .shipped-by-address-distance {
+          @include minMaxWidth(100%);
+          .shipped-by-address {
+            @include minMaxWidth(75%);
+            @include keepTextOneLine();
+            font-weight: 500;
+          }
+          .shipped-by-distance {
+            @include minMaxWidth(25%);
+            font-weight: 500;
+            color: $pink-base-color;
+            text-align: end;
+            @include keepTextOneLine();
+          }
+        }
+      }
+      .the-items-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        border-bottom: 0.01em solid $gray-base-color;
+        .the-item {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(6em);
+          background-color: $base-background-color;
+          border-radius: 0.5em;
+          margin: 1.5em 0 1.5em 0;
+          .image {
+            @include minMaxWidth(25%);
+            @include minMaxHeight(6em);
+            img {
+              width:3.8em;
+              height:3.8em;
+            }
+          }
+          .details-product {
+            @include minMaxWidth(75%);
+            @include minMaxHeight(6em);
+            padding: 0 0.5em 0 0.5em;
+            .product-name {
+              @include minMaxWidth(80%);
+              font-size: 0.9em;
+              font-weight: 500;
+              color: $black-base-color;
+              @include keepTextTwoLine()
+            }
+            .qty-price {
+              @include minMaxWidth(100%);
+              .product-qty {
+                font-size: 0.8em;
+                color: $gray-base-color;
+              }
+              .product-price {
+                font-size: 0.9em;
+                font-weight: 500;
+                color: $red-base-color;
+              }
+            }
+          }
+        }
+        .the-item:last-child {
+          margin: 0.5em 0 1.5em 0;
+        }
+      }
+      .shipper-selected-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(6em);
+        border-bottom: 0.01em solid $gray-base-color;
+        .shipper-selected {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(4em);
+          //border: 0.01em solid $blue-base-color;
+          border-width: 0.01em 0.15em;
+          border-color: $border-base-color;
+          border-style: solid;
+          border-radius: 0.5em;
+          .image {
+            @include minMaxWidth(25%);
+            @include minMaxHeight(4em);
+            img {
+              width:2.8em;
+              height:2.8em;
+            }
+          }
+          .shipper-text-button {
+            @include minMaxWidth(75%);
+            @include minMaxHeight(3em);
+            span {
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+    .addition-note-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(4em);
+      padding: 0 10em;
+      margin-top: 1em;
+      .addition-note {
+        border-bottom: 0.01em solid $gray-base-color;
+        span {
+          font-size: 0.9em;
+          font-weight: 500;
+        }
+      }
+    }
+    .summary-payment-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(auto);
+      padding: 0 10em;
+      margin-top: 0.5em;
+      .summary-payment {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        span {
+          font-size: 0.9em;
+        }
+        .summary-payment-text {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(auto);
+          margin: 0.4em 0;
+          font-weight: 500;
+        }
+        .product-price-per-item {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(auto);
+        }
+        .shipping-price {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(auto);
+          .shipping-price-second {
+            font-weight: 500;
+          }
+        }
+        .service-fee {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(auto);
+          .service-fee-second {
+            font-weight: 500;
+          }
+        }
+        .info-about-choosing-shipper-wrapper {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(3em);
+          margin-top: 0.3em;
+          .info-about-choosing-shipper {
+            @include minMaxWidth(60%);
+            @include minMaxHeight(2em);
+            border-radius: 0.5em;
+            background-color: $green-highlight-color;
+            span {
+              font-size: 0.8em;
+            }
+            .bolder {
+              font-size: 0.9em;
+              font-weight: bolder;
+            }
+          }
+        }
+      }
+    }
+    .total-payment-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(5em);
+      padding: 0 10em;
+      margin-top: 1em;
+      .total-payment {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(5em);
+        .total-payment-nominal {
+          @include minMaxHeight(5em);
+          .nominal-text {
+            font-size: 0.7em;
+            font-weight: 500;
+            color: $blue-base-color-darken;
+          }
+          .nominal {
+            font-size: 1.5em;
+            font-weight: 500;
+          }
+        }
+        .total-payment-button {
+          @include minMaxWidth(9em);
+          @include minMaxHeight(3em);
+          background-color: $orange-base-color;
+          border-radius: 1.5em;
+          span {
+            color: $base-background-color;
+            text-transform: none;
+          }
+        }
+        .total-payment-button:hover {
+          background-color: lighten($orange-base-color, 5%)
+        }
+        .total-payment-button:active {
+          background-color: lighten($orange-base-color, 10%)
+        }
+        .total-payment-button-disabled {
+          @include minMaxWidth(9em);
+          @include minMaxHeight(3em);
+          border-radius: 1.5em;
+          background-color: $base-background-color-gray;
+          cursor: not-allowed;
+          span {
+            color: $base-background-color;
+            text-transform: none;
+          }
+        }
+      }
+    }
+  }
+  .selecting-shipper-and-close-drawer-button {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(3em);
+    padding: 0 0.5em;
+    span {
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+  }
+  .shipper-item-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(3.9em);
+    margin: 0.3em 0;
+    border-bottom: 0.01em solid $base-background-color-darken;
+    .image-wrapper {
+      @include minMaxWidth(20%);
+      @include minMaxHeight(3.8em);
+      img {
+        width: 3.6em;
+        height: 3.6em;
+      }
+    }
+    .text-wrapper {
+      @include minMaxWidth(65%);
+      @include minMaxHeight(3.5em);
+      .title-text {
+        font-size: 0.9em;
+        font-weight: bold;
+        @include keepTextOneLine()
+      }
+      .detail-shipper {
+        font-size: 0.6em;
+        text-align: left;
+        color: $gray-base-color;
+        @include keepTextTwoLine();
+        .bolder {
+          font-weight: bold;
+          color: $black-base-color;
+        }
+      }
+      .shipping-estimate {
+        font-size: 0.6em;
+        text-align: left;
+        color: $gray-base-color;
+        @include keepTextTwoLine();
+      }
+      .shipping-price {
+        font-size: 0.7em;
+        text-align: left;
+        font-weight: bold;
+        color: $black-base-color;
+        @include keepTextTwoLine();
+      }
+    }
+    .selected-icon-wrapper {
+      @include minMaxWidth(15%);
+      @include minMaxHeight(3.5em);
+    }
+  }
+  .image-warning-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(auto);
+    padding: 0 0.5em;
+    margin: 1em 0;
+    img {
+      height: 9em;
+    }
+  }
+  .main-text-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(auto);
+    padding: 0 3em;
+    margin: 1.3em 0;
+    span {
+      text-align: center;
+      font-size: 1.1em;
+      font-weight: bold;
+      @include keepTextTwoLine
+    }
+  }
+  .items-not-available-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(auto);
+    padding: 0 3em;
+    margin: 1em 0;
+    .item-not-available {
+      font-size: 0.8em;
+      margin: 0.1em 0;
+      @include keepTextOneLine
+    }
+  }
+  .next-button-wrapper {
+    @include minMaxWidth(100%);
+    @include minMaxHeight(4em);
+    .next-button {
+      @include minMaxWidth(40%);
+      @include minMaxHeight(3em);
+      border-radius: 1.5em;
+      background-color: $orange-base-color;
+      span {
+        color: $base-background-color;
+        text-transform: none;
+      }
+    }
+    .next-button:hover {
+      background-color: lighten($orange-base-color, 5%)
+    }
+    .next-button:active {
+      background-color: lighten($orange-base-color, 10%)
+    }
+  }
+}

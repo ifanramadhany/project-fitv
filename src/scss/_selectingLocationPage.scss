@@ -1,0 +1,115 @@
+@import "./_variables.module";
+
+// ----- MOBILE -----
+@media (min-width:320px)  {
+  .container-selecting-location-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+    .search-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(3.5em);
+      background-color: $blue-base-color;
+      position: sticky;
+      top: 0;
+      .search-input {
+        @include minMaxWidth(92vw);
+        @include minMaxHeight(2.2em);
+        background-color: $base-background-color;
+        border-radius: 0.8em;
+      }
+    }
+    .selecting-location-button {
+      @include minMaxWidth(90vw);
+      @include minMaxHeight(2.6em);
+      background-color: $orange-base-color;
+      position: fixed;
+      bottom: 0;
+      border-radius: 1.5em;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      span {
+        color: $base-background-color;
+        font-weight: 500;
+        text-transform: none;
+      }
+    }
+    .selecting-location-button:hover {
+      background-color: lighten($orange-base-color, 5%)
+    }
+    .selecting-location-button:active {
+      background-color: lighten($orange-base-color, 10%)
+    }
+    .selecting-location-button-disabled {
+      @include minMaxWidth(90vw);
+      @include minMaxHeight(2.6em);
+      position: fixed;
+      bottom: 0;
+      border-radius: 1.5em;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: $base-background-color-gray;
+      cursor: not-allowed;
+      span {
+        color: $base-background-color;
+        text-transform: none;
+      }
+    }
+  }
+}
+
+
+// ----- WEBSITE -----
+@media (min-width:1281px) {
+  .container-selecting-location-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+    .search-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(4em);
+      background-color: $blue-base-color;
+      position: sticky;
+      top: 0;
+      .search-input {
+        @include minMaxWidth(92vw);
+        @include minMaxHeight(2.4em);
+        background-color: $base-background-color;
+      }
+    }
+    .selecting-location-button {
+      @include minMaxWidth(30vw);
+      @include minMaxHeight(3em);
+      background-color: $orange-base-color;
+      position: fixed;
+      bottom: 1em;
+      border-radius: 1.5em;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      span {
+        color: $base-background-color;
+        font-weight: 500;
+        text-transform: none;
+      }
+    }
+    .selecting-location-button:hover {
+      background-color: lighten($orange-base-color, 5%)
+    }
+    .selecting-location-button:active {
+      background-color: lighten($orange-base-color, 10%)
+    }
+    .selecting-location-button-disabled {
+      @include minMaxWidth(30vw);
+      @include minMaxHeight(3em);
+      position: fixed;
+      bottom: 1em;
+      border-radius: 1.5em;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: $base-background-color-gray;
+      cursor: not-allowed;
+      span {
+        color: $base-background-color;
+        text-transform: none;
+      }
+    }
+  }
+}

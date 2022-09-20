@@ -1,0 +1,361 @@
+@import "./_variables.module";
+
+// ----- MOBILE -----
+@media (min-width: 320px) {
+  .container-product-detail-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+
+    .product-detail-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(4em);
+
+      span {
+        font-size: 1.3em;
+        font-weight: 500;
+        color: $blue-base-color-darken;
+      }
+    }
+
+    .content-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(calc(100vh - 8em));
+
+      .image-carousel-wrapper {
+        @include minMaxWidth(100vw);
+        @include minMaxHeight(17em);
+        background-color: $base-background-color;
+        border-width: 0.1em 0;
+        border-style: solid;
+        border-color: $base-background-color-darken;
+
+        .image-carousel {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(100%);
+
+          .indicator-image-carousel {
+            height: 3em;
+            margin-top: -3.5em;
+            z-index: 1;
+            position: relative;
+          }
+
+          img {
+            height: 14em;
+          }
+        }
+      }
+
+      .price-per-pcs-wrapper {
+        @include minMaxWidth(100vw);
+        @include minMaxHeight(auto);
+        padding: 0 1em;
+        margin-top: 1em;
+
+        .price {
+          font-size: 1.1em;
+          color: $red-base-color;
+          font-weight: 500;
+        }
+
+        .per-pcs {
+          font-size: 1.1em;
+          color: $black-base-color;
+          font-weight: 500;
+        }
+      }
+
+      .product-title-wrapper {
+        @include minMaxWidth(100vw);
+        @include minMaxHeight(auto);
+        padding: 0 1em;
+        @include keepTextOneLine();
+
+        span {
+          font-size: 1.1em;
+          color: $black-base-color;
+          font-weight: 500;
+        }
+      }
+
+      .selecting-variant-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(3em);
+        padding: 0 1em;
+
+        .variant-button {
+          @include minMaxWidth(5.5em);
+          @include minMaxHeight(2em);
+          margin-right: 0.5em;
+          border: 0.1em solid $base-background-color-gray;
+          border-radius: 0.5em;
+          padding: 0.2em 0.5em;
+
+          span {
+            font-size: 0.9em;
+            color: $blue-base-color-darken;
+            @include keepTextOneLine()
+          }
+        }
+      }
+
+      .details-product-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        padding: 0 1em;
+
+        .field-content-wrapper {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(auto);
+          margin: 0.3em 0;
+
+          span {
+            font-size: 0.8em;
+          }
+        }
+
+        .field {
+          @include minMaxWidth(40%);
+          @include minMaxHeight(auto);
+
+          span {
+            @include keepTextOneLine()
+          }
+        }
+
+        .content {
+          @include minMaxWidth(60%);
+          @include minMaxHeight(auto);
+          margin-left: 0.5em;
+
+          span {
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    .share-badge-add-cart-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(4em);
+      padding: 0 1em;
+
+      .share-icon-wrapper {
+        background-color: $base-background-color;
+        padding: 0.4em;
+      }
+
+      .badge-icon-wrapper {
+        background-color: $base-background-color;
+        padding: 0.4em 0.8em;
+        border-radius: 1em;
+      }
+    }
+
+    .add-cart-button {
+      @include minMaxWidth(15.5em);
+      @include minMaxHeight(3em);
+      border-radius: 1.5em;
+      background-color: $orange-base-color;
+
+      .cart-icon {
+        height: 1.5em;
+        margin-right: 0.5em;
+      }
+
+      span {
+        color: $base-background-color;
+        text-transform: none;
+      }
+    }
+
+    .add-cart-button:hover {
+      background-color: lighten($orange-base-color, 5%)
+    }
+
+    .add-cart-button:active {
+      background-color: lighten($orange-base-color, 10%)
+    }
+  }
+}
+
+
+// ----- WEBSITE -----
+@media (min-width: 1281px) {
+  .container-product-detail-page {
+    @include minMaxWidth(100vw);
+    @include minMaxHeight(100vh);
+
+    .product-detail-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(4em);
+
+      span {
+        font-size: 1.3em;
+        font-weight: 500;
+        color: $blue-base-color-darken;
+      }
+    }
+
+    .content-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(calc(100vh - 8em));
+      padding: 0 10em;
+
+      .image-carousel-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(17em);
+        background-color: $base-background-color;
+        border-width: 0.1em 0;
+        border-style: solid;
+        border-color: $base-background-color-darken;
+
+        .image-carousel {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(100%);
+
+          .indicator-image-carousel {
+            height: 3em;
+            margin-top: -3.5em;
+            z-index: 1;
+            position: relative;
+          }
+
+          img {
+            height: 14em;
+          }
+        }
+      }
+
+      .price-per-pcs-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        padding: 0 1em;
+        margin-top: 1em;
+
+        .price {
+          font-size: 1.1em;
+          color: $red-base-color;
+          font-weight: 500;
+        }
+
+        .per-pcs {
+          font-size: 1.1em;
+          color: $black-base-color;
+          font-weight: 500;
+        }
+      }
+
+      .product-title-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        padding: 0 1em;
+        @include keepTextOneLine();
+
+        span {
+          font-size: 1.1em;
+          color: $black-base-color;
+          font-weight: 500;
+        }
+      }
+
+      .selecting-variant-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(3em);
+        padding: 0 1em;
+
+        .variant-button {
+          @include minMaxWidth(5.5em);
+          @include minMaxHeight(2em);
+          margin-right: 0.5em;
+          border: 0.1em solid $base-background-color-gray;
+          border-radius: 0.5em;
+          padding: 0.2em 0.5em;
+
+          span {
+            font-size: 0.9em;
+            color: $blue-base-color-darken;
+            @include keepTextOneLine()
+          }
+        }
+      }
+
+      .details-product-wrapper {
+        @include minMaxWidth(100%);
+        @include minMaxHeight(auto);
+        padding: 0 1em;
+
+        .field-content-wrapper {
+          @include minMaxWidth(100%);
+          @include minMaxHeight(auto);
+          margin: 0.3em 0;
+
+          span {
+            font-size: 0.8em;
+          }
+        }
+
+        .field {
+          @include minMaxWidth(40%);
+          @include minMaxHeight(auto);
+
+          span {
+            @include keepTextOneLine()
+          }
+        }
+
+        .content {
+          @include minMaxWidth(60%);
+          @include minMaxHeight(auto);
+          margin-left: 0.5em;
+
+          span {
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    .share-badge-add-cart-wrapper {
+      @include minMaxWidth(100vw);
+      @include minMaxHeight(4em);
+      padding: 0 35em;
+
+      .share-icon-wrapper {
+        background-color: $base-background-color;
+        padding: 0.4em;
+      }
+
+      .badge-icon-wrapper {
+        background-color: $base-background-color;
+        padding: 0.4em 0.8em;
+        border-radius: 1em;
+      }
+    }
+
+    .add-cart-button {
+      @include minMaxWidth(15.5em);
+      @include minMaxHeight(3em);
+      border-radius: 1.5em;
+      background-color: $orange-base-color;
+
+      .cart-icon {
+        height: 1.5em;
+        margin-right: 0.5em;
+      }
+
+      span {
+        color: $base-background-color;
+        text-transform: none;
+      }
+    }
+
+    .add-cart-button:hover {
+      background-color: lighten($orange-base-color, 5%)
+    }
+
+    .add-cart-button:active {
+      background-color: lighten($orange-base-color, 10%)
+    }
+  }
+}
