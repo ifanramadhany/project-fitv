@@ -96,7 +96,8 @@
       }
       .continue-button-wrapper {
         @include minMaxWidth(100vw);
-        @include minMaxHeight(21em);
+        @include minMaxHeight(15em);
+        margin-bottom: 2em;
         padding: 0 2em;
         .continue-button {
           @include minMaxWidth(100%);
@@ -120,6 +121,7 @@
         .continue-button-disabled {
           @include minMaxWidth(100%);
           @include minMaxHeight((3.5em));
+          margin-bottom: 2em;
           border-radius: 2em;
           background-color: $base-background-color-gray;
           cursor: not-allowed;

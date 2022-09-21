@@ -1,18 +1,59 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../scss/_homePage.scss"
-import {Button, IconButton, Input, Menu, MenuItem} from "@mui/material";
+import {Button, IconButton, Input, Menu, MenuItem, Switch} from "@mui/material";
 import colors from '../scss/_variables.module.scss';
 import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
 import {clinic_reservation, lab_test, vitamin_suplemen} from "../assets"
 import {ItemComponent, LoadingItemComponent} from "../components"
 import {useNavigate} from "react-router-dom";
-import { useCookies } from 'react-cookie'
+import {useCookies} from 'react-cookie'
 import {allItemsLocal} from "../dummy_data/homePage";
-import {Result} from "../models/homePageModel"
+import {useDispatch, useSelector} from "react-redux";
+import {RootStore} from "../store";
+import {styled} from "@mui/material/styles";
+import {setDarkMode, setCheckoutButton} from "../store/actions/global.action";
 
 const ITEM_HEIGHT = 48;
 
+const Android12Switch = styled(Switch)(({ theme }) => ({
+    padding: 8,
+    '& .MuiSwitch-track': {
+        borderRadius: 22 / 2,
+        '&:before, &:after': {
+            content: '""',
+            position: 'absolute',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: 16,
+            height: 16,
+        },
+        '&:before': {
+            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="white" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
+            left: 12,
+        },
+        '&:after': {
+            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                theme.palette.getContrastText(theme.palette.primary.main),
+            )}" d="M19,13H5V11H19V13Z" /></svg>')`,
+            right: 12,
+        },
+    },
+    '& .MuiSwitch-thumb': {
+        boxShadow: 'none',
+        width: 16,
+        height: 16,
+        margin: 2,
+    },
+}));
+
 const HomePage = () => {
+    const dispatch = useDispatch();
+    const {darkMode, checkoutButton, totalProduct, estimatePrice} = useSelector((state: RootStore) => state.globalState);
+
+    const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setDarkMode(event.target.checked));
+    };
+
     function isBlank(str: string) {
         return !str || /^\s*$/.test(str);
     }
@@ -43,14 +84,13 @@ const HomePage = () => {
 
     const navigate = useNavigate();
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
-    const [checkoutButton, setCheckoutButton] = useState<boolean>(false)
 
     const toCheckoutPage = () => {
         navigate("/checkout")
     }
 
     const showCheckoutButton = () => {
-        setCheckoutButton(!checkoutButton)
+        dispatch(setCheckoutButton(true))
     }
 
     const SearchIcon = (props: SvgIconProps) => (
@@ -60,12 +100,16 @@ const HomePage = () => {
         </SvgIcon>
     );
 
+    function numberWithCommas(price: number) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
     useEffect(() => {
         componentDidMount();
     }, []);
 
     return (
-        <div className="container-home-page flex flex-col overflow-hidden">
+        <div style={{backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor}} className="container-home-page flex flex-col overflow-hidden">
             <Menu
                 id="long-menu"
                 MenuListProps={{
@@ -81,42 +125,46 @@ const HomePage = () => {
                     },
                 }}
             >
-                {(() => {
-                    if (!searchItemsLocal) {
-                        return (
-                            <MenuItem disabled>
-                                ketik minimal 3 karakter
-                            </MenuItem>
-                        );
-                    } else if (searchItemsLocal.length === 0) {
-                        return (
-                            <MenuItem disabled>
-                                produk tidak ditemukan
-                            </MenuItem>
-                        )
-                    } else if (searchItemsLocal.length > 0) {
-                        return (
-                            searchItemsLocal.map((item: any, index: number) => (
-                                <MenuItem key={index}>
-                                    {item.name}
+                {(
+                    () => {
+                        if (!searchItemsLocal) {
+                            return (
+                                <MenuItem disabled>
+                                    ketik minimal 3 karakter
                                 </MenuItem>
-                            ))
-                        )
+                            );
+                        } else if (searchItemsLocal.length === 0) {
+                            return (
+                                <MenuItem disabled>
+                                    produk tidak ditemukan
+                                </MenuItem>
+                            )
+                        } else if (searchItemsLocal.length > 0) {
+                            return (
+                                searchItemsLocal.map((item: any, index: number) => (
+                                    <MenuItem key={index}>
+                                        {item.name}
+                                    </MenuItem>
+                                ))
+                            )
+                        }
                     }
-                })()}
+                )()}
             </Menu>
 
-            <div className={checkoutButton? "content overflow-y-auto overflow-x-hidden" : "content-full overflow-y-auto overflow-x-hidden"}>
-                <div className="header-search flex flex-col justify-center items-center">
+            <div className={checkoutButton ?
+                "content overflow-y-auto overflow-x-hidden" :
+                "content-full overflow-y-auto overflow-x-hidden"}>
+                <div style={{backgroundColor: darkMode? colors.blueBaseColorDarken : colors.blueBaseColor}} className="header-search flex flex-col justify-center items-center">
                     <div className="text-1">Produk dan jasa yang tersedia merupakan tanggung jawab dari Kimia Farma,
                         bila terjadi kendala pada pemesanan dan transaksi silakan menghubungi customer service Kimia
                         Farma <span>1-500-255</span> atau melalui email <span>kimiafarmacare@kimiafarma.co.id</span>
                     </div>
                     <div className="text-2">Cek syarat dan ketentuan <span>disini</span></div>
                 </div>
-                <div className="search-wrapper flex justify-center items-center drop-shadow-xl">
+                <div style={{backgroundColor: darkMode? colors.blueBaseColorDarken : colors.blueBaseColor}} className="search-wrapper flex justify-center items-center drop-shadow-xl">
                     <div ref={refCari} className="search-input flex justify-center items-center">
-                        <IconButton onClick={showCheckoutButton} sx={{marginLeft: "0.2em"}}>
+                        <IconButton sx={{marginLeft: "0.2em"}}>
                             <SearchIcon sx={{color: colors.grayBaseColor, fontSize: "0.8em"}}/>
                         </IconButton>
                         <Input
@@ -147,19 +195,27 @@ const HomePage = () => {
                         </Button>
                     </div>
                 </div>
-                <div className="content-container flex flex-col items-center">
-                    <div className="product-text-wrapper flex justify-start items-center">
-                        <span>Produk Terlaris</span>
+                <div style={{backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor}} className="content-container flex flex-col items-center">
+                    <div className="product-text-wrapper flex justify-between items-center">
+                        <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}}>Produk Terlaris</span>
+                        <div className="dark-mode-wrapper flex justify-center items-center">
+                            <Android12Switch checked={darkMode}
+                                             onChange={handleChangeSwitch}/>
+                            <div className="flex flex-col justify-center items-center">
+                                <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}}>Dark</span>
+                                <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}}>Mode</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className="items-product-wrapper flex flex-wrap justify-center">
+                    <div style={{backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor}} className="items-product-wrapper flex flex-wrap justify-center">
                         {/*all card items*/}
                         {
-                            allItemsLocal? (
+                            allItemsLocal ? (
                                 allItemsLocal.map((item: Object, index: number) => (
                                     <ItemComponent key={index} item={item}></ItemComponent>
                                 ))
                             ) : (
-                                <LoadingItemComponent />
+                                <LoadingItemComponent/>
                             )
                         }
                         {/* last element */}
@@ -167,15 +223,18 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <div className={checkoutButton? "checkout-button-container -translate-y-full flex justify-center items-center duration-100" : "checkout-button-container flex justify-center items-center translate-y-full duration-100"}>
+            <div className={checkoutButton ?
+                "checkout-button-container -translate-y-full flex justify-center items-center duration-100" :
+                "checkout-button-container flex justify-center items-center translate-y-full duration-100"}>
                 <div className="total-product flex justify-start items-center">
-                    <span>1 Produk</span>
+                    <span>{totalProduct} Produk</span>
                 </div>
                 <div className="price-estimate flex flex-col justify-center items-start">
                     <span>Estimasi Harga</span>
-                    <span>Rp. 30.000</span>
+                    <span>Rp. {numberWithCommas(estimatePrice)}</span>
                 </div>
-                <Button onClick={toCheckoutPage} disabled={buttonDisabled? true : false} className={buttonDisabled? "checkout-button-disabled" : "checkout-button"}>
+                <Button onClick={toCheckoutPage} disabled={buttonDisabled ? true : false}
+                        className={buttonDisabled ? "checkout-button-disabled" : "checkout-button"}>
                     <span>Checkout</span>
                 </Button>
             </div>

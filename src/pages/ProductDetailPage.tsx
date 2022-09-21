@@ -5,8 +5,17 @@ import SvgIcon, {SvgIconProps} from "@mui/material/SvgIcon";
 import colors from "../scss/_variables.module.scss";
 import {cart_icon} from "../assets";
 import Carousel from 'react-material-ui-carousel';
+import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {RootStore} from "../store";
 
 const ProductDetailPage = () => {
+    const {darkMode} = useSelector((state: RootStore) => state.globalState);
+    const navigate = useNavigate();
+    const toHomePage = () => {
+        navigate("/")
+    }
+
     const ShareIcon = (props: SvgIconProps) => (
         <SvgIcon {...props}>
             <path fill="currentColor"
@@ -35,14 +44,22 @@ const ProductDetailPage = () => {
         </SvgIcon>
     );
 
+    const ButtonVariant = () => {
+        return (
+            <Button className="variant-button flex justify-center items-center">
+                <span style={{color: darkMode? colors.blueBaseColorLighten : colors.blueBaseColorDarken}}>VARIAN 100 ML</span>
+            </Button>
+        )
+    }
+
     return (
-        <div className="container-product-detail-page">
+        <div style={{backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor}} className="container-product-detail-page">
             <div className="product-detail-wrapper flex justify-center items-center">
-                <span>Detail Produk</span>
+                <span style={{color: darkMode? colors.baseBackgroundColor : colors.blueBaseColorDarken}}>Detail Produk</span>
             </div>
             <div className="content-wrapper overflow-x-hidden overflow-y-auto">
                 <div className="image-carousel-wrapper flex justify-center items-center">
-                    <Carousel autoPlay={false} indicatorContainerProps={{className: "indicator-image-carousel"}}
+                    <Carousel animation={"slide"} autoPlay={false} indicatorContainerProps={{className: "indicator-image-carousel"}}
                               className="image-carousel">
                         <Paper className="flex justify-center items-center">
                             <img src="https://id-live-01.slatic.net/p/be5f06039301eecce288d1d4829d9e49.jpg"
@@ -60,33 +77,21 @@ const ProductDetailPage = () => {
                     </Carousel>
                 </div>
                 <div className="price-per-pcs-wrapper">
-                    <span className="price">Rp. 16.200 </span>
-                    <span className="per-pcs">/Botol</span>
+                    <span style={{color: darkMode? colors.blueBaseColorLighten : colors.blueBaseColorDarken}} className="price">Rp. 16.200 </span>
+                    <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}} className="per-pcs">/Botol</span>
                 </div>
                 <div className="product-title-wrapper">
-                    <span>DETTOL ANTISEPTIC LIQUID 45ML DETTOL ANTISEPTIC LIQUID 45M</span>
+                    <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}}>DETTOL ANTISEPTIC LIQUID 45ML DETTOL ANTISEPTIC LIQUID 45M</span>
                 </div>
                 <div className="selecting-variant-wrapper flex items-start overflow-x-auto overflow-y-hidden">
-                    <Button className="variant-button flex justify-center items-center">
-                        <span>100 ML</span>
-                    </Button>
-                    <Button className="variant-button flex justify-center items-center">
-                        <span>100 ML</span>
-                    </Button>
-                    <Button className="variant-button flex justify-center items-center">
-                        <span>100 ML</span>
-                    </Button>
-                    <Button className="variant-button flex justify-center items-center">
-                        <span>100 ML</span>
-                    </Button>
-                    <Button className="variant-button flex justify-center items-center">
-                        <span>100 ML</span>
-                    </Button>
-                    <Button className="variant-button flex justify-center items-center">
-                        <span>100 ML</span>
-                    </Button>
+                    <ButtonVariant />
+                    <ButtonVariant />
+                    <ButtonVariant />
+                    <ButtonVariant />
+                    <ButtonVariant />
+                    <ButtonVariant />
                 </div>
-                <div className="details-product-wrapper">
+                <div style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}} className="details-product-wrapper">
                     <div className="field-content-wrapper flex">
                         <div className="field flex justify-between items-start">
                             <span>Kategori</span>
@@ -153,7 +158,7 @@ const ProductDetailPage = () => {
                         <CartIcon sx={{color: colors.blueBaseColorDarken, fontSize: "1em"}}/>
                     </Badge>
                 </IconButton>
-                <Button className="add-cart-button flex justify-center items-center">
+                <Button onClick={toHomePage} className="add-cart-button flex justify-center items-center">
                     <img className="cart-icon" src={cart_icon} alt="cart icon"/>
                     <span>Tambah ke keranjang</span>
                 </Button>

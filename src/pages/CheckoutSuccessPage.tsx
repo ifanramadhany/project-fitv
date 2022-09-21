@@ -31,7 +31,7 @@ const CheckoutSuccessPage = () => {
 
     return (
         <div className="container-checkout-page flex flex-col">
-            <div className="content">
+            <div className="content flex flex-col justify-between items-center">
                 <div className="kf-icon-main-text-user-data-billing-details-wrapper flex flex-col justify-center items-center">
                     <div className="image-wrapper">
                         <img src={kfm_logo} alt="logo-kimia-farma-mobile"/>

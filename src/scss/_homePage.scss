@@ -86,6 +86,13 @@
           font-weight: bold;
           color: $black-base-color;
         }
+        .dark-mode-wrapper {
+          @include minMaxWidth(auto);
+          @include minMaxHeight(2em);
+          span {
+            font-size: 0.5em;
+          }
+        }
       }
       .items-product-wrapper {
         @include minMaxWidth(30em);
@@ -135,7 +142,7 @@
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
-              color: $red-base-color;
+              color: $blue-base-color-darken;
             }
           }
           .the-item-action {
@@ -331,7 +338,7 @@
     @include minMaxHeight(3em);
     margin-top: 0.5em;
     .variant-button {
-      @include minMaxWidth(5.5em);
+      @include minMaxWidth(auto);
       @include minMaxHeight(2em);
       margin-right: 0.5em;
       border: 0.1em solid $base-background-color-gray;
@@ -340,7 +347,7 @@
       span {
         font-size: 0.9em;
         color: $blue-base-color-darken;
-        @include keepTextOneLine()
+        @include keepTextOneLine();
       }
     }
   }
@@ -449,6 +456,13 @@
           font-size: 1.5em;
           font-weight: bold;
           color: $black-base-color;
+        }
+        .dark-mode-wrapper {
+          @include minMaxWidth(auto);
+          @include minMaxHeight(2em);
+          span {
+            font-size: 0.7em;
+          }
         }
       }
       .items-product-wrapper {
@@ -698,7 +712,7 @@
     margin-top: 0.5em;
     padding: 0 30em;
     .variant-button {
-      @include minMaxWidth(5.5em);
+      @include minMaxWidth(auto);
       @include minMaxHeight(2em);
       margin-right: 0.5em;
       border: 0.1em solid $base-background-color-gray;
@@ -707,7 +721,7 @@
       span {
         font-size: 0.9em;
         color: $blue-base-color-darken;
-        @include keepTextOneLine()
+        @include keepTextOneLine();
       }
     }
   }

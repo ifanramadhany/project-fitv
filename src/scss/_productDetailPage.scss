@@ -84,7 +84,7 @@
         padding: 0 1em;
 
         .variant-button {
-          @include minMaxWidth(5.5em);
+          @include minMaxWidth(auto);
           @include minMaxHeight(2em);
           margin-right: 0.5em;
           border: 0.1em solid $base-background-color-gray;
@@ -265,7 +265,7 @@
         padding: 0 1em;
 
         .variant-button {
-          @include minMaxWidth(5.5em);
+          @include minMaxWidth(auto);
           @include minMaxHeight(2em);
           margin-right: 0.5em;
           border: 0.1em solid $base-background-color-gray;
