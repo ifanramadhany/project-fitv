@@ -1,26 +1,23 @@
 import React, {useState} from 'react';
 import "../scss/_checkoutSuccessPage.scss"
 import colors from "../scss/_variables.module.scss";
-import {IconButton} from "@mui/material";
 import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import SvgIcon, {SvgIconProps} from "@mui/material/SvgIcon";
 import {kfm_logo, visa_mandiri} from "../assets";
+import {useDispatch} from "react-redux";
+import {setEstimatePrice, setTotalProduct} from "../store/actions/global.action";
 
 const CheckoutSuccessPage = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
-    let navigate = useNavigate();
 
     const toHomePage = () => {
+        dispatch(setEstimatePrice(0))
+        dispatch(setTotalProduct(0))
         navigate("/")
     }
-
-    const ArrowBackIcon = (props: SvgIconProps) => (
-        <SvgIcon {...props}>
-            <path fill="currentColor"
-                  d="m10.875 19.3l-6.6-6.6q-.15-.15-.213-.325Q4 12.2 4 12t.062-.375q.063-.175.213-.325l6.6-6.6q.275-.275.687-.288q.413-.012.713.288q.3.275.313.687q.012.413-.288.713L7.4 11h11.175q.425 0 .713.287q.287.288.287.713t-.287.712Q19 13 18.575 13H7.4l4.9 4.9q.275.275.288.7q.012.425-.288.7q-.275.3-.7.3q-.425 0-.725-.3Z"></path>
-        </SvgIcon>
-    );
 
     const MaterialSymbolsCheckCircleRounded = (props: SvgIconProps) => (
         <SvgIcon {...props}>
@@ -32,7 +29,8 @@ const CheckoutSuccessPage = () => {
     return (
         <div className="container-checkout-page flex flex-col">
             <div className="content flex flex-col justify-between items-center">
-                <div className="kf-icon-main-text-user-data-billing-details-wrapper flex flex-col justify-center items-center">
+                <div
+                    className="kf-icon-main-text-user-data-billing-details-wrapper flex flex-col justify-center items-center">
                     <div className="image-wrapper">
                         <img src={kfm_logo} alt="logo-kimia-farma-mobile"/>
                     </div>
@@ -50,7 +48,8 @@ const CheckoutSuccessPage = () => {
                         <div className="payroll-saving-card-left absolute flex flex-col">
                             <div className="flex justify-start items-center">
                                 <span className="text">Tabungan Payroll</span>
-                                <MaterialSymbolsCheckCircleRounded sx={{color: colors.blueBaseColor, fontSize: "1em", marginLeft: "0.4em"}}/>
+                                <MaterialSymbolsCheckCircleRounded
+                                    sx={{color: colors.blueBaseColor, fontSize: "1em", marginLeft: "0.4em"}}/>
                             </div>
                             <span className="payroll-number">987398309802</span>
                         </div>
@@ -60,12 +59,14 @@ const CheckoutSuccessPage = () => {
                     </div>
                 </div>
                 <div onClick={toHomePage} className="continue-button-wrapper flex flex-col justify-end items-center">
-                    <Button disabled={buttonDisabled? true : false} className={buttonDisabled? "continue-button-disabled" : "continue-button"}>
+                    <Button disabled={buttonDisabled ? true : false}
+                            className={buttonDisabled ? "continue-button-disabled" : "continue-button"}>
                         <span>Continue</span>
                     </Button>
                 </div>
             </div>
-        </div>)
+        </div>
+    )
         ;
 };
 

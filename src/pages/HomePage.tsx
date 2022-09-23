@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootStore} from "../store";
 import {styled} from "@mui/material/styles";
 import {setDarkMode, setCheckoutButton} from "../store/actions/global.action";
+import {ItemService} from "../services";
 
 const ITEM_HEIGHT = 48;
 
@@ -48,7 +49,23 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 
 const HomePage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const itemService = new ItemService();
     const {darkMode, checkoutButton, totalProduct, estimatePrice} = useSelector((state: RootStore) => state.globalState);
+    const [searchItemsLocal, setSearchItemsLocal] = useState<any>(null)
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
+    const [cookies, setCookie] = useCookies(['access_token', 'refresh_token'])
+    const [inputSearchItem, setInputSearchItem] = useState<string>("");
+    const [widthSearch, setWidthSearch] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
+    const SearchIcon = (props: SvgIconProps) => (
+        <SvgIcon {...props}>
+            <path fill="currentColor" fillRule="evenodd"
+                  d="m16.325 14.899l5.38 5.38a1.008 1.008 0 0 1-1.427 1.426l-5.38-5.38a8 8 0 1 1 1.426-1.426ZM10 16a6 6 0 1 0 0-12a6 6 0 0 0 0 12Z"></path>
+        </SvgIcon>
+    );
 
     const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setDarkMode(event.target.checked));
@@ -58,11 +75,6 @@ const HomePage = () => {
         return !str || /^\s*$/.test(str);
     }
 
-    const [searchItemsLocal, setSearchItemsLocal] = useState<any>(null)
-
-    const [inputSearchItem, setInputSearchItem] = useState<string>("");
-
-    const [widthSearch, setWidthSearch] = useState<number>(0);
     const refCari = React.useRef<HTMLDivElement>(null);
 
     function componentDidMount() {
@@ -71,7 +83,6 @@ const HomePage = () => {
             : setWidthSearch(0);
     }
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const openSearchItem = () => {
         setAnchorEl(refCari.current);
@@ -80,32 +91,38 @@ const HomePage = () => {
         setAnchorEl(null);
     };
 
-    const [cookies, setCookie] = useCookies(['access_token', 'refresh_token'])
 
-    const navigate = useNavigate();
-    const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
-
-    const toCheckoutPage = () => {
-        navigate("/checkout")
+    const toShippingAddressPage = () => {
+        navigate("/shipping-address")
     }
 
     const showCheckoutButton = () => {
         dispatch(setCheckoutButton(true))
     }
 
-    const SearchIcon = (props: SvgIconProps) => (
-        <SvgIcon {...props}>
-            <path fill="currentColor" fillRule="evenodd"
-                  d="m16.325 14.899l5.38 5.38a1.008 1.008 0 0 1-1.427 1.426l-5.38-5.38a8 8 0 1 1 1.426-1.426ZM10 16a6 6 0 1 0 0-12a6 6 0 0 0 0 12Z"></path>
-        </SvgIcon>
-    );
-
     function numberWithCommas(price: number) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
+    // const getRecommendedItems = () => {
+    //      itemService.getRecommendedItems().then(
+    //         ({data}) => {
+    //             if (data?.result) {
+    //                 console.log(data.result)
+    //             }
+    //         },
+    //         error => {
+    //             console.log(error);
+    //         }
+    //     )
+    // }
+
     useEffect(() => {
+        // getRecommendedItems();
         componentDidMount();
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 1000)
     }, []);
 
     return (
@@ -210,12 +227,14 @@ const HomePage = () => {
                     <div style={{backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor}} className="items-product-wrapper flex flex-wrap justify-center">
                         {/*all card items*/}
                         {
-                            allItemsLocal ? (
-                                allItemsLocal.map((item: Object, index: number) => (
-                                    <ItemComponent key={index} item={item}></ItemComponent>
-                                ))
-                            ) : (
-                                <LoadingItemComponent/>
+                            isLoading? <LoadingItemComponent /> : (
+                                allItemsLocal ? (
+                                    allItemsLocal.map((item: Object, index: number) => (
+                                        <ItemComponent key={index} item={item}></ItemComponent>
+                                    ))
+                                ) : (
+                                    <LoadingItemComponent/>
+                                )
                             )
                         }
                         {/* last element */}
@@ -233,7 +252,7 @@ const HomePage = () => {
                     <span>Estimasi Harga</span>
                     <span>Rp. {numberWithCommas(estimatePrice)}</span>
                 </div>
-                <Button onClick={toCheckoutPage} disabled={buttonDisabled ? true : false}
+                <Button onClick={toShippingAddressPage} disabled={buttonDisabled ? true : false}
                         className={buttonDisabled ? "checkout-button-disabled" : "checkout-button"}>
                     <span>Checkout</span>
                 </Button>

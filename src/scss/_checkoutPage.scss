@@ -149,10 +149,12 @@
           border-radius: 0.5em;
           .image {
             @include minMaxWidth(25%);
-            @include minMaxHeight(3em);
-            img {
-              width:2.5em;
-              height:2.5em;
+            @include minMaxHeight(3.9em);
+            .shipper-default {
+              height:2.9em;
+            }
+            .shipper {
+              height:3.9em;
             }
           }
           .shipper-text-button {
@@ -548,9 +550,11 @@
           .image {
             @include minMaxWidth(25%);
             @include minMaxHeight(4em);
-            img {
-              width:2.8em;
-              height:2.8em;
+            .shipper-default {
+              height:2.9em;
+            }
+            .shipper {
+              height:3.9em;
             }
           }
           .shipper-text-button {

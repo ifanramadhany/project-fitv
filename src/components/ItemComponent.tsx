@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import colors from '../scss/_variables.module.scss';
 import {Box, Button, SwipeableDrawer} from "@mui/material";
 import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
-import {cart_icon, dettol_50ml, warning_icon} from "../assets"
+import {cart_icon, dettol_50ml} from "../assets"
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStore} from "../store";
-import {setCheckoutButton, setTotalProduct, setEstimatePrice} from "../store/actions/global.action";
+import {setCheckoutButton, setEstimatePrice, setTotalProduct} from "../store/actions/global.action";
 
 type ItemProps = any
 
@@ -38,13 +38,10 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
     );
 
     const changeAddToCardStatus = () => {
-        setTimeout(() => {
-            dispatch(setTotalProduct(totalProduct + 1))
-            setCounter(counter + 1)
-            dispatch(setCheckoutButton(true))
-            setAddToCart(true)
-            dispatch(setEstimatePrice(estimatePrice + item.price))
-        }, 100)
+        dispatch(setTotalProduct(totalProduct + 1))
+        setCounter(counter + 1)
+        setAddToCart(true)
+        dispatch(setEstimatePrice(estimatePrice + item.price))
     };
 
     const openSelectingVariantDrawer = (open: boolean) => () => {
@@ -58,7 +55,11 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
     const ButtonVariant = () => {
         return (
             <Button className="variant-button flex justify-center items-center">
-                <span style={{color: darkMode? colors.blueBaseColorLighten : colors.blueBaseColorDarken}}>VARIAN 100 ML</span>
+                <span style={{
+                    color: darkMode ?
+                        colors.blueBaseColorLighten :
+                        colors.blueBaseColorDarken
+                }}>VARIAN 100 ML</span>
             </Button>
         )
     }
@@ -70,18 +71,22 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
 
     const minusCounter = () => {
         dispatch(setEstimatePrice(estimatePrice - item.price))
-        setTimeout(() => {
-            if(counter === 1) {
-                dispatch(setTotalProduct(totalProduct - 1))
-                setAddToCart(false)
-                if(totalProduct === 1) {
-                    dispatch(setCheckoutButton(false))
-                }
-            } else {
-                setCounter(counter - 1)
-            }
-        }, 300)
+        if (counter === 1) {
+            dispatch(setTotalProduct(totalProduct - 1))
+            setAddToCart(false)
+            setCounter(counter - 1)
+        } else {
+            setCounter(counter - 1)
+        }
     }
+
+    useEffect(() => {
+        if (totalProduct === 0) {
+            dispatch(setCheckoutButton(false))
+        } else if (totalProduct > 0) {
+            dispatch(setCheckoutButton(true))
+        }
+    }, [totalProduct]);
 
     return (
         <>
@@ -98,7 +103,7 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
                         padding: "0.5em",
                         overflowX: "hidden",
                         overflowY: "auto",
-                        backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor
+                        backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor
                     }
                 }}
             >
@@ -116,19 +121,21 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
                             </div>
                         </div>
                         <div className="image-title-per-price-right flex flex-col justify-center">
-                            <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}} className="title">DETTOL ANTISEPTIC LIQUID 45ML DETTOL ANTISEPTIC LIQUID 45ML</span>
+                            <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                  className="title">DETTOL ANTISEPTIC LIQUID 45ML DETTOL ANTISEPTIC LIQUID 45ML</span>
                             <span className="per">Per Buah</span>
-                            <span style={{color: darkMode? colors.blueBaseColorLighten : colors.blackBaseColor}} className="price">Rp. 108.192</span>
+                            <span style={{color: darkMode ? colors.blueBaseColorLighten : colors.blackBaseColor}}
+                                  className="price">Rp. 108.192</span>
                         </div>
                     </div>
                     <div className="divider"></div>
                     <div className="selecting-variant-wrapper flex items-start overflow-x-auto overflow-y-hidden">
-                        <ButtonVariant />
-                        <ButtonVariant />
-                        <ButtonVariant />
-                        <ButtonVariant />
-                        <ButtonVariant />
-                        <ButtonVariant />
+                        <ButtonVariant/>
+                        <ButtonVariant/>
+                        <ButtonVariant/>
+                        <ButtonVariant/>
+                        <ButtonVariant/>
+                        <ButtonVariant/>
                     </div>
 
                     <div className="add-cart-button-wrapper flex justify-center items-center">
@@ -139,19 +146,25 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
                 </Box>
             </SwipeableDrawer>
 
-            <div style={{borderColor: darkMode? colors.baseBackgroundColor : colors.grayBaseColor}} className="the-item">
+            <div style={{borderColor: darkMode ? colors.baseBackgroundColor : colors.grayBaseColor}}
+                 className="the-item">
                 <div onClick={toProductDetailPage} className="the-item-img flex justify-center items-center">
                     <img src={item.imageUrls} alt="product"/>
                 </div>
-                <div style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}} className="the-item-title flex justify-center items-center">
+                <div style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                     className="the-item-title flex justify-center items-center">
                     <span>{item.name}</span>
                 </div>
                 <div className="the-item-price flex justify-start items-center">
-                    <span style={{color: darkMode? colors.blueBaseColorLighten : colors.blueBaseColorDarken}} >Rp {numberWithCommas(item.price)}</span>
+                    <span style={{
+                        color: darkMode ?
+                            colors.blueBaseColorLighten :
+                            colors.blueBaseColorDarken
+                    }}>Rp {numberWithCommas(item.price)}</span>
                 </div>
                 <div className="the-item-action flex justify-center items-center">
                     {
-                        item.variant? (
+                        item.variant ? (
                             <Button onClick={openSelectingVariantDrawer(true)}
                                     className="add-to-cart-button flex justify-center items-center">
                                 <img className="cart-icon" src={cart_icon} alt="cart icon"/>
@@ -160,13 +173,19 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
                         ) : (
                             addToCart ? (
                                 <>
-                                    <Button onClick={minusCounter} className="minus-button flex justify-center items-center">
+                                    <Button onClick={minusCounter}
+                                            className="minus-button flex justify-center items-center">
                                         <MinIcon sx={{color: colors.grayBaseColor, fontSize: "1.6em"}}/>
                                     </Button>
                                     <div className="counter flex justify-center items-center">
-                                        <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}}>{counter}</span>
+                                        <span style={{
+                                            color: darkMode ?
+                                                colors.baseBackgroundColor :
+                                                colors.blackBaseColor
+                                        }}>{counter}</span>
                                     </div>
-                                    <Button onClick={plusCounter} className="plus-button flex justify-center items-center">
+                                    <Button onClick={plusCounter}
+                                            className="plus-button flex justify-center items-center">
                                         <PlusIcon sx={{color: colors.baseBackgroundColor, fontSize: "1.2em"}}/>
                                     </Button>
                                 </>
