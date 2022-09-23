@@ -595,9 +595,9 @@ export const allItemsLocal = [
     },
     {
         "id": 37199,
-        "name": "BAGUS ENTRUST PLUS XL'6",
+        "name": "BAGUS ENTRUST PLUS XL'6 PREMIUM",
         "description": "Bagus Entrust Basic, merupakan popok dewasa dengan kualitas tinggi yang memberikan kenyamanan bagi usia dewasa atau pun para lanjut usia yang mempunyai masalah kesehatan sehingga kesulitan buang air kecil/besar ke toilet.",
-        "price": 107407.0,
+        "price": 147407.0,
         "imageUrls": [
             "https://kf-ehealth-development.imgix.net/images/itemImage/item/166347894842265e9f54b44ffeb83840d18b11a0df0aabb120original.jpg?auto=compress&h=500&ixlib=java-2.3.2&trim=color&w=500&s=0a5eb97ea0ef4dc748d406fe04cf20cd"
         ],
@@ -641,9 +641,9 @@ export const allItemsLocal = [
     },
     {
         "id": 13089,
-        "name": "ASIFIT KAPLET",
+        "name": "ASIFIT KAPLET PREMIUM",
         "description": "Suplemen Herbal yang mengandung Ekstrak Daun Katuk. Dilengkapi dengan Vitamin B1. B2. B6. B12 yang membantu melancarkan air susu Ibu (Asi) selama proses menyusui",
-        "price": 39600.0,
+        "price": 49600.0,
         "imageUrls": [
             "https://kf-ehealth-development.imgix.net/images/itemImage/item/1592904818ffaebbcdcdcbe.jpg?auto=compress&h=500&ixlib=java-2.3.2&trim=color&w=500&s=df4c68fba7dbfd467cc8ff793f1d35d4",
             "https://kf-ehealth-development.imgix.net/images/itemImage/item/1592904818n.jpg?auto=compress&h=500&ixlib=java-2.3.2&trim=color&w=500&s=dc3a96dfba3487b2bdb2be5687735244"

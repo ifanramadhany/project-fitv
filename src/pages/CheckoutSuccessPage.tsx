@@ -7,6 +7,7 @@ import SvgIcon, {SvgIconProps} from "@mui/material/SvgIcon";
 import {kfm_logo, visa_mandiri} from "../assets";
 import {useDispatch} from "react-redux";
 import {setEstimatePrice, setTotalProduct} from "../store/actions/global.action";
+import {setAllCheckoutItems} from "../store/actions/global.action";
 
 const CheckoutSuccessPage = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const CheckoutSuccessPage = () => {
     const toHomePage = () => {
         dispatch(setEstimatePrice(0))
         dispatch(setTotalProduct(0))
+        dispatch(setAllCheckoutItems())
         navigate("/")
     }
 

@@ -7,7 +7,7 @@ import {clinic_reservation, lab_test, vitamin_suplemen} from "../assets"
 import {ItemComponent, LoadingItemComponent} from "../components"
 import {useNavigate} from "react-router-dom";
 import {useCookies} from 'react-cookie'
-import {allItemsLocal} from "../dummy_data/homePage";
+import {allItemsLocal} from "../dummy_data/home.page";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStore} from "../store";
 import {styled} from "@mui/material/styles";

@@ -6,13 +6,13 @@ import {cart_icon, dettol_50ml} from "../assets"
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStore} from "../store";
-import {setCheckoutButton, setEstimatePrice, setTotalProduct} from "../store/actions/global.action";
+import {setCheckoutButton, setEstimatePrice, setTotalProduct, addNewCheckoutItem} from "../store/actions/global.action";
 
 type ItemProps = any
 
 const ItemComponent = ({children, ...props}: ItemProps) => {
     const dispatch = useDispatch();
-    const {darkMode, totalProduct, estimatePrice} = useSelector((state: RootStore) => state.globalState);
+    const {darkMode, totalProduct, estimatePrice, allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
     const {item} = props;
     const navigate = useNavigate();
     const [addToCart, setAddToCart] = useState<boolean>(false)
@@ -88,6 +88,16 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
         }
     }, [totalProduct]);
 
+    useEffect(() => {
+        dispatch(addNewCheckoutItem({
+            id: item.id,
+            title: item.name,
+            image: item.imageUrls[0],
+            totalItems: counter,
+            totalPrice: counter * item.price,
+        }))
+    }, [counter]);
+
     return (
         <>
             {/*some items not available drawer */}
@@ -149,7 +159,7 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
             <div style={{borderColor: darkMode ? colors.baseBackgroundColor : colors.grayBaseColor}}
                  className="the-item">
                 <div onClick={toProductDetailPage} className="the-item-img flex justify-center items-center">
-                    <img src={item.imageUrls} alt="product"/>
+                    <img src={item.imageUrls[0]} alt="product"/>
                 </div>
                 <div style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
                      className="the-item-title flex justify-center items-center">

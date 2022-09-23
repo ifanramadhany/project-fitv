@@ -1,19 +1,32 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../scss/_checkoutPage.scss"
 import {Box, Button, Drawer, IconButton, Input, List, ListItemButton} from "@mui/material";
 import colors from '../scss/_variables.module.scss';
 import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
-import {dettol_50ml, gojek, grab, jne, self_pickup, shipper_default, warning_icon} from "../assets";
+import {gojek, grab, jne, self_pickup, shipper_default, warning_icon} from "../assets";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {RootStore} from "../store";
+import {ItemCheckoutComponent} from "../components";
+
+interface ITotal {
+    totalAllItems: number;
+    totalAllPrice: number;
+}
 
 const CheckoutPage = () => {
     const navigate = useNavigate();
+    const {allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
     const [selectingShipper, setSelectingShipper] = useState<boolean>(false);
     const [someItemsNotAvailable, setSomeItemsNotAvailable] = useState<boolean>(false);
     const [shippingData, setShippingData] = useState<string | undefined>();
     const [shippingPrice, setShippingPrice] = useState<number>(0);
+    const [total, setTotal] = useState<ITotal>({
+        totalAllItems: 0,
+        totalAllPrice: 0
+    })
 
     const toShippingAddressPage = () => {
         navigate("/shipping-address")
@@ -71,6 +84,19 @@ const CheckoutPage = () => {
     function numberWithCommas(price: number) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
+
+    useEffect(() => {
+        let newTotalAllItems = 0
+        let newTotalAllPrice = 0
+        Object.entries(allCheckoutItems).map(([key, value]) => {
+            newTotalAllItems += value.totalItems
+            newTotalAllPrice += value.totalPrice
+        })
+        setTotal({
+            totalAllItems: newTotalAllItems,
+            totalAllPrice: newTotalAllPrice,
+        })
+    }, [allCheckoutItems]);
 
     return (
         <>
@@ -260,44 +286,9 @@ const CheckoutPage = () => {
                         </div>
                         <div className="the-items-wrapper">
                             {/*the items here*/}
-                            <div className="the-item shadow-lg flex justify-center items-center">
-                                <div className="image flex justify-center items-center">
-                                    <img src={dettol_50ml} alt="product"/>
-                                </div>
-                                <div className="details-product flex flex-col justify-center items-start">
-                                    <span className="product-name">Dettol Instant Hand Sanitizer Original 60ml</span>
-                                    <div className="qty-price flex justify-between items-center">
-                                        <span className="product-qty">Qty : 1</span>
-                                        <span className="product-price">Rp 15.000</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="the-item shadow-lg flex justify-center items-center">
-                                <div className="image flex justify-center items-center">
-                                    <img src={dettol_50ml} alt="product"/>
-                                </div>
-                                <div className="details-product flex flex-col justify-center items-start">
-                                    <span className="product-name">Dettol Instant Hand Sanitizer Original 60ml</span>
-                                    <div className="qty-price flex justify-between items-center">
-                                        <span className="product-qty">Qty : 1</span>
-                                        <span className="product-price">Rp 15.000</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="the-item shadow-lg flex justify-center items-center">
-                                <div className="image flex justify-center items-center">
-                                    <img src={dettol_50ml} alt="product"/>
-                                </div>
-                                <div className="details-product flex flex-col justify-center items-start">
-                                    <span className="product-name">Dettol Instant Hand Sanitizer Original 60ml</span>
-                                    <div className="qty-price flex justify-between items-center">
-                                        <span className="product-qty">Qty : 1</span>
-                                        <span className="product-price">Rp 15.000</span>
-                                    </div>
-                                </div>
-                            </div>
+                            {
+                                Object.entries(allCheckoutItems).map(([key, value]) => <ItemCheckoutComponent key={key} item={value} />)
+                            }
                         </div>
                         <div className="shipper-selected-wrapper flex justify-center items-center">
                             {!shippingData && (
@@ -398,8 +389,8 @@ const CheckoutPage = () => {
                         <div className="summary-payment flex flex-col justify-center items-center">
                             <span className="summary-payment-text">Ringkasan Pembayaran</span>
                             <div className="product-price-per-item flex justify-between items-center">
-                                <span>Harga Produk (1 Barang)</span>
-                                <span>Rp 15.000</span>
+                                <span>Harga Produk ({total?.totalAllItems} Barang)</span>
+                                <span>Rp {numberWithCommas(total?.totalAllPrice)}</span>
                             </div>
                             <div className="shipping-price flex justify-between items-center">
                                 <span>Ongkos Kirim</span>
@@ -423,10 +414,10 @@ const CheckoutPage = () => {
                         <div className="total-payment flex justify-between items-center">
                             <div className="total-payment-nominal flex flex-col justify-center items-start">
                                 <span className="nominal-text">Total Bayar</span>
-                                <span className="nominal">Rp 15.000</span>
+                                <span className="nominal">Rp {numberWithCommas(shippingPrice + total?.totalAllPrice)}</span>
                             </div>
-                            <Button onClick={toCheckoutSuccessPage} disabled={buttonDisabled ? true : false}
-                                    className={buttonDisabled ?
+                            <Button onClick={toCheckoutSuccessPage} disabled={!shippingData ? true : false}
+                                    className={!shippingData ?
                                         "total-payment-button-disabled" :
                                         "total-payment-button"}>
                                 <span>Bayar</span>

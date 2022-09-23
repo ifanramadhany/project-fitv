@@ -1,4 +1,12 @@
-import {SET_DARK_MODE, SET_CHECKOUT_BUTTON, SET_TOTAL_PRODUCT, SET_ESTIMATE_PRICE} from "../keys";
+import {
+    ADD_NEW_CHECKOUT_ITEM,
+    SET_CHECKOUT_BUTTON,
+    SET_DARK_MODE,
+    SET_ESTIMATE_PRICE,
+    SET_TOTAL_PRODUCT,
+    SET_ALL_CHECKOUT_ITEMS
+} from "../keys";
+import {ICheckoutItem} from "../../models/global.action.model";
 
 export function setDarkMode(payload: boolean) {
     return {
@@ -25,5 +33,18 @@ export function setEstimatePrice(payload: number) {
     return {
         type: SET_ESTIMATE_PRICE,
         payload,
+    };
+}
+
+export function addNewCheckoutItem(payload: ICheckoutItem) {
+    return {
+        type: ADD_NEW_CHECKOUT_ITEM,
+        payload,
+    };
+}
+
+export function setAllCheckoutItems() {
+    return {
+        type: SET_ALL_CHECKOUT_ITEMS,
     };
 }
