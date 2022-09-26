@@ -1,5 +1,5 @@
 export const allItemsLocal = [
-    {
+      {
         "id": 13045,
         "name": "MAGASIDA TABLET",
         "description": "Untuk Mengurangi Gejala - Gejala Yang Berhubungan Dengan Kelebihan Asam Lambung. Gastritis. Tukak Lambung Usus Dua Belas Jari. Dengan Gejala - Gejala Seperti Mual. Nyeri Ulu Hati. Kembung Dan Perasaan Penuh Pada Lambung",

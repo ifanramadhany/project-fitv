@@ -1,4 +1,13 @@
-import {SET_DARK_MODE, SET_CHECKOUT_BUTTON, SET_TOTAL_PRODUCT, SET_ESTIMATE_PRICE, ADD_NEW_CHECKOUT_ITEM, SET_ALL_CHECKOUT_ITEMS} from "../keys";
+import {
+    SET_DARK_MODE,
+    SET_CHECKOUT_BUTTON,
+    SET_TOTAL_PRODUCT,
+    SET_ESTIMATE_PRICE,
+    ADD_NEW_CHECKOUT_ITEM,
+    SET_ALL_CHECKOUT_ITEMS,
+    SET_TOTAL_END_PRICE,
+    SET_DETAIL_ITEM_DATA
+} from "../keys";
 import {ICheckoutItem} from "../../models/global.action.model";
 
 interface InitialStateI {
@@ -6,7 +15,9 @@ interface InitialStateI {
     checkoutButton: boolean;
     totalProduct: number;
     estimatePrice: number;
-    allCheckoutItems: { [id: number] : ICheckoutItem }
+    allCheckoutItems: { [id: number] : ICheckoutItem };
+    totalEndPrice: number;
+    detailItemData: object | undefined;
 }
 
 interface ActionType {
@@ -19,7 +30,9 @@ const initialState : InitialStateI = {
     checkoutButton: false,
     totalProduct: 0,
     estimatePrice: 0,
-    allCheckoutItems: {}
+    allCheckoutItems: {},
+    totalEndPrice: 0,
+    detailItemData: undefined
 }
 
 
@@ -44,6 +57,10 @@ export default function (state: InitialStateI = initialState, action: ActionType
             return  {...state, allCheckoutItems: newAllCheckoutItems}
         case SET_ALL_CHECKOUT_ITEMS:
             return {...state, allCheckoutItems: {}}
+        case SET_TOTAL_END_PRICE:
+            return {...state, totalEndPrice: payload}
+        case SET_DETAIL_ITEM_DATA:
+            return {...state, detailItemData: payload}
         default:
             return state
     }

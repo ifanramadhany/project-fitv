@@ -5,13 +5,16 @@ import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import SvgIcon, {SvgIconProps} from "@mui/material/SvgIcon";
 import {kfm_logo, visa_mandiri} from "../assets";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setEstimatePrice, setTotalProduct} from "../store/actions/global.action";
 import {setAllCheckoutItems} from "../store/actions/global.action";
+import {RootStore} from "../store";
+import {numberWithCommas} from "../helpers/utils";
 
 const CheckoutSuccessPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {totalEndPrice} = useSelector((state: RootStore) => state.globalState);
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
     const toHomePage = () => {
@@ -42,7 +45,7 @@ const CheckoutSuccessPage = () => {
                 </div>
                 <div className="amount-wrapper flex flex-col justify-center items-start">
                     <span className="text">Amount</span>
-                    <span className="amount">Rp 33.000</span>
+                    <span className="amount">Rp {numberWithCommas(totalEndPrice)}</span>
                 </div>
                 <div className="source-of-fund-payroll-saving-card-wrapper">
                     <span className="source-of-fund">Source of Fund</span>

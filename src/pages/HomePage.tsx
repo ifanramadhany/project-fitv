@@ -11,51 +11,55 @@ import {allItemsLocal} from "../dummy_data/home.page";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStore} from "../store";
 import {styled} from "@mui/material/styles";
-import {setDarkMode, setCheckoutButton} from "../store/actions/global.action";
+import {setCheckoutButton} from "../store/actions/global.action";
 import {ItemService} from "../services";
+import {numberWithCommas} from "../helpers/utils";
 
 const ITEM_HEIGHT = 48;
 
-const Android12Switch = styled(Switch)(({ theme }) => ({
-    padding: 8,
-    '& .MuiSwitch-track': {
-        borderRadius: 22 / 2,
-        '&:before, &:after': {
-            content: '""',
-            position: 'absolute',
-            top: '50%',
-            transform: 'translateY(-50%)',
+const Android12Switch = styled(Switch)(({theme}) => (
+    {
+        padding: 8,
+        '& .MuiSwitch-track': {
+            borderRadius: 22 / 2,
+            '&:before, &:after': {
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: 16,
+                height: 16,
+            },
+            '&:before': {
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="white" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
+                left: 12,
+            },
+            '&:after': {
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                    theme.palette.getContrastText(theme.palette.primary.main),
+                )}" d="M19,13H5V11H19V13Z" /></svg>')`,
+                right: 12,
+            },
+        },
+        '& .MuiSwitch-thumb': {
+            boxShadow: 'none',
             width: 16,
             height: 16,
+            margin: 2,
         },
-        '&:before': {
-            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="white" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
-            left: 12,
-        },
-        '&:after': {
-            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
-                theme.palette.getContrastText(theme.palette.primary.main),
-            )}" d="M19,13H5V11H19V13Z" /></svg>')`,
-            right: 12,
-        },
-    },
-    '& .MuiSwitch-thumb': {
-        boxShadow: 'none',
-        width: 16,
-        height: 16,
-        margin: 2,
-    },
-}));
+    }
+));
 
 const HomePage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [cookies, setCookie] = useCookies(['dark_mode'])
+    const darkMode = (cookies.dark_mode === "true")
     const itemService = new ItemService();
-    const {darkMode, checkoutButton, totalProduct, estimatePrice} = useSelector((state: RootStore) => state.globalState);
+    const {checkoutButton, totalProduct, estimatePrice} = useSelector((state: RootStore) => state.globalState);
     const [searchItemsLocal, setSearchItemsLocal] = useState<any>(null)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
-    const [cookies, setCookie] = useCookies(['access_token', 'refresh_token'])
     const [inputSearchItem, setInputSearchItem] = useState<string>("");
     const [widthSearch, setWidthSearch] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -68,7 +72,7 @@ const HomePage = () => {
     );
 
     const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setDarkMode(event.target.checked));
+        setCookie('dark_mode', event.target.checked, {path: '/'});
     };
 
     function isBlank(str: string) {
@@ -91,17 +95,12 @@ const HomePage = () => {
         setAnchorEl(null);
     };
 
-
     const toShippingAddressPage = () => {
         navigate("/shipping-address")
     }
 
     const showCheckoutButton = () => {
         dispatch(setCheckoutButton(true))
-    }
-
-    function numberWithCommas(price: number) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
     // const getRecommendedItems = () => {
@@ -126,7 +125,8 @@ const HomePage = () => {
     }, []);
 
     return (
-        <div style={{backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor}} className="container-home-page flex flex-col overflow-hidden">
+        <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}}
+             className="container-home-page flex flex-col overflow-hidden">
             <Menu
                 id="long-menu"
                 MenuListProps={{
@@ -172,14 +172,16 @@ const HomePage = () => {
             <div className={checkoutButton ?
                 "content overflow-y-auto overflow-x-hidden" :
                 "content-full overflow-y-auto overflow-x-hidden"}>
-                <div style={{backgroundColor: darkMode? colors.blueBaseColorDarken : colors.blueBaseColor}} className="header-search flex flex-col justify-center items-center">
+                <div style={{backgroundColor: darkMode ? colors.blueBaseColorDarken : colors.blueBaseColor}}
+                     className="header-search flex flex-col justify-center items-center">
                     <div className="text-1">Produk dan jasa yang tersedia merupakan tanggung jawab dari Kimia Farma,
                         bila terjadi kendala pada pemesanan dan transaksi silakan menghubungi customer service Kimia
                         Farma <span>1-500-255</span> atau melalui email <span>kimiafarmacare@kimiafarma.co.id</span>
                     </div>
                     <div className="text-2">Cek syarat dan ketentuan <span>disini</span></div>
                 </div>
-                <div style={{backgroundColor: darkMode? colors.blueBaseColorDarken : colors.blueBaseColor}} className="search-wrapper flex justify-center items-center drop-shadow-xl">
+                <div style={{backgroundColor: darkMode ? colors.blueBaseColorDarken : colors.blueBaseColor}}
+                     className="search-wrapper flex justify-center items-center drop-shadow-xl">
                     <div ref={refCari} className="search-input flex justify-center items-center">
                         <IconButton sx={{marginLeft: "0.2em"}}>
                             <SearchIcon sx={{color: colors.grayBaseColor, fontSize: "0.8em"}}/>
@@ -212,22 +214,32 @@ const HomePage = () => {
                         </Button>
                     </div>
                 </div>
-                <div style={{backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor}} className="content-container flex flex-col items-center">
+                <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}}
+                     className="content-container flex flex-col items-center">
                     <div className="product-text-wrapper flex justify-between items-center">
-                        <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}}>Produk Terlaris</span>
+                        <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}>Produk Terlaris</span>
                         <div className="dark-mode-wrapper flex justify-center items-center">
                             <Android12Switch checked={darkMode}
                                              onChange={handleChangeSwitch}/>
                             <div className="flex flex-col justify-center items-center">
-                                <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}}>Dark</span>
-                                <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}}>Mode</span>
+                                <span style={{
+                                    color: darkMode ?
+                                        colors.baseBackgroundColor :
+                                        colors.blackBaseColor
+                                }}>Dark</span>
+                                <span style={{
+                                    color: darkMode ?
+                                        colors.baseBackgroundColor :
+                                        colors.blackBaseColor
+                                }}>Mode</span>
                             </div>
                         </div>
                     </div>
-                    <div style={{backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor}} className="items-product-wrapper flex flex-wrap justify-center">
+                    <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}}
+                         className="items-product-wrapper flex flex-wrap justify-center">
                         {/*all card items*/}
                         {
-                            isLoading? <LoadingItemComponent /> : (
+                            isLoading ? <LoadingItemComponent/> : (
                                 allItemsLocal ? (
                                     allItemsLocal.map((item: Object, index: number) => (
                                         <ItemComponent key={index} item={item}></ItemComponent>

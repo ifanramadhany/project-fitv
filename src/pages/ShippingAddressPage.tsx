@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import "../scss/_shippingAddressPage.scss"
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -6,8 +6,11 @@ import colors from "../scss/_variables.module.scss";
 import SvgIcon, {SvgIconProps} from "@mui/material/SvgIcon";
 import FormControl from '@mui/material/FormControl';
 import Autocomplete from '@mui/material/Autocomplete';
-import {Button} from "@mui/material";
+import {Button, Paper} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {RootStore} from "../store";
+import {useCookies} from "react-cookie";
 
 const sub_districts = [
     {sub_district: 'Cilandak'},
@@ -21,6 +24,8 @@ const sub_districts = [
 
 const ShippingAddressPage = () => {
     const navigate = useNavigate();
+    const [cookies, setCookie] = useCookies(['dark_mode'])
+    const darkMode = (cookies.dark_mode === "true")
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
     const MaterialSymbolsLocationOn = (props: SvgIconProps) => (
@@ -36,28 +41,32 @@ const ShippingAddressPage = () => {
 
     return (
         <div className="container-shipping-address-page flex flex-col">
-            <div className="content overflow-y-auto overflow-x-hidden">
+            <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}}
+                 className="content overflow-y-auto overflow-x-hidden">
                 <div className="form-body">
-                    <span className="text-subTitle-form">Data Penerima</span>
+                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                          className="text-subTitle-form">Data Penerima</span>
                     <div className="column-textfield1">
                         <TextField
+                            sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             InputProps={{
                                 sx: {
                                     ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                                         borderWidth: "0.063em",
-                                        borderColor: colors.blackBaseColor,
+                                        borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
                                         borderRadius: "0.5em"
                                     }
                                 },
                             }}
                             InputLabelProps={{
-                                sx: {color: colors.blackBaseColor},
+                                sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                             }}
                             className="margin-input1"
                             label="Nama Penerima"
                             placeholder="Masukkan Nama Penerima"
                             fullWidth/>
                         <TextField
+                            sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             InputProps={{
                                 inputProps: {
                                     type: 'number',
@@ -66,13 +75,13 @@ const ShippingAddressPage = () => {
                                 sx: {
                                     ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                                         borderWidth: "0.063em",
-                                        borderColor: colors.blackBaseColor,
+                                        borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
                                         borderRadius: "0.5em"
                                     }
                                 },
                             }}
                             InputLabelProps={{
-                                sx: {color: colors.blackBaseColor},
+                                sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                             }}
                             className="margin-input2"
                             label="Nomor Handphone"
@@ -80,45 +89,49 @@ const ShippingAddressPage = () => {
                             fullWidth/>
                     </div>
                     <TextField
+                        sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                         InputProps={{
                             sx: {
                                 ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                                     borderWidth: "0.063em",
-                                    borderColor: colors.blackBaseColor,
+                                    borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
                                     borderRadius: "0.5em"
                                 },
                                 marginBottom: "1.25em"
                             },
                         }}
                         InputLabelProps={{
-                            sx: {color: colors.blackBaseColor},
+                            sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                         }}
                         type="email"
                         label="Email"
                         placeholder="Masukkan Email"
                         fullWidth/>
 
-                    <span className="text-subTitle-form">Alamat Penerima</span>
+                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                          className="text-subTitle-form">Alamat Penerima</span>
 
                     <div className="column-textfield2">
                         <TextField
+                            sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             className="margin-input1"
                             fullWidth
                             multiline
                             label="Alamat"
                             placeholder="Masukkan Alamat"
                             InputProps={{
+                                style: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                                 rows: 4,
                                 sx: {
                                     ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                                         borderWidth: "0.063em",
-                                        borderColor: colors.blackBaseColor,
+                                        borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
                                         borderRadius: "0.5em"
                                     },
-                                }
+                                },
                             }}
                             InputLabelProps={{
-                                sx: {color: colors.blackBaseColor},
+                                sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                             }}
                         />
 
@@ -126,6 +139,12 @@ const ShippingAddressPage = () => {
                             id="free-solo-demo"
                             freeSolo
                             fullWidth
+                            PaperComponent={({children}) => (
+                                <Paper style={{
+                                    background: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor,
+                                    color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor
+                                }}>{children}</Paper>
+                            )}
                             options={sub_districts.map((option) => option.sub_district)}
                             renderInput={(params) =>
                                 <TextField
@@ -134,12 +153,13 @@ const ShippingAddressPage = () => {
                                     sx={{
                                         ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                                             borderWidth: "0.063em",
-                                            borderColor: colors.blackBaseColor,
+                                            borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
                                             borderRadius: "0.5em"
                                         },
+                                        input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}
                                     }}
                                     InputLabelProps={{
-                                        sx: {color: colors.blackBaseColor},
+                                        sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                                     }}
                                     label="Kota/Kecamatan"
                                     placeholder="Masukkan Nama Kota/Kecamatan"
@@ -150,6 +170,7 @@ const ShippingAddressPage = () => {
 
                     <div className="column-textfield3">
                         <TextField
+                            sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             InputProps={{
                                 inputProps: {
                                     type: 'number',
@@ -158,13 +179,13 @@ const ShippingAddressPage = () => {
                                 sx: {
                                     ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                                         borderWidth: "0.063em",
-                                        borderColor: colors.blackBaseColor,
+                                        borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
                                         borderRadius: "0.5em"
                                     },
                                 },
                             }}
                             InputLabelProps={{
-                                style: {color: colors.blackBaseColor},
+                                sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                             }}
                             className="margin-input1"
                             label="Kode Pos"
@@ -173,22 +194,26 @@ const ShippingAddressPage = () => {
 
                         <FormControl fullWidth>
                             <TextField
-                                disabled={true}
                                 onClick={() => navigate("/selecting-location")}
+                                sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                                FormHelperTextProps={{style: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                                 InputProps={{
                                     startAdornment:
-                                        <InputAdornment position="start"><MaterialSymbolsLocationOn/></InputAdornment>,
+                                        <InputAdornment position="start"><MaterialSymbolsLocationOn sx={{
+                                            color: colors.redBaseColor
+                                        }}/></InputAdornment>,
                                     sx: {
                                         ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                                             borderWidth: "0.063em",
-                                            borderColor: colors.blackBaseColor,
+                                            borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
                                             borderRadius: "0.5em"
                                         },
                                     },
                                 }}
                                 InputLabelProps={{
-                                    sx: {color: colors.blackBaseColor},
+                                    sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                                 }}
+                                value="Jl. Pakubuwono"
                                 className="margin-input2"
                                 label="Lokasi"
                                 placeholder="Pilih Lokasi"
@@ -198,17 +223,18 @@ const ShippingAddressPage = () => {
                     </div>
 
                     <TextField
+                        sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                         InputProps={{
                             sx: {
                                 ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                                     borderWidth: "0.063em",
-                                    borderColor: colors.blackBaseColor,
+                                    borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
                                     borderRadius: "0.5em"
                                 }
                             },
                         }}
                         InputLabelProps={{
-                            sx: {color: colors.blackBaseColor},
+                            sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                         }}
                         label="Catatan(Opsional)"
                         placeholder="Contoh, pagar warna merah"

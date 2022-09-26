@@ -3,9 +3,13 @@ import Skeleton from '@mui/material/Skeleton';
 import colors from '../scss/_variables.module.scss';
 import {useSelector} from "react-redux";
 import {RootStore} from "../store";
+import {useCookies} from "react-cookie";
 
 const LoadingItemComponent = () => {
-    const {darkMode} = useSelector((state: RootStore) => state.globalState);
+    const [cookies, setCookie] = useCookies(['dark_mode'])
+    const darkMode = (
+        cookies.dark_mode === "true"
+    )
 
     return (
         <>

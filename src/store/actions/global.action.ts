@@ -4,7 +4,7 @@ import {
     SET_DARK_MODE,
     SET_ESTIMATE_PRICE,
     SET_TOTAL_PRODUCT,
-    SET_ALL_CHECKOUT_ITEMS
+    SET_ALL_CHECKOUT_ITEMS, SET_TOTAL_END_PRICE, SET_DETAIL_ITEM_DATA
 } from "../keys";
 import {ICheckoutItem} from "../../models/global.action.model";
 
@@ -46,5 +46,19 @@ export function addNewCheckoutItem(payload: ICheckoutItem) {
 export function setAllCheckoutItems() {
     return {
         type: SET_ALL_CHECKOUT_ITEMS,
+    };
+}
+
+export function setTotalEndPrice(payload: number) {
+    return {
+        type: SET_TOTAL_END_PRICE,
+        payload,
+    };
+}
+
+export function setDetailItemData(payload: object) {
+    return {
+        type: SET_DETAIL_ITEM_DATA,
+        payload,
     };
 }

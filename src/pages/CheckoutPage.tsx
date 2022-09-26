@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import "../scss/_checkoutPage.scss"
-import {Box, Button, Drawer, IconButton, Input, List, ListItemButton} from "@mui/material";
+import {Box, Button, Drawer, IconButton, Input, List, ListItemButton, CircularProgress} from "@mui/material";
 import colors from '../scss/_variables.module.scss';
 import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
 import {gojek, grab, jne, self_pickup, shipper_default, warning_icon} from "../assets";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootStore} from "../store";
 import {ItemCheckoutComponent} from "../components";
+import {setTotalEndPrice} from "../store/actions/global.action";
 
 interface ITotal {
     totalAllItems: number;
@@ -16,9 +17,11 @@ interface ITotal {
 }
 
 const CheckoutPage = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const {allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
-    const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
+    const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [selectingShipper, setSelectingShipper] = useState<boolean>(false);
     const [someItemsNotAvailable, setSomeItemsNotAvailable] = useState<boolean>(false);
     const [shippingData, setShippingData] = useState<string | undefined>();
@@ -33,7 +36,13 @@ const CheckoutPage = () => {
     }
 
     const toCheckoutSuccessPage = () => {
-        navigate("/checkout-success")
+        setIsLoading(true)
+        setTimeout(() => {
+            const totalEndPriceLocal = shippingPrice + total?.totalAllPrice
+            dispatch(setTotalEndPrice(totalEndPriceLocal))
+            setIsLoading(true)
+            navigate("/checkout-success")
+        }, 800)
     }
 
     const openSelectingShipperDrawer = (open: boolean, data: string | undefined = undefined) => () => {
@@ -416,12 +425,20 @@ const CheckoutPage = () => {
                                 <span className="nominal-text">Total Bayar</span>
                                 <span className="nominal">Rp {numberWithCommas(shippingPrice + total?.totalAllPrice)}</span>
                             </div>
-                            <Button onClick={toCheckoutSuccessPage} disabled={!shippingData ? true : false}
-                                    className={!shippingData ?
-                                        "total-payment-button-disabled" :
-                                        "total-payment-button"}>
-                                <span>Bayar</span>
-                            </Button>
+                            {
+                                isLoading? (
+                                    <Button className="total-payment-button">
+                                        <CircularProgress size="1.5em" color="inherit"/>
+                                    </Button>
+                                ) : (
+                                    <Button onClick={toCheckoutSuccessPage} disabled={!shippingData ? true : false}
+                                            className={!shippingData ?
+                                                "total-payment-button-disabled" :
+                                                "total-payment-button"}>
+                                        <span>Bayar</span>
+                                    </Button>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

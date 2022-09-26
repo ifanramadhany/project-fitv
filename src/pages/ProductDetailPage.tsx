@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "../scss/_productDetailPage.scss"
 import {Badge, Button, IconButton, Paper} from "@mui/material";
 import SvgIcon, {SvgIconProps} from "@mui/material/SvgIcon";
@@ -8,9 +8,15 @@ import Carousel from 'react-material-ui-carousel';
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootStore} from "../store";
+import {numberWithCommas} from "../helpers/utils";
+import {useCookies} from "react-cookie";
 
 const ProductDetailPage = () => {
-    const {darkMode} = useSelector((state: RootStore) => state.globalState);
+    const [cookies, setCookie] = useCookies(['dark_mode'])
+    const darkMode = (
+        cookies.dark_mode === "true"
+    )
+    const {detailItemData} = useSelector((state: RootStore) => state.globalState);
     const navigate = useNavigate();
     const toHomePage = () => {
         navigate("/")
@@ -30,6 +36,10 @@ const ProductDetailPage = () => {
         </SvgIcon>
     );
 
+    useEffect(() => {
+        if(!detailItemData) toHomePage();
+    }, [])
+
     const CartIcon = (props: SvgIconProps) => (
         <SvgIcon {...props}>
             <g fill="none">
@@ -44,126 +54,147 @@ const ProductDetailPage = () => {
         </SvgIcon>
     );
 
-    const ButtonVariant = () => {
+    const BackIcon = (props: SvgIconProps) => (
+        <SvgIcon {...props}>
+            <g fill="none">
+                <path fill="currentColor" d="m10.875 19.3l-6.6-6.6q-.15-.15-.213-.325Q4 12.2 4 12t.062-.375q.063-.175.213-.325l6.6-6.6q.275-.275.687-.288q.413-.012.713.288q.3.275.313.687q.012.413-.288.713L7.4 11h11.175q.425 0 .713.287q.287.288.287.713t-.287.712Q19 13 18.575 13H7.4l4.9 4.9q.275.275.288.7q.012.425-.288.7q-.275.3-.7.3q-.425 0-.725-.3Z"></path>
+            </g>
+        </SvgIcon>
+    );
+
+    const ButtonVariant = ({name}: any) => {
         return (
             <Button className="variant-button flex justify-center items-center">
-                <span style={{color: darkMode? colors.blueBaseColorLighten : colors.blueBaseColorDarken}}>VARIAN 100 ML</span>
+                <span style={{color: darkMode? colors.blueBaseColorLighten : colors.blueBaseColorDarken}}>{name}</span>
             </Button>
         )
     }
 
-    return (
-        <div style={{backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor}} className="container-product-detail-page">
-            <div className="product-detail-wrapper flex justify-center items-center">
-                <span style={{color: darkMode? colors.baseBackgroundColor : colors.blueBaseColorDarken}}>Detail Produk</span>
-            </div>
-            <div className="content-wrapper overflow-x-hidden overflow-y-auto">
-                <div className="image-carousel-wrapper flex justify-center items-center">
-                    <Carousel animation={"slide"} autoPlay={false} indicatorContainerProps={{className: "indicator-image-carousel"}}
-                              className="image-carousel">
-                        <Paper className="flex justify-center items-center">
-                            <img src="https://id-live-01.slatic.net/p/be5f06039301eecce288d1d4829d9e49.jpg"
-                                 alt="product"/>
-                        </Paper>
-                        <Paper className="flex justify-center items-center">
-                            <img src="https://cf.shopee.co.id/file/e575cceb61c5feb11f0c08a0ec298be2" alt="product"/>
-                        </Paper>
-                        <Paper className="flex justify-center items-center">
-                            <img
-                                src={"https://lzd-img-global.slatic.net/g/p/e48d9ac00c69f48bf9aac4a1f48f51f6.jpg" +
-                                    "_720x720q80.jpg_.webp"}
-                                alt="product"/>
-                        </Paper>
-                    </Carousel>
-                </div>
-                <div className="price-per-pcs-wrapper">
-                    <span style={{color: darkMode? colors.blueBaseColorLighten : colors.blueBaseColorDarken}} className="price">Rp. 16.200 </span>
-                    <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}} className="per-pcs">/Botol</span>
-                </div>
-                <div className="product-title-wrapper">
-                    <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}}>DETTOL ANTISEPTIC LIQUID 45ML DETTOL ANTISEPTIC LIQUID 45M</span>
-                </div>
-                <div className="selecting-variant-wrapper flex items-start overflow-x-auto overflow-y-hidden">
-                    <ButtonVariant />
-                    <ButtonVariant />
-                    <ButtonVariant />
-                    <ButtonVariant />
-                    <ButtonVariant />
-                    <ButtonVariant />
-                </div>
-                <div style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}} className="details-product-wrapper">
-                    <div className="field-content-wrapper flex">
-                        <div className="field flex justify-between items-start">
-                            <span>Kategori</span>
-                            <span>:</span>
-                        </div>
-                        <div className="content flex justify-between items-center">
-                            <span>-</span>
-                        </div>
-                    </div>
-                    <div className="field-content-wrapper flex">
-                        <div className="field flex justify-between items-start">
-                            <span>Dosis</span>
-                            <span>:</span>
-                        </div>
-                        <div className="content flex justify-between items-center">
-                            <span>-</span>
-                        </div>
-                    </div>
-                    <div className="field-content-wrapper flex">
-                        <div className="field flex justify-between items-start">
-                            <span>Indikasi</span>
-                            <span>:</span>
-                        </div>
-                        <div className="content flex justify-between items-center">
-                            <span>Hand sanitizer atau cairan pembersih tangan yang digunakan untuk membunuh kuman secara cepat tanpa dibilas dengan air.</span>
-                        </div>
-                    </div>
-                    <div className="field-content-wrapper flex">
-                        <div className="field flex justify-between items-start">
-                            <span>Efek Samping</span>
-                            <span>:</span>
-                        </div>
-                        <div className="content flex justify-between items-center">
-                            <span>Efek samping yang umum: iritasi, ruam, penglihatan kabur, mata berair, mual, muntah. Efek samping lain: dapat terjadi pada beberapa pasien, beri tahu dokter atau apoteker Anda sesegera mungkin jika Anda merasa tidak enak badan setelah minum obat</span>
-                        </div>
-                    </div>
-                    <div className="field-content-wrapper flex">
-                        <div className="field flex justify-between items-start">
-                            <span>Nomor Izin Edar</span>
-                            <span>:</span>
-                        </div>
-                        <div className="content flex justify-between items-center">
-                            <span>PKD 202650602560</span>
-                        </div>
-                    </div>
-                    <div className="field-content-wrapper flex">
-                        <div className="field flex justify-between items-start">
-                            <span>Di Produksi oleh</span>
-                            <span>:</span>
-                        </div>
-                        <div className="content flex justify-between items-center">
-                            <span>Reckitt Benckiser Indonesia</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div className="share-badge-add-cart-wrapper flex justify-between items-center">
-                <IconButton className="share-icon-wrapper shadow-md flex justify-center items-center">
-                    <ShareIcon sx={{color: colors.blueBaseColorDarken, fontSize: "1em"}}/>
-                </IconButton>
-                <IconButton className="badge-icon-wrapper shadow-md flex justify-center items-center">
-                    <Badge badgeContent={1} color="error">
-                        <CartIcon sx={{color: colors.blueBaseColorDarken, fontSize: "1em"}}/>
-                    </Badge>
-                </IconButton>
-                <Button onClick={toHomePage} className="add-cart-button flex justify-center items-center">
-                    <img className="cart-icon" src={cart_icon} alt="cart icon"/>
-                    <span>Tambah ke keranjang</span>
-                </Button>
-            </div>
-        </div>
+
+    return (
+        <React.Fragment>
+            {detailItemData && (
+                <div style={{backgroundColor: darkMode? colors.blackBaseColor : colors.baseBackgroundColor}} className="container-product-detail-page">
+                    <div className="product-detail-wrapper flex justify-between items-center">
+                        <IconButton onClick={toHomePage}>
+                            <BackIcon sx={{color: darkMode? colors.baseBackgroundColor : colors.blueBaseColorDarken, fontSize: "1.2em"}}/>
+                        </IconButton>
+                        <span style={{color: darkMode? colors.baseBackgroundColor : colors.blueBaseColorDarken}}>Detail Produk</span>
+                        <IconButton style={{visibility: "hidden"}}>
+                            <BackIcon sx={{color: darkMode? colors.baseBackgroundColor : colors.blueBaseColorDarken, fontSize: "1.2em"}}/>
+                        </IconButton>
+                    </div>
+                    <div className="content-wrapper overflow-x-hidden overflow-y-auto">
+                        <div className="image-carousel-wrapper flex justify-center items-center">
+                            <Carousel animation={"slide"} autoPlay={false} indicatorContainerProps={{className: "indicator-image-carousel"}}
+                                      className="image-carousel">
+                                {detailItemData.imageUrls.map((imageUrl: string, index: number) => (
+                                    <Paper key={index} className="flex justify-center items-center">
+                                        <img src={imageUrl}
+                                             alt="product"/>
+                                    </Paper>
+                                ))}
+                            </Carousel>
+                        </div>
+                        <div className="price-per-pcs-wrapper">
+                            <span style={{color: darkMode? colors.blueBaseColorLighten : colors.blueBaseColorDarken}} className="price">Rp. {numberWithCommas(detailItemData.price)} </span>
+                            <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}} className="per-pcs">/{detailItemData.form}</span>
+                        </div>
+                        <div className="product-title-wrapper">
+                            <span style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}}>{detailItemData.name}</span>
+                        </div>
+                        {detailItemData.variant && (
+                            <div className="selecting-variant-wrapper flex items-start overflow-x-auto overflow-y-hidden">
+                                {detailItemData.variant.variants.map((name: string, index: number) => (
+                                    <ButtonVariant key={index} name={name} />
+                                ))}
+                            </div>
+                        )}
+                        <div style={{color: darkMode? colors.baseBackgroundColor : colors.blackBaseColor}} className="details-product-wrapper">
+                            <div className="field-content-wrapper flex">
+                                <div className="field flex justify-between items-start">
+                                    <span>Kategori</span>
+                                    <span>:</span>
+                                </div>
+                                <div className="content flex justify-between items-center">
+                                    <span>-</span>
+                                </div>
+                            </div>
+                            <div className="field-content-wrapper flex">
+                                <div className="field flex justify-between items-start">
+                                    <span>Dosis</span>
+                                    <span>:</span>
+                                </div>
+                                <div className="content flex justify-between items-center">
+                                    <span>-</span>
+                                </div>
+                            </div>
+                            <div className="field-content-wrapper flex">
+                                <div className="field flex justify-between items-start">
+                                    <span>Deskripsi</span>
+                                    <span>:</span>
+                                </div>
+                                <div className="content flex justify-between items-center">
+                                    <span>{detailItemData.description}</span>
+                                </div>
+                            </div>
+                            <div className="field-content-wrapper flex">
+                                <div className="field flex justify-between items-start">
+                                    <span>Indikasi</span>
+                                    <span>:</span>
+                                </div>
+                                <div className="content flex justify-between items-center">
+                                    <span>-</span>
+                                </div>
+                            </div>
+                            <div className="field-content-wrapper flex">
+                                <div className="field flex justify-between items-start">
+                                    <span>Efek Samping</span>
+                                    <span>:</span>
+                                </div>
+                                <div className="content flex justify-between items-center">
+                                    <span>-</span>
+                                </div>
+                            </div>
+                            <div className="field-content-wrapper flex">
+                                <div className="field flex justify-between items-start">
+                                    <span>Nomor Izin Edar</span>
+                                    <span>:</span>
+                                </div>
+                                <div className="content flex justify-between items-center">
+                                    <span>{detailItemData.noIzinEdar}</span>
+                                </div>
+                            </div>
+                            <div className="field-content-wrapper flex">
+                                <div className="field flex justify-between items-start">
+                                    <span>Di Produksi oleh</span>
+                                    <span>:</span>
+                                </div>
+                                <div className="content flex justify-between items-center">
+                                    <span>-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="share-badge-add-cart-wrapper flex justify-between items-center">
+                        <IconButton className="share-icon-wrapper shadow-md flex justify-center items-center">
+                            <ShareIcon sx={{color: colors.blueBaseColorDarken, fontSize: "1em"}}/>
+                        </IconButton>
+                        <IconButton className="badge-icon-wrapper shadow-md flex justify-center items-center">
+                            <Badge badgeContent={1} color="error">
+                                <CartIcon sx={{color: colors.blueBaseColorDarken, fontSize: "1em"}}/>
+                            </Badge>
+                        </IconButton>
+                        <Button onClick={toHomePage} className="add-cart-button flex justify-center items-center">
+                            <img className="cart-icon" src={cart_icon} alt="cart icon"/>
+                            <span>Tambah ke keranjang</span>
+                        </Button>
+                    </div>
+                </div>
+            )}
+        </React.Fragment>
     );
 };
 

@@ -2,26 +2,34 @@ import React, {useEffect, useState} from 'react';
 import colors from '../scss/_variables.module.scss';
 import {Box, Button, SwipeableDrawer} from "@mui/material";
 import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
-import {cart_icon, dettol_50ml} from "../assets"
+import {cart_icon} from "../assets"
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStore} from "../store";
-import {setCheckoutButton, setEstimatePrice, setTotalProduct, addNewCheckoutItem} from "../store/actions/global.action";
+import {
+    addNewCheckoutItem,
+    setCheckoutButton,
+    setDetailItemData,
+    setEstimatePrice,
+    setTotalProduct
+} from "../store/actions/global.action";
+import {numberWithCommas} from "../helpers/utils";
+import {useCookies} from "react-cookie";
 
 type ItemProps = any
 
 const ItemComponent = ({children, ...props}: ItemProps) => {
     const dispatch = useDispatch();
-    const {darkMode, totalProduct, estimatePrice, allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
+    const [cookies, setCookie] = useCookies(['dark_mode'])
+    const darkMode = (
+        cookies.dark_mode === "true"
+    )
+    const {totalProduct, estimatePrice, allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
     const {item} = props;
     const navigate = useNavigate();
     const [addToCart, setAddToCart] = useState<boolean>(false)
     const [selectingVariantDrawer, setSelectingVariantDrawer] = useState<boolean>(false);
     const [counter, setCounter] = useState<number>(0)
-
-    function numberWithCommas(price: number) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
 
     const MinIcon = (props: SvgIconProps) => (
         <SvgIcon {...props}>
@@ -49,17 +57,18 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
     }
 
     const toProductDetailPage = () => {
+        dispatch(setDetailItemData(item))
         navigate("/product-detail")
     }
 
-    const ButtonVariant = () => {
+    const ButtonVariant = ({name}: any) => {
         return (
             <Button className="variant-button flex justify-center items-center">
                 <span style={{
                     color: darkMode ?
                         colors.blueBaseColorLighten :
                         colors.blueBaseColorDarken
-                }}>VARIAN 100 ML</span>
+                }}>{name}</span>
             </Button>
         )
     }
@@ -127,26 +136,25 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
                     <div className="image-title-per-price-wrapper flex">
                         <div className="image-title-per-price-left flex justify-center items-center">
                             <div className="image-wrapper flex justify-center items-center">
-                                <img src={dettol_50ml} alt="product"/>
+                                <img src={item.imageUrls[0]} alt="product"/>
                             </div>
                         </div>
                         <div className="image-title-per-price-right flex flex-col justify-center">
                             <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
                                   className="title">DETTOL ANTISEPTIC LIQUID 45ML DETTOL ANTISEPTIC LIQUID 45ML</span>
-                            <span className="per">Per Buah</span>
+                            <span className="per">Per {item.form}</span>
                             <span style={{color: darkMode ? colors.blueBaseColorLighten : colors.blackBaseColor}}
-                                  className="price">Rp. 108.192</span>
+                                  className="price">Rp {numberWithCommas(item.price)}</span>
                         </div>
                     </div>
                     <div className="divider"></div>
-                    <div className="selecting-variant-wrapper flex items-start overflow-x-auto overflow-y-hidden">
-                        <ButtonVariant/>
-                        <ButtonVariant/>
-                        <ButtonVariant/>
-                        <ButtonVariant/>
-                        <ButtonVariant/>
-                        <ButtonVariant/>
-                    </div>
+                    {item.variant && (
+                        <div className="selecting-variant-wrapper flex items-start overflow-x-auto overflow-y-hidden">
+                            {item.variant.variants.map((name: string, index: number) => (
+                                <ButtonVariant key={index} name={name}/>
+                            ))}
+                        </div>
+                    )}
 
                     <div className="add-cart-button-wrapper flex justify-center items-center">
                         <Button className="add-cart-button">

@@ -1,13 +1,10 @@
 import React from 'react';
+import {numberWithCommas} from "../helpers/utils";
 
 type ItemProps = any
 
 const ItemCheckoutComponent = ({children, ...props}: ItemProps) => {
     const {item} = props;
-
-    function numberWithCommas(price: number) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
 
     return (
         <>
