@@ -10,10 +10,13 @@ import {setEstimatePrice, setTotalProduct} from "../store/actions/global.action"
 import {setAllCheckoutItems} from "../store/actions/global.action";
 import {RootStore} from "../store";
 import {numberWithCommas} from "../helpers/utils";
+import {useCookies} from "react-cookie";
 
 const CheckoutSuccessPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [cookies, setCookie] = useCookies(['dark_mode'])
+    const darkMode = (cookies.dark_mode === "true")
     const {totalEndPrice} = useSelector((state: RootStore) => state.globalState);
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
@@ -32,31 +35,31 @@ const CheckoutSuccessPage = () => {
     )
 
     return (
-        <div className="container-checkout-page flex flex-col">
-            <div className="content flex flex-col justify-between items-center">
+        <div className="container-checkout-success-page flex flex-col">
+            <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}} className="content flex flex-col justify-between items-center">
                 <div
                     className="kf-icon-main-text-user-data-billing-details-wrapper flex flex-col justify-center items-center">
                     <div className="image-wrapper">
                         <img src={kfm_logo} alt="logo-kimia-farma-mobile"/>
                     </div>
-                    <span className="main-text">Kimia Farma Mobile</span>
-                    <span className="user-data">01000000000000006718 - Cahyadi Andri</span>
-                    <span className="billing-details">Billing Details</span>
+                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="main-text">Kimia Farma Mobile</span>
+                    <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}} className="user-data">01000000000000006718 - Cahyadi Andri</span>
+                    <span style={{color: darkMode ? colors.blueBaseColorLighten : colors.blueBaseColor}} className="billing-details">Billing Details</span>
                 </div>
                 <div className="amount-wrapper flex flex-col justify-center items-start">
-                    <span className="text">Amount</span>
-                    <span className="amount">Rp {numberWithCommas(totalEndPrice)}</span>
+                    <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}} className="text">Amount</span>
+                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="amount">Rp {numberWithCommas(totalEndPrice)}</span>
                 </div>
-                <div className="source-of-fund-payroll-saving-card-wrapper">
-                    <span className="source-of-fund">Source of Fund</span>
+                <div style={{backgroundColor: darkMode ? colors.blackBaseColorLighten : colors.baseBackgroundColorDarken}} className="source-of-fund-payroll-saving-card-wrapper">
+                    <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}} className="source-of-fund">Source of Fund</span>
                     <div className="payroll-saving-card flex relative">
-                        <div className="payroll-saving-card-left absolute flex flex-col">
+                        <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}} className="payroll-saving-card-left absolute flex flex-col">
                             <div className="flex justify-start items-center">
-                                <span className="text">Tabungan Payroll</span>
+                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="text">Tabungan Payroll</span>
                                 <MaterialSymbolsCheckCircleRounded
                                     sx={{color: colors.blueBaseColor, fontSize: "1em", marginLeft: "0.4em"}}/>
                             </div>
-                            <span className="payroll-number">987398309802</span>
+                            <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}} className="payroll-number">987398309802</span>
                         </div>
                         <div className="payroll-saving-card-right absolute">
                             <img src={visa_mandiri} alt="visa-card"/>

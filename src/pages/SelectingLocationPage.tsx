@@ -6,7 +6,7 @@ import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
 import {
     useJsApiLoader,
     GoogleMap,
-    Marker,
+    MarkerF,
     Autocomplete,
     DirectionsRenderer,
 } from '@react-google-maps/api'
@@ -16,8 +16,8 @@ import { usePlacesWidget } from "react-google-autocomplete";
 const SelectingLocationPage = () => {
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
     const [center, setCenter] = useState<{lat: number; lng: number}>({
-        lat: 0,
-        lng: 0
+        lat: -6.229642,
+        lng: 106.7588609
     })
 
     const { ref, autocompleteRef } = usePlacesWidget({
@@ -81,7 +81,7 @@ const SelectingLocationPage = () => {
                             fullscreenControl: false,
                         }}
                     >
-                        <Marker position={center} />
+                        <MarkerF position={center} />
                     </GoogleMap>
                 ) : <Skeleton variant="rounded" width={"100vw"} height={"100vh"} />
             }

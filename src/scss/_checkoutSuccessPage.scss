@@ -2,7 +2,7 @@
 
 // ----- MOBILE -----
 @media (min-width: 320px) {
-  .container-checkout-page {
+  .container-checkout-success-page {
     @include minMaxWidth(100vw);
     @include minMaxHeight(100vh);
 
@@ -140,7 +140,7 @@
 
 // ----- WEBSITE -----
 @media (min-width: 1281px) {
-  .container-checkout-page {
+  .container-checkout-success-page {
     @include minMaxWidth(100vw);
     @include minMaxHeight(100vh);
 

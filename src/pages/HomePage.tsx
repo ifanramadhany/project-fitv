@@ -11,7 +11,7 @@ import {allItemsLocal} from "../dummy_data/home.page";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStore} from "../store";
 import {styled} from "@mui/material/styles";
-import {setCheckoutButton} from "../store/actions/global.action";
+import {setCheckoutButton, setEstimatePrice, setTotalProduct} from "../store/actions/global.action";
 import {ItemService} from "../services";
 import {numberWithCommas} from "../helpers/utils";
 
@@ -119,6 +119,8 @@ const HomePage = () => {
     useEffect(() => {
         // getRecommendedItems();
         componentDidMount();
+        dispatch(setEstimatePrice(0))
+        dispatch(setTotalProduct(0))
         setTimeout(() => {
             setIsLoading(false)
         }, 1000)

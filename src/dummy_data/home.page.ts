@@ -5,7 +5,6 @@ export const allItemsLocal = [
         "description": "Untuk Mengurangi Gejala - Gejala Yang Berhubungan Dengan Kelebihan Asam Lambung. Gastritis. Tukak Lambung Usus Dua Belas Jari. Dengan Gejala - Gejala Seperti Mual. Nyeri Ulu Hati. Kembung Dan Perasaan Penuh Pada Lambung",
         "price": 10890.0,
         "imageUrls": [
-            "https://kf-ehealth-development.imgix.net/images/itemImage/item/1592906544Magasidatablet.jpg?auto=compress&blend=http%3A%2F%2Fkf-ehealth-development.imgix.net%2Fimages%2Fmobile%2Ftemplate%2Fobat-bebas.png&blend-align=top%2Cright&blend-h=0.12&blend-mode=normal&blend-pad=20&h=500&ixlib=java-2.3.2&trim=color&w=500&s=cb564cb40b8979d7e39ff23d4af6dfc0",
             "https://kf-ehealth-development.imgix.net/images/itemImage/item/1592906544.dcceafdcdd.jpg?auto=compress&blend=http%3A%2F%2Fkf-ehealth-development.imgix.net%2Fimages%2Fmobile%2Ftemplate%2Fobat-bebas.png&blend-align=top%2Cright&blend-h=0.12&blend-mode=normal&blend-pad=20&h=500&ixlib=java-2.3.2&trim=color&w=500&s=43c325eb6585c14797aa30212e5c37fc"
         ],
         "length": 18,
