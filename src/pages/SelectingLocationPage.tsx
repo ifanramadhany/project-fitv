@@ -1,39 +1,52 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../scss/_selectingLocationPage.scss"
 import {Button, IconButton, Input} from "@mui/material";
 import colors from '../scss/_variables.module.scss';
 import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
-import {
-    useJsApiLoader,
-    GoogleMap,
-    MarkerF,
-    Autocomplete,
-    DirectionsRenderer,
-} from '@react-google-maps/api'
+import {GoogleMap, MarkerF, useJsApiLoader,} from '@react-google-maps/api'
 import Skeleton from '@mui/material/Skeleton';
-import { usePlacesWidget } from "react-google-autocomplete";
+import {usePlacesWidget} from "react-google-autocomplete";
+import {useNavigate} from "react-router-dom";
+
+const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places']
 
 const SelectingLocationPage = () => {
+    const navigate = useNavigate();
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
-    const [center, setCenter] = useState<{lat: number; lng: number}>({
+    const [center, setCenter] = useState<{ lat: number; lng: number }>({
         lat: -6.229642,
         lng: 106.7588609
     })
 
-    const { ref, autocompleteRef } = usePlacesWidget({
-        apiKey:process.env.REACT_APP_GOOGLE_MAPS_API_KEY!,
-        onPlaceSelected: (place) => {
+    const toShippingAddressPage = () => {
+        navigate("/shipping-address")
+    }
+
+    const {ref, autocompleteRef} = usePlacesWidget({
+        apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY!,
+        onPlaceSelected: async (place) => {
             console.log(place);
+            const address = await place.address_components;
+            const newAddress = place.formatted_address
+            let newDistrictName: string = ""
+            await address?.forEach((el: any) => {
+                if (el.types[0] === "administrative_area_level_3") {
+                    newDistrictName = `${el.long_name.slice(10)}`
+                }
+            });
+            const {long_name: postalCode = ''} =
+            await address?.find(c => c.types.includes('postal_code')) || {};
+            console.log(newDistrictName, postalCode, newAddress)
         },
         options: {
             types: ["establishment"],
-            componentRestrictions: { country: "id" }
+            componentRestrictions: {country: "id"}
         },
     });
 
     const {isLoaded} = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY!,
-        libraries: ['places'],
+        libraries,
     })
 
     const MapIcon = (props: SvgIconProps) => (
@@ -69,11 +82,11 @@ const SelectingLocationPage = () => {
                 </div>
             </div>
             {
-                isLoaded? (
+                isLoaded ? (
                     <GoogleMap
                         center={center}
                         zoom={15}
-                        mapContainerStyle={{ width: '100vw', height: '100vh' }}
+                        mapContainerStyle={{width: '100vw', height: '100vh'}}
                         options={{
                             zoomControl: false,
                             streetViewControl: false,
@@ -81,11 +94,13 @@ const SelectingLocationPage = () => {
                             fullscreenControl: false,
                         }}
                     >
-                        <MarkerF position={center} />
+                        <MarkerF position={center}/>
                     </GoogleMap>
-                ) : <Skeleton variant="rounded" width={"100vw"} height={"100vh"} />
+                ) : <Skeleton variant="rounded" width={"100vw"} height={"100vh"}/>
             }
-            <Button disabled={buttonDisabled? true : false} className={buttonDisabled? "selecting-location-button-disabled" : "selecting-location-button"}>
+            <Button onClick={() => !buttonDisabled && navigate("/shipping-address")}
+                    disabled={buttonDisabled ? true : false}
+                    className={buttonDisabled ? "selecting-location-button-disabled" : "selecting-location-button"}>
                 <span>Pilih Lokasi</span>
             </Button>
         </div>

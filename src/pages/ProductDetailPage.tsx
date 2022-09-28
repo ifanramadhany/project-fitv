@@ -16,7 +16,7 @@ const ProductDetailPage = () => {
     const darkMode = (
         cookies.dark_mode === "true"
     )
-    const {detailItemData} = useSelector((state: RootStore) => state.globalState);
+    const {detailItemData, allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
     const navigate = useNavigate();
     const toHomePage = () => {
         navigate("/")
@@ -35,10 +35,6 @@ const ProductDetailPage = () => {
                       "16q1.25 0 2.125.875T21 19q0 1.25-.875 2.125T18 22Z"}></path>
         </SvgIcon>
     );
-
-    useEffect(() => {
-        if(!detailItemData) toHomePage();
-    }, [])
 
     const CartIcon = (props: SvgIconProps) => (
         <SvgIcon {...props}>
@@ -70,7 +66,9 @@ const ProductDetailPage = () => {
         )
     }
 
-
+    useEffect(() => {
+        if(!detailItemData) toHomePage();
+    }, [])
 
     return (
         <React.Fragment>

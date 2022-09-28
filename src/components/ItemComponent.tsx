@@ -15,6 +15,7 @@ import {
 } from "../store/actions/global.action";
 import {numberWithCommas} from "../helpers/utils";
 import {useCookies} from "react-cookie";
+import {ItemCheckoutComponent} from "./index";
 
 type ItemProps = any
 

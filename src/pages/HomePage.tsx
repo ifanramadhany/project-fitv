@@ -56,7 +56,7 @@ const HomePage = () => {
     const [cookies, setCookie] = useCookies(['dark_mode'])
     const darkMode = (cookies.dark_mode === "true")
     const itemService = new ItemService();
-    const {checkoutButton, totalProduct, estimatePrice} = useSelector((state: RootStore) => state.globalState);
+    const {checkoutButton, totalProduct, estimatePrice, allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
     const [searchItemsLocal, setSearchItemsLocal] = useState<any>(null)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)

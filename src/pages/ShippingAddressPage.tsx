@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import colors from "../scss/_variables.module.scss";
 import SvgIcon, {SvgIconProps} from "@mui/material/SvgIcon";
+import * as EmailValidator from 'email-validator';
 import FormControl from '@mui/material/FormControl';
 import Autocomplete from '@mui/material/Autocomplete';
 import {Button, Paper} from "@mui/material";
@@ -12,21 +13,65 @@ import {useSelector} from "react-redux";
 import {RootStore} from "../store";
 import {useCookies} from "react-cookie";
 
-const sub_districts = [
-    {sub_district: 'Cilandak'},
-    {sub_district: 'Jagakarsa'},
-    {sub_district: 'Kebayoran Baru'},
-    {sub_district: 'Kebayoran Lama'},
-    {sub_district: 'Mampang Prapatan'},
-    {sub_district: "Pancoran"},
-    {sub_district: 'Pasar Minggu'}
-]
+interface IReceiverData {
+    receiverName: string;
+    receiverPhoneNumber: string;
+    receiverEmail: string;
+    receiverLocationData: string;
+    receiverAddress: string;
+    receiverDistrict: string;
+    receiverPostCode: string;
+    receiverNote: string;
+}
+
+interface IReceiverDataValidation {
+    receiverNameValidation: string;
+    receiverPhoneNumberValidation: string;
+    receiverEmailValidation: string;
+    receiverLocationDataValidation: string;
+    receiverAddressValidation: string;
+    receiverDistrictValidation: string;
+    receiverPostCodeValidation: string;
+    receiverNoteValidation: string;
+}
+
+interface IDisabledValidation {
+    disabledEmail: boolean;
+    disabledChoosingLocation: boolean;
+}
 
 const ShippingAddressPage = () => {
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['dark_mode'])
     const darkMode = (cookies.dark_mode === "true")
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
+    const [isAllFieldsCorrect, setIsAllFieldsCorrect] = useState<boolean>(false)
+    const [receiverData, setReceiverData] = useState<IReceiverData>({
+        receiverName: "",
+        receiverPhoneNumber: "",
+        receiverEmail: "",
+        receiverLocationData: "",
+        receiverAddress: "",
+        receiverDistrict: "",
+        receiverPostCode: "",
+        receiverNote: ""
+    })
+
+    const [receiverDataValidation, setReceiverDataValidation] = useState<IReceiverDataValidation>({
+        receiverNameValidation: "",
+        receiverPhoneNumberValidation: "",
+        receiverEmailValidation: "",
+        receiverLocationDataValidation: "",
+        receiverAddressValidation: "",
+        receiverDistrictValidation: "",
+        receiverPostCodeValidation: "",
+        receiverNoteValidation: ""
+    })
+
+    const [disabledValidation, setDisabledValidation] = useState<IDisabledValidation>({
+        disabledEmail: true,
+        disabledChoosingLocation: true
+    })
 
     const MaterialSymbolsLocationOn = (props: SvgIconProps) => (
         <SvgIcon {...props}>
@@ -39,15 +84,94 @@ const ShippingAddressPage = () => {
         navigate("/checkout")
     }
 
+    const enableSaveButton = () => {
+        console.info("Enabling save button...");
+        if (!receiverDataValidation.receiverNameValidation && !receiverDataValidation.receiverPhoneNumberValidation &&
+            !receiverDataValidation.receiverEmailValidation && !receiverDataValidation.receiverAddressValidation &&
+            !receiverDataValidation.receiverDistrictValidation && !receiverDataValidation.receiverPostCodeValidation &&
+            !receiverDataValidation.receiverLocationDataValidation &&
+            receiverData.receiverName !== "" && receiverData.receiverPhoneNumber !== "" &&
+            receiverData.receiverEmail !== "" && receiverData.receiverAddress !== "" &&
+            receiverData.receiverDistrict !== "" && receiverData.receiverPostCode !== "" &&
+            receiverData.receiverLocationData !== ""
+        ) {
+            console.info("Setting state...");
+            setIsAllFieldsCorrect(true)
+        }
+    }
+
+    const validationBouncer = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, dataValidation: string, textValidation: string) => {
+        setTimeout(() => {
+            if (!e.target.value) {
+                setReceiverDataValidation({...receiverDataValidation, [dataValidation]: textValidation})
+                setTimeout(() => {
+                    setIsAllFieldsCorrect(false)
+                }, 300)
+
+            } else {
+                setReceiverDataValidation({...receiverDataValidation, [dataValidation]: ""})
+                setTimeout(() => {
+                    enableSaveButton()
+                }, 300)
+            }
+        }, 600);
+    }
+
+    const onChangeReceiverName = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setReceiverData({...receiverData, receiverName: e.target.value})
+        validationBouncer(e, "receiverNameValidation", "Mohon isi data berikut dengan benar!")
+    }
+
+    const onChangeReceiverPhoneNumber = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setReceiverData({...receiverData, receiverPhoneNumber: e.target.value})
+        setTimeout(() => {
+            if (!e.target.value || e.target.value.length < 10 || !e.target.value.startsWith("08")) {
+                setDisabledValidation({...disabledValidation, disabledEmail: true})
+                setReceiverDataValidation({...receiverDataValidation, receiverPhoneNumberValidation: `Mulai dengan "08" dan isi minimal 10 digit angka!`})
+                setTimeout(() => {
+                    setIsAllFieldsCorrect(false)
+                }, 300)
+
+            } else {
+                setReceiverDataValidation({...receiverDataValidation, receiverPhoneNumberValidation: ""})
+                setDisabledValidation({...disabledValidation, disabledEmail: false})
+                setTimeout(() => {
+                    enableSaveButton()
+                }, 300)
+            }
+        }, 600);
+    }
+
+    const onChangeReceiverEmail = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setReceiverData({...receiverData, receiverEmail: e.target.value})
+        setTimeout(() => {
+            if (!e.target.value || !EmailValidator.validate(e.target.value)) {
+                setDisabledValidation({...disabledValidation, disabledChoosingLocation: true})
+                setReceiverDataValidation({...receiverDataValidation, receiverEmailValidation: "Mohon isi dengan format email yang benar!"})
+                setTimeout(() => {
+                    setIsAllFieldsCorrect(false)
+                }, 300)
+
+            } else {
+                setReceiverDataValidation({...receiverDataValidation, receiverEmailValidation: ""})
+                setDisabledValidation({...disabledValidation, disabledChoosingLocation: false})
+                setTimeout(() => {
+                    enableSaveButton()
+                }, 300)
+            }
+        }, 600);
+    }
+
     return (
         <div className="container-shipping-address-page flex flex-col">
-            <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}}
-                 className="content overflow-y-auto overflow-x-hidden">
+            <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}} className="content overflow-y-auto overflow-x-hidden">
                 <div className="form-body">
-                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
-                          className="text-subTitle-form">Data Penerima</span>
+                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="text-subTitle-form">Data Penerima</span>
                     <div className="column-textfield1">
                         <TextField
+                            error={!!receiverDataValidation.receiverNameValidation}
+                            helperText={receiverDataValidation.receiverNameValidation}
+                            value={receiverData.receiverName}
                             sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             InputProps={{
                                 sx: {
@@ -61,18 +185,21 @@ const ShippingAddressPage = () => {
                             InputLabelProps={{
                                 sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                             }}
+                            onChange={e => onChangeReceiverName(e)}
                             className="margin-input1"
                             label="Nama Penerima"
                             placeholder="Masukkan Nama Penerima"
                             fullWidth/>
                         <TextField
+                            error={!!receiverDataValidation.receiverPhoneNumberValidation}
+                            helperText={receiverDataValidation.receiverPhoneNumberValidation}
+                            value={receiverData.receiverPhoneNumber}
+                            disabled={!receiverData.receiverName}
                             sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             InputProps={{
                                 inputProps: {
                                     type: 'number',
-                                    min: 0, max: 9,
-                                },
-                                sx: {
+                                }, sx: {
                                     ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                                         borderWidth: "0.063em",
                                         borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
@@ -83,13 +210,19 @@ const ShippingAddressPage = () => {
                             InputLabelProps={{
                                 sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                             }}
+                            onChange={e => onChangeReceiverPhoneNumber(e)}
                             className="margin-input2"
                             label="Nomor Handphone"
                             placeholder="08xx xxxx xxxx"
                             fullWidth/>
                     </div>
                     <TextField
+                        error={!!receiverDataValidation.receiverEmailValidation}
+                        helperText={receiverDataValidation.receiverEmailValidation}
+                        value={receiverData.receiverEmail}
+                        disabled={disabledValidation.disabledEmail}
                         sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                        style={{marginBottom: "1em"}}
                         InputProps={{
                             sx: {
                                 ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
@@ -97,24 +230,48 @@ const ShippingAddressPage = () => {
                                     borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
                                     borderRadius: "0.5em"
                                 },
-                                marginBottom: "1.25em"
                             },
                         }}
                         InputLabelProps={{
                             sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                         }}
+                        onChange={e => onChangeReceiverEmail(e)}
                         type="email"
                         label="Email"
                         placeholder="Masukkan Email"
                         fullWidth/>
 
-                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
-                          className="text-subTitle-form">Alamat Penerima</span>
+                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="text-subTitle-form">Alamat Penerima</span>
 
                     <div className="column-textfield2">
                         <TextField
+                            disabled={disabledValidation.disabledChoosingLocation}
+                            onClick={() => !disabledValidation.disabledChoosingLocation && navigate("/selecting-location")}
                             sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                            FormHelperTextProps={{style: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             className="margin-input1"
+                            InputProps={{
+                                startAdornment: <InputAdornment
+                                    position="start"><MaterialSymbolsLocationOn sx={{color: colors.redBaseColor}}/></InputAdornment>,
+                                sx: {
+                                    ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                                        borderWidth: "0.063em",
+                                        borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
+                                        borderRadius: "0.5em",
+                                    },
+                                },
+                            }}
+                            InputLabelProps={{
+                                sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
+                            }}
+                            label="Lokasi"
+                            placeholder="Pilih Lokasi"
+                            helperText="Pastikan lokasi yang anda tandai, sesuai dengan alamat yang tertera"
+                            fullWidth
+                        />
+
+                        <TextField
+                            sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             fullWidth
                             multiline
                             label="Alamat"
@@ -135,46 +292,31 @@ const ShippingAddressPage = () => {
                             }}
                         />
 
-                        <Autocomplete
-                            id="free-solo-demo"
-                            freeSolo
-                            fullWidth
-                            PaperComponent={({children}) => (
-                                <Paper style={{
-                                    background: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor,
-                                    color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor
-                                }}>{children}</Paper>
-                            )}
-                            options={sub_districts.map((option) => option.sub_district)}
-                            renderInput={(params) =>
-                                <TextField
-                                    {...params}
-                                    className="margin-input2"
-                                    sx={{
-                                        ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                                            borderWidth: "0.063em",
-                                            borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
-                                            borderRadius: "0.5em"
-                                        },
-                                        input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}
-                                    }}
-                                    InputLabelProps={{
-                                        sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
-                                    }}
-                                    label="Kota/Kecamatan"
-                                    placeholder="Masukkan Nama Kota/Kecamatan"
-                                />}
-                        />
-
                     </div>
 
                     <div className="column-textfield3">
+                        <TextField
+                            className="margin-input1"
+                            sx={{
+                                ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                                    borderWidth: "0.063em",
+                                    borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
+                                    borderRadius: "0.5em"
+                                },
+                                input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}
+                            }}
+                            InputLabelProps={{
+                                sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
+                            }}
+                            label="Kecamatan"
+                            placeholder="Kecamatan"
+                            fullWidth/>
+
                         <TextField
                             sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             InputProps={{
                                 inputProps: {
                                     type: 'number',
-                                    min: 0, max: 9,
                                 },
                                 sx: {
                                     ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
@@ -187,39 +329,9 @@ const ShippingAddressPage = () => {
                             InputLabelProps={{
                                 sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                             }}
-                            className="margin-input1"
                             label="Kode Pos"
                             placeholder="Masukkan Kode Pos"
                             fullWidth/>
-
-                        <FormControl fullWidth>
-                            <TextField
-                                onClick={() => navigate("/selecting-location")}
-                                sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
-                                FormHelperTextProps={{style: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
-                                InputProps={{
-                                    startAdornment:
-                                        <InputAdornment position="start"><MaterialSymbolsLocationOn sx={{
-                                            color: colors.redBaseColor
-                                        }}/></InputAdornment>,
-                                    sx: {
-                                        ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                                            borderWidth: "0.063em",
-                                            borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
-                                            borderRadius: "0.5em"
-                                        },
-                                    },
-                                }}
-                                InputLabelProps={{
-                                    sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
-                                }}
-                                value="Jl. Pakubuwono"
-                                className="margin-input2"
-                                label="Lokasi"
-                                placeholder="Pilih Lokasi"
-                                helperText="Pastikan lokasi yang anda tandai, sesuai dengan alamat yang tertera"
-                            />
-                        </FormControl>
                     </div>
 
                     <TextField
@@ -236,10 +348,10 @@ const ShippingAddressPage = () => {
                         InputLabelProps={{
                             sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                         }}
+                        style={{marginTop: "0.5em"}}
                         label="Catatan(Opsional)"
                         placeholder="Contoh, pagar warna merah"
                         fullWidth/>
-
                     <div className="save-button-wrapper flex justify-center items-start">
                         <Button onClick={toCheckoutPage} disabled={buttonDisabled ? true : false}
                                 className={buttonDisabled ? "save-button-disabled" : "save-button"}>
