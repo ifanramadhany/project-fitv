@@ -3,17 +3,26 @@ import "../scss/_selectingLocationPage.scss"
 import {Button, IconButton, Input} from "@mui/material";
 import colors from '../scss/_variables.module.scss';
 import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
-import {GoogleMap, MarkerF, useJsApiLoader,} from '@react-google-maps/api'
+import {GoogleMap, MarkerF, useJsApiLoader} from '@react-google-maps/api'
 import Skeleton from '@mui/material/Skeleton';
 import {usePlacesWidget} from "react-google-autocomplete";
 import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {RootStore} from "../store";
+import {setLatLngG, setReceiverDataG} from "../store/actions/global.action";
 
 const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places']
 
 const SelectingLocationPage = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {receiverDataG, latLngG} = useSelector((state: RootStore) => state.globalState);
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
+        lat: -6.229642,
+        lng: 106.7588609
+    })
+    const [marker, setMarker] = useState<{ lat: number; lng: number }>({
         lat: -6.229642,
         lng: 106.7588609
     })
@@ -36,7 +45,30 @@ const SelectingLocationPage = () => {
             });
             const {long_name: postalCode = ''} =
             await address?.find(c => c.types.includes('postal_code')) || {};
-            console.log(newDistrictName, postalCode, newAddress)
+            const newLatLng = {
+                lat: place?.geometry?.location?.lat(),
+                lng: place?.geometry?.location?.lng()
+            }
+            dispatch(setReceiverDataG({
+                ...receiverDataG,
+                receiverLocationData: newAddress,
+                receiverAddress: newAddress,
+                receiverDistrict: newDistrictName,
+                receiverPostCode: postalCode
+            }))
+            dispatch(setLatLngG({
+                lat: Number(newLatLng.lat),
+                lng: Number(newLatLng.lng)
+            }))
+            setCenter({
+                lat: Number(newLatLng.lat),
+                lng: Number(newLatLng.lng)
+            })
+            setMarker({
+                lat: Number(newLatLng.lat),
+                lng: Number(newLatLng.lng)
+            })
+            // console.log(newDistrictName, postalCode, newAddress, newLatLng)
         },
         options: {
             types: ["establishment"],
@@ -56,11 +88,25 @@ const SelectingLocationPage = () => {
         </SvgIcon>
     );
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            console.log(position.coords)
-            setCenter({lat: position.coords.latitude, lng: position.coords.longitude})
-        })
+        if (latLngG !== undefined) {
+            setCenter({
+                lat: latLngG.lat,
+                lng: latLngG.lng
+            })
+            setMarker({
+                lat: latLngG.lat,
+                lng: latLngG.lng
+            })
+        }
     }, [])
+
+    useEffect(() => {
+        if (receiverDataG.receiverLocationData === "") {
+            setButtonDisabled(true)
+        } else {
+            setButtonDisabled(false)
+        }
+    }, [receiverDataG])
 
     return (
         <div className="container-selecting-location-page flex flex-col overflow-hidden">
@@ -88,13 +134,16 @@ const SelectingLocationPage = () => {
                         zoom={15}
                         mapContainerStyle={{width: '100vw', height: '100vh'}}
                         options={{
-                            zoomControl: false,
+                            zoomControl: true,
+                            zoomControlOptions: {
+                                position: google.maps.ControlPosition.RIGHT_TOP
+                            },
                             streetViewControl: false,
                             mapTypeControl: false,
                             fullscreenControl: false,
                         }}
                     >
-                        <MarkerF position={center}/>
+                        <MarkerF position={marker}/>
                     </GoogleMap>
                 ) : <Skeleton variant="rounded" width={"100vw"} height={"100vh"}/>
             }

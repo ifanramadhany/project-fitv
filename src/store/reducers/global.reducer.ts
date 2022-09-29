@@ -5,23 +5,14 @@ import {
     SET_DARK_MODE,
     SET_DETAIL_ITEM_DATA,
     SET_ESTIMATE_PRICE,
+    SET_LAT_LNG_G,
+    SET_RECEIVER_DATA_G,
     SET_TOTAL_END_PRICE,
     SET_TOTAL_PRODUCT
 } from "../keys";
-import {ICheckoutItem} from "../../models/global.action.model";
+import {ICheckoutItem, ILatLng, IReceiverData} from "../../models/global.action.model";
 
-interface IReceiverData {
-    receiverName: string;
-    receiverPhoneNumber: string;
-    receiverEmail: string;
-    receiverLocationData: string;
-    receiverAddress: string;
-    receiverDistrict: string;
-    receiverPostCode: string;
-    receiverNote: string;
-}
-
-interface InitialStateI {
+interface InitialState {
     darkMode: boolean;
     checkoutButton: boolean;
     totalProduct: number;
@@ -29,7 +20,8 @@ interface InitialStateI {
     allCheckoutItems: { [id: number]: ICheckoutItem };
     totalEndPrice: number;
     detailItemData: object | undefined;
-    receiverDataG: IReceiverData | undefined;
+    receiverDataG: IReceiverData;
+    latLngG: ILatLng | undefined;
 }
 
 interface ActionType {
@@ -37,7 +29,7 @@ interface ActionType {
     payload: any;
 }
 
-const initialState: InitialStateI = {
+const initialState: InitialState = {
     darkMode: false,
     checkoutButton: false,
     totalProduct: 0,
@@ -45,11 +37,21 @@ const initialState: InitialStateI = {
     allCheckoutItems: {},
     totalEndPrice: 0,
     detailItemData: undefined,
-    receiverDataG: undefined
+    receiverDataG: {
+        receiverName: "",
+        receiverPhoneNumber: "",
+        receiverEmail: "",
+        receiverLocationData: "",
+        receiverAddress: "",
+        receiverDistrict: "",
+        receiverPostCode: "",
+        receiverNote: ""
+    },
+    latLngG: undefined
 }
 
 
-export default function (state: InitialStateI = initialState, action: ActionType) {
+export default function (state: InitialState = initialState, action: ActionType) {
     const {type, payload} = action
     switch (type) {
         case SET_DARK_MODE:
@@ -74,6 +76,10 @@ export default function (state: InitialStateI = initialState, action: ActionType
             return {...state, totalEndPrice: payload}
         case SET_DETAIL_ITEM_DATA:
             return {...state, detailItemData: payload}
+        case SET_RECEIVER_DATA_G:
+            return {...state, receiverDataG: payload}
+        case SET_LAT_LNG_G:
+            return {...state, latLngG: payload}
         default:
             return state
     }

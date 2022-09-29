@@ -1,12 +1,16 @@
 import {
     ADD_NEW_CHECKOUT_ITEM,
+    SET_ALL_CHECKOUT_ITEMS,
     SET_CHECKOUT_BUTTON,
     SET_DARK_MODE,
+    SET_DETAIL_ITEM_DATA,
     SET_ESTIMATE_PRICE,
-    SET_TOTAL_PRODUCT,
-    SET_ALL_CHECKOUT_ITEMS, SET_TOTAL_END_PRICE, SET_DETAIL_ITEM_DATA
+    SET_LAT_LNG_G,
+    SET_RECEIVER_DATA_G,
+    SET_TOTAL_END_PRICE,
+    SET_TOTAL_PRODUCT
 } from "../keys";
-import {ICheckoutItem} from "../../models/global.action.model";
+import {ICheckoutItem, ILatLng, IReceiverData} from "../../models/global.action.model";
 
 export function setDarkMode(payload: boolean) {
     return {
@@ -59,6 +63,20 @@ export function setTotalEndPrice(payload: number) {
 export function setDetailItemData(payload: object) {
     return {
         type: SET_DETAIL_ITEM_DATA,
+        payload,
+    };
+}
+
+export function setReceiverDataG(payload: IReceiverData) {
+    return {
+        type: SET_RECEIVER_DATA_G,
+        payload,
+    };
+}
+
+export function setLatLngG(payload: ILatLng) {
+    return {
+        type: SET_LAT_LNG_G,
         payload,
     };
 }

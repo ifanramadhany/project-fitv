@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import "../scss/_checkoutPage.scss"
-import {Box, Button, Drawer, IconButton, Input, List, ListItemButton, CircularProgress} from "@mui/material";
+import {Box, Button, CircularProgress, Drawer, IconButton, Input, List, ListItemButton} from "@mui/material";
 import colors from '../scss/_variables.module.scss';
 import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
 import {gojek, grab, jne, self_pickup, shipper_default, warning_icon} from "../assets";
@@ -21,7 +21,9 @@ const CheckoutPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['dark_mode'])
-    const darkMode = (cookies.dark_mode === "true")
+    const darkMode = (
+        cookies.dark_mode === "true"
+    )
     const {allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -43,7 +45,7 @@ const CheckoutPage = () => {
         setTimeout(() => {
             const totalEndPriceLocal = shippingPrice + total?.totalAllPrice
             dispatch(setTotalEndPrice(totalEndPriceLocal))
-            setIsLoading(true)
+            setIsLoading(false)
             navigate("/checkout-success")
         }, 800)
     }
@@ -113,7 +115,7 @@ const CheckoutPage = () => {
             totalAllItems: newTotalAllItems,
             totalAllPrice: newTotalAllPrice,
         })
-        if(newTotalAllPrice < 10000) setSomeItemsNotAvailable(true)
+        if (newTotalAllPrice < 10000) setSomeItemsNotAvailable(true)
     }, [allCheckoutItems]);
 
     return (
@@ -151,9 +153,18 @@ const CheckoutPage = () => {
                                     <img src={self_pickup} alt="product"/>
                                 </div>
                                 <div className="text-wrapper flex flex-col justify-center items-start">
-                                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="title-text">Ambil Sendiri</span>
-                                    <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}} className="detail-shipper">Obat bisa diambil di Apotek sesuai dengan yang tertera di struk, <span
-                                        style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}}
+                                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                          className="title-text">Ambil Sendiri</span>
+                                    <span style={{
+                                        color: darkMode ?
+                                            colors.baseBackgroundColorGray :
+                                            colors.grayBaseColor
+                                    }} className="detail-shipper">Obat bisa diambil di Apotek sesuai dengan yang tertera di struk, <span
+                                        style={{
+                                            color: darkMode ?
+                                                colors.baseBackgroundColorGray :
+                                                colors.grayBaseColor
+                                        }}
                                         className="bolder">tidak perlu bayar pengiriman</span></span>
                                 </div>
                                 <div className="selected-icon-wrapper flex justify-center items-center">
@@ -170,12 +181,21 @@ const CheckoutPage = () => {
                                     <img src={grab} alt="product"/>
                                 </div>
                                 <div className="text-wrapper flex flex-col justify-center items-start">
-                                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="title-text">Grab Express</span>
+                                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                          className="title-text">Grab Express</span>
                                     <div>
                                         <span
-                                            style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}}
+                                            style={{
+                                                color: darkMode ?
+                                                    colors.baseBackgroundColorGray :
+                                                    colors.grayBaseColor
+                                            }}
                                             className="shipping-estimate">Estimasi tiba 1-2 jam. Anda cukup bayar</span>
-                                        <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}} className="shipping-price">Rp 18.000</span>
+                                        <span style={{
+                                            color: darkMode ?
+                                                colors.baseBackgroundColorGray :
+                                                colors.grayBaseColor
+                                        }} className="shipping-price">Rp 18.000</span>
                                     </div>
                                 </div>
                                 <div className="selected-icon-wrapper flex justify-center items-center">
@@ -192,12 +212,21 @@ const CheckoutPage = () => {
                                     <img src={gojek} alt="product"/>
                                 </div>
                                 <div className="text-wrapper flex flex-col justify-center items-start">
-                                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="title-text">Gojek Instant</span>
+                                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                          className="title-text">Gojek Instant</span>
                                     <div>
                                         <span
-                                            style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}}
+                                            style={{
+                                                color: darkMode ?
+                                                    colors.baseBackgroundColorGray :
+                                                    colors.grayBaseColor
+                                            }}
                                             className="shipping-estimate">Estimasi tiba 1-2 jam. Anda cukup bayar</span>
-                                        <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}} className="shipping-price">Rp 20.000</span>
+                                        <span style={{
+                                            color: darkMode ?
+                                                colors.baseBackgroundColorGray :
+                                                colors.grayBaseColor
+                                        }} className="shipping-price">Rp 20.000</span>
                                     </div>
                                 </div>
                                 <div className="selected-icon-wrapper flex justify-center items-center">
@@ -214,10 +243,19 @@ const CheckoutPage = () => {
                                     <img src={jne} alt="product"/>
                                 </div>
                                 <div className="text-wrapper flex flex-col justify-center items-start">
-                                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="title-text">JNE Reguler (2-5 hari)</span>
+                                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                          className="title-text">JNE Reguler (2-5 hari)</span>
                                     <div>
-                                        <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}} className="shipping-estimate">Estimasi tiba besok - 23 April. Biaya pengiriman</span>
-                                        <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}} className="shipping-price">Rp 7.000</span>
+                                        <span style={{
+                                            color: darkMode ?
+                                                colors.baseBackgroundColorGray :
+                                                colors.grayBaseColor
+                                        }} className="shipping-estimate">Estimasi tiba besok - 23 April. Biaya pengiriman</span>
+                                        <span style={{
+                                            color: darkMode ?
+                                                colors.baseBackgroundColorGray :
+                                                colors.grayBaseColor
+                                        }} className="shipping-price">Rp 7.000</span>
                                     </div>
                                 </div>
                                 <div className="selected-icon-wrapper flex justify-center items-center">
@@ -275,20 +313,29 @@ const CheckoutPage = () => {
                 </Box>
             </Drawer>
 
-            <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}} className="container-checkout-page flex flex-col overflow-y-auto overflow-x-hidden">
+            <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}}
+                 className="container-checkout-page flex flex-col overflow-y-auto overflow-x-hidden">
                 <div className="overflow-y-auto overflow-x-hidden">
                     <div className="shipping-address flex flex-col justify-center items-center">
-                        <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}} className="edit-shipping-address flex justify-between items-center">
+                        <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}}
+                             className="edit-shipping-address flex justify-between items-center">
                             <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}>Alamat Pengiriman</span>
                             <Button onClick={toShippingAddressPage} className="change-address-button">
-                                <span style={{color: darkMode ? colors.blueBaseColorLighten : colors.blueBaseColor}}>Ubah</span>
+                                <span style={{
+                                    color: darkMode ?
+                                        colors.blueBaseColorLighten :
+                                        colors.blueBaseColor
+                                }}>Ubah</span>
                             </Button>
                         </div>
                         <div className="receiver-detail flex flex-col justify-center items-center">
                             <div className="receiver-name">
-                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="name">Cahyadi Andri</span>
-                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="divider-receiver-name">-</span>
-                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="phone-number">0812917512996</span>
+                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                      className="name">Cahyadi Andri</span>
+                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                      className="divider-receiver-name">-</span>
+                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                      className="phone-number">0812917512996</span>
                             </div>
                             <div className="receiver-address">
                                 <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}}>Jl. Pakubuwono VI No.24, RT.9/RW.6, Gunung, Kec. Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12120 Jl. Pakubuwono VI No.24, RT.9/RW.6, Gunung, Kec. Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12120</span>
@@ -297,7 +344,8 @@ const CheckoutPage = () => {
                     </div>
                     <div className="shipped-by-items-selecting-shipper">
                         <div className="shipped-by flex flex-col justify-center items-start">
-                            <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="shipped-by-text">Dikirim dari :</span>
+                            <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                  className="shipped-by-text">Dikirim dari :</span>
                             <div className="shipped-by-address-distance flex justify-between items-center">
                                 <span
                                     style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
@@ -308,7 +356,8 @@ const CheckoutPage = () => {
                         <div className="the-items-wrapper">
                             {/*the items here*/}
                             {
-                                Object.entries(allCheckoutItems).map(([key, value]) => <ItemCheckoutComponent key={key} item={value} />)
+                                Object.entries(allCheckoutItems).map(
+                                    ([key, value]) => <ItemCheckoutComponent key={key} item={value}/>)
                             }
                         </div>
                         <div className="shipper-selected-wrapper flex justify-center items-center">
@@ -319,7 +368,11 @@ const CheckoutPage = () => {
                                             <img className="shipper-default" src={shipper_default} alt="product"/>
                                         </div>
                                         <div className="shipper-text-button flex justify-between items-center">
-                                            <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="shipper-text">Pilih Pengiriman</span>
+                                            <span style={{
+                                                color: darkMode ?
+                                                    colors.baseBackgroundColor :
+                                                    colors.blackBaseColor
+                                            }} className="shipper-text">Pilih Pengiriman</span>
                                             <IconButton onClick={openSelectingShipperDrawer(true)}
                                                         sx={{marginRight: "0.5em"}}>
                                                 <ArrowRightIcon sx={{color: colors.grayBaseColor, fontSize: "1em"}}/>
@@ -335,7 +388,11 @@ const CheckoutPage = () => {
                                             <img className="shipper" src={gojek} alt="product"/>
                                         </div>
                                         <div className="shipper-text-button flex justify-between items-center">
-                                            <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="shipper-text">Gojek Instant</span>
+                                            <span style={{
+                                                color: darkMode ?
+                                                    colors.baseBackgroundColor :
+                                                    colors.blackBaseColor
+                                            }} className="shipper-text">Gojek Instant</span>
                                             <IconButton onClick={openSelectingShipperDrawer(true)}
                                                         sx={{marginRight: "0.5em"}}>
                                                 <ArrowRightIcon sx={{color: colors.grayBaseColor, fontSize: "1em"}}/>
@@ -351,7 +408,11 @@ const CheckoutPage = () => {
                                             <img className="shipper" src={grab} alt="product"/>
                                         </div>
                                         <div className="shipper-text-button flex justify-between items-center">
-                                            <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="shipper-text">Grab Express</span>
+                                            <span style={{
+                                                color: darkMode ?
+                                                    colors.baseBackgroundColor :
+                                                    colors.blackBaseColor
+                                            }} className="shipper-text">Grab Express</span>
                                             <IconButton onClick={openSelectingShipperDrawer(true)}
                                                         sx={{marginRight: "0.5em"}}>
                                                 <ArrowRightIcon sx={{color: colors.grayBaseColor, fontSize: "1em"}}/>
@@ -367,7 +428,11 @@ const CheckoutPage = () => {
                                             <img className="shipper" src={jne} alt="product"/>
                                         </div>
                                         <div className="shipper-text-button flex justify-between items-center">
-                                            <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="shipper-text">JNE Reguler (2-5 hari)</span>
+                                            <span style={{
+                                                color: darkMode ?
+                                                    colors.baseBackgroundColor :
+                                                    colors.blackBaseColor
+                                            }} className="shipper-text">JNE Reguler (2-5 hari)</span>
                                             <IconButton onClick={openSelectingShipperDrawer(true)}
                                                         sx={{marginRight: "0.5em"}}>
                                                 <ArrowRightIcon sx={{color: colors.grayBaseColor, fontSize: "1em"}}/>
@@ -383,7 +448,11 @@ const CheckoutPage = () => {
                                             <img className="shipper" src={self_pickup} alt="product"/>
                                         </div>
                                         <div className="shipper-text-button flex justify-between items-center">
-                                            <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="shipper-text">Ambil Sendiri</span>
+                                            <span style={{
+                                                color: darkMode ?
+                                                    colors.baseBackgroundColor :
+                                                    colors.blackBaseColor
+                                            }} className="shipper-text">Ambil Sendiri</span>
                                             <IconButton onClick={openSelectingShipperDrawer(true)}
                                                         sx={{marginRight: "0.5em"}}>
                                                 <ArrowRightIcon sx={{color: colors.grayBaseColor, fontSize: "1em"}}/>
@@ -401,25 +470,35 @@ const CheckoutPage = () => {
                             <Input
                                 placeholder="Tulis Catatan Anda"
                                 disableUnderline={true}
-                                sx={{fontSize: "1em", input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                                sx={{
+                                    fontSize: "1em",
+                                    input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}
+                                }}
                                 fullWidth={true}
                             />
                         </div>
                     </div>
                     <div className="summary-payment-wrapper shadow-lg">
                         <div className="summary-payment flex flex-col justify-center items-center">
-                            <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="summary-payment-text">Ringkasan Pembayaran</span>
+                            <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                  className="summary-payment-text">Ringkasan Pembayaran</span>
                             <div className="product-price-per-item flex justify-between items-center">
                                 <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}>Harga Produk ({total?.totalAllItems} Barang)</span>
-                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}>Rp {numberWithCommas(total?.totalAllPrice)}</span>
+                                <span style={{
+                                    color: darkMode ?
+                                        colors.baseBackgroundColor :
+                                        colors.blackBaseColor
+                                }}>Rp {numberWithCommas(total?.totalAllPrice)}</span>
                             </div>
                             <div className="shipping-price flex justify-between items-center">
                                 <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}>Ongkos Kirim</span>
-                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="shipping-price-second">Rp {numberWithCommas(shippingPrice)}</span>
+                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                      className="shipping-price-second">Rp {numberWithCommas(shippingPrice)}</span>
                             </div>
                             <div className="service-fee flex justify-between items-center">
                                 <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}>Biaya Layanan</span>
-                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="service-fee-second">Rp 0</span>
+                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                      className="service-fee-second">Rp 0</span>
                             </div>
                             <div className="info-about-choosing-shipper-wrapper flex justify-center items-center">
                                 <div className="info-about-choosing-shipper flex justify-center items-center">
@@ -434,11 +513,14 @@ const CheckoutPage = () => {
                     <div className="total-payment-wrapper">
                         <div className="total-payment flex justify-between items-center">
                             <div className="total-payment-nominal flex flex-col justify-center items-start">
-                                <span style={{color: darkMode ? colors.blueBaseColorLighten : colors.blueBaseColor}} className="nominal-text">Total Bayar</span>
-                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="nominal">Rp {numberWithCommas(shippingPrice + total?.totalAllPrice)}</span>
+                                <span style={{color: darkMode ? colors.blueBaseColorLighten : colors.blueBaseColor}}
+                                      className="nominal-text">Total Bayar</span>
+                                <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                                      className="nominal">Rp {numberWithCommas(
+                                    shippingPrice + total?.totalAllPrice)}</span>
                             </div>
                             {
-                                isLoading? (
+                                isLoading ? (
                                     <Button className="total-payment-button">
                                         <CircularProgress size="1.5em" color="inherit"/>
                                     </Button>

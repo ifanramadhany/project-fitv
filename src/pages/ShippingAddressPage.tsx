@@ -1,17 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../scss/_shippingAddressPage.scss"
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import colors from "../scss/_variables.module.scss";
 import SvgIcon, {SvgIconProps} from "@mui/material/SvgIcon";
 import * as EmailValidator from 'email-validator';
-import FormControl from '@mui/material/FormControl';
-import Autocomplete from '@mui/material/Autocomplete';
-import {Button, Paper} from "@mui/material";
+import {Button, CircularProgress} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootStore} from "../store";
 import {useCookies} from "react-cookie";
+import {setReceiverDataG} from "../store/actions/global.action";
 
 interface IReceiverData {
     receiverName: string;
@@ -38,13 +37,19 @@ interface IReceiverDataValidation {
 interface IDisabledValidation {
     disabledEmail: boolean;
     disabledChoosingLocation: boolean;
+    disabledRestOfField: boolean;
+    disabledSaveButton: boolean;
 }
 
 const ShippingAddressPage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const {receiverDataG} = useSelector((state: RootStore) => state.globalState);
     const [cookies, setCookie] = useCookies(['dark_mode'])
-    const darkMode = (cookies.dark_mode === "true")
-    const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
+    const darkMode = (
+        cookies.dark_mode === "true"
+    )
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isAllFieldsCorrect, setIsAllFieldsCorrect] = useState<boolean>(false)
     const [receiverData, setReceiverData] = useState<IReceiverData>({
         receiverName: "",
@@ -70,7 +75,9 @@ const ShippingAddressPage = () => {
 
     const [disabledValidation, setDisabledValidation] = useState<IDisabledValidation>({
         disabledEmail: true,
-        disabledChoosingLocation: true
+        disabledChoosingLocation: true,
+        disabledRestOfField: true,
+        disabledSaveButton: true
     })
 
     const MaterialSymbolsLocationOn = (props: SvgIconProps) => (
@@ -81,7 +88,12 @@ const ShippingAddressPage = () => {
     );
 
     const toCheckoutPage = () => {
-        navigate("/checkout")
+        setIsLoading(true)
+        setTimeout(() => {
+            setIsLoading(false)
+            navigate("/checkout")
+        }, 800)
+
     }
 
     const enableSaveButton = () => {
@@ -100,7 +112,10 @@ const ShippingAddressPage = () => {
         }
     }
 
-    const validationBouncer = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, dataValidation: string, textValidation: string) => {
+    const validationBouncer = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, dataValidation: string,
+        textValidation: string
+    ) => {
         setTimeout(() => {
             if (!e.target.value) {
                 setReceiverDataValidation({...receiverDataValidation, [dataValidation]: textValidation})
@@ -118,16 +133,21 @@ const ShippingAddressPage = () => {
     }
 
     const onChangeReceiverName = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        dispatch(setReceiverDataG({...receiverDataG, receiverName: e.target.value}))
         setReceiverData({...receiverData, receiverName: e.target.value})
         validationBouncer(e, "receiverNameValidation", "Mohon isi data berikut dengan benar!")
     }
 
     const onChangeReceiverPhoneNumber = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        dispatch(setReceiverDataG({...receiverDataG, receiverPhoneNumber: e.target.value}))
         setReceiverData({...receiverData, receiverPhoneNumber: e.target.value})
         setTimeout(() => {
             if (!e.target.value || e.target.value.length < 10 || !e.target.value.startsWith("08")) {
                 setDisabledValidation({...disabledValidation, disabledEmail: true})
-                setReceiverDataValidation({...receiverDataValidation, receiverPhoneNumberValidation: `Mulai dengan "08" dan isi minimal 10 digit angka!`})
+                setReceiverDataValidation({
+                    ...receiverDataValidation,
+                    receiverPhoneNumberValidation: `Mulai dengan "08" dan isi minimal 10 digit angka!`
+                })
                 setTimeout(() => {
                     setIsAllFieldsCorrect(false)
                 }, 300)
@@ -143,11 +163,13 @@ const ShippingAddressPage = () => {
     }
 
     const onChangeReceiverEmail = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        dispatch(setReceiverDataG({...receiverDataG, receiverEmail: e.target.value}))
         setReceiverData({...receiverData, receiverEmail: e.target.value})
         setTimeout(() => {
             if (!e.target.value || !EmailValidator.validate(e.target.value)) {
                 setDisabledValidation({...disabledValidation, disabledChoosingLocation: true})
-                setReceiverDataValidation({...receiverDataValidation, receiverEmailValidation: "Mohon isi dengan format email yang benar!"})
+                setReceiverDataValidation(
+                    {...receiverDataValidation, receiverEmailValidation: "Mohon isi dengan format email yang benar!"})
                 setTimeout(() => {
                     setIsAllFieldsCorrect(false)
                 }, 300)
@@ -162,11 +184,84 @@ const ShippingAddressPage = () => {
         }, 600);
     }
 
+    const onChangeReceiverPostCode = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        dispatch(setReceiverDataG({...receiverDataG, receiverPostCode: e.target.value}))
+        setReceiverData({...receiverData, receiverPostCode: e.target.value})
+        setTimeout(() => {
+            if (!e.target.value || e.target.value.length !== 5 || !receiverData.receiverAddress ||
+                !receiverData.receiverDistrict) {
+                setReceiverDataValidation(
+                    {...receiverDataValidation, receiverPostCodeValidation: "Mohon isi data berikut dengan benar!"})
+                setTimeout(() => {
+                    setIsAllFieldsCorrect(false)
+                    setDisabledValidation({...disabledValidation, disabledSaveButton: true})
+                }, 100)
+
+            } else {
+                setReceiverDataValidation({...receiverDataValidation, receiverPostCodeValidation: ""})
+                setTimeout(() => {
+                    enableSaveButton()
+                    setDisabledValidation({...disabledValidation, disabledSaveButton: false})
+                }, 100)
+            }
+        }, 200);
+    }
+
+    const onChangeRestOfReceiverFields = (
+        key: string, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (!e.target.value || !receiverData.receiverAddress || !receiverData.receiverDistrict ||
+            !receiverData.receiverPostCode || receiverData.receiverPostCode.length !== 5) {
+            setDisabledValidation({...disabledValidation, disabledSaveButton: true})
+        } else {
+            setDisabledValidation({...disabledValidation, disabledSaveButton: false})
+        }
+        dispatch(setReceiverDataG({...receiverDataG, [key]: e.target.value}))
+        setReceiverData({...receiverData, [key]: e.target.value})
+        if (key === "receiverAddress") {
+            validationBouncer(e, "receiverAddressValidation", "Mohon isi data berikut dengan benar!")
+        }
+        if (key === "receiverDistrict") {
+            validationBouncer(e, "receiverDistrictValidation", "Mohon isi data berikut dengan benar!")
+        }
+    }
+
+    const clearReceiverLocationDataG = () => {
+        dispatch(setReceiverDataG({
+            ...receiverDataG,
+            receiverLocationData: "",
+            receiverAddress: "",
+            receiverDistrict: "",
+            receiverPostCode: ""
+        }))
+        navigate("/selecting-location")
+    }
+
+    useEffect(() => {
+        setReceiverData(receiverDataG)
+        if (receiverDataG.receiverEmail) {
+            setDisabledValidation(
+                {...disabledValidation, disabledChoosingLocation: false, disabledEmail: false})
+        }
+        if (receiverDataG.receiverLocationData && receiverDataG.receiverAddress && receiverDataG.receiverDistrict &&
+            receiverDataG.receiverPostCode) {
+            setDisabledValidation(
+                {
+                    ...disabledValidation,
+                    disabledChoosingLocation: false,
+                    disabledEmail: false,
+                    disabledRestOfField: false,
+                    disabledSaveButton: false
+                })
+        }
+    }, [receiverDataG, receiverData]);
+
     return (
         <div className="container-shipping-address-page flex flex-col">
-            <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}} className="content overflow-y-auto overflow-x-hidden">
+            <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}}
+                 className="content overflow-y-auto overflow-x-hidden">
                 <div className="form-body">
-                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="text-subTitle-form">Data Penerima</span>
+                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                          className="text-subTitle-form">Data Penerima</span>
                     <div className="column-textfield1">
                         <TextField
                             error={!!receiverDataValidation.receiverNameValidation}
@@ -241,18 +336,28 @@ const ShippingAddressPage = () => {
                         placeholder="Masukkan Email"
                         fullWidth/>
 
-                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}} className="text-subTitle-form">Alamat Penerima</span>
+                    <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
+                          className="text-subTitle-form">Alamat Penerima</span>
 
                     <div className="column-textfield2">
                         <TextField
+                            value={receiverData.receiverLocationData}
                             disabled={disabledValidation.disabledChoosingLocation}
-                            onClick={() => !disabledValidation.disabledChoosingLocation && navigate("/selecting-location")}
+                            onClick={() => !disabledValidation.disabledChoosingLocation &&
+                                clearReceiverLocationDataG()}
                             sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
-                            FormHelperTextProps={{style: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                            FormHelperTextProps={{
+                                style: {
+                                    color: darkMode ?
+                                        colors.baseBackgroundColor :
+                                        colors.blackBaseColor
+                                }
+                            }}
                             className="margin-input1"
                             InputProps={{
                                 startAdornment: <InputAdornment
-                                    position="start"><MaterialSymbolsLocationOn sx={{color: colors.redBaseColor}}/></InputAdornment>,
+                                    position="start"><MaterialSymbolsLocationOn
+                                    sx={{color: colors.redBaseColor}}/></InputAdornment>,
                                 sx: {
                                     ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                                         borderWidth: "0.063em",
@@ -271,6 +376,11 @@ const ShippingAddressPage = () => {
                         />
 
                         <TextField
+                            error={!!receiverDataValidation.receiverAddressValidation}
+                            helperText={receiverDataValidation.receiverAddressValidation}
+                            disabled={disabledValidation.disabledRestOfField}
+                            value={receiverData.receiverAddress}
+                            onChange={e => onChangeRestOfReceiverFields("receiverAddress", e)}
                             sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             fullWidth
                             multiline
@@ -296,6 +406,11 @@ const ShippingAddressPage = () => {
 
                     <div className="column-textfield3">
                         <TextField
+                            error={!!receiverDataValidation.receiverDistrictValidation}
+                            helperText={receiverDataValidation.receiverDistrictValidation}
+                            disabled={disabledValidation.disabledRestOfField}
+                            value={receiverData.receiverDistrict}
+                            onChange={e => onChangeRestOfReceiverFields("receiverDistrict", e)}
                             className="margin-input1"
                             sx={{
                                 ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
@@ -313,6 +428,11 @@ const ShippingAddressPage = () => {
                             fullWidth/>
 
                         <TextField
+                            error={!!receiverDataValidation.receiverPostCodeValidation}
+                            helperText={receiverDataValidation.receiverPostCodeValidation}
+                            disabled={disabledValidation.disabledRestOfField}
+                            value={receiverData.receiverPostCode}
+                            onChange={e => onChangeReceiverPostCode(e)}
                             sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                             InputProps={{
                                 inputProps: {
@@ -335,6 +455,9 @@ const ShippingAddressPage = () => {
                     </div>
 
                     <TextField
+                        disabled={disabledValidation.disabledRestOfField}
+                        value={receiverData.receiverNote}
+                        onChange={e => onChangeRestOfReceiverFields("receiverNote", e)}
                         sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
                         InputProps={{
                             sx: {
@@ -353,10 +476,21 @@ const ShippingAddressPage = () => {
                         placeholder="Contoh, pagar warna merah"
                         fullWidth/>
                     <div className="save-button-wrapper flex justify-center items-start">
-                        <Button onClick={toCheckoutPage} disabled={buttonDisabled ? true : false}
-                                className={buttonDisabled ? "save-button-disabled" : "save-button"}>
-                            <span>Simpan</span>
-                        </Button>
+                        {
+                            isLoading ? (
+                                <Button className="save-button">
+                                    <CircularProgress size="1.5em" color="inherit"/>
+                                </Button>
+                            ) : (
+                                <Button onClick={toCheckoutPage}
+                                        disabled={disabledValidation.disabledSaveButton ? true : false}
+                                        className={disabledValidation.disabledSaveButton ?
+                                            "save-button-disabled" :
+                                            "save-button"}>
+                                    <span>Simpan</span>
+                                </Button>
+                            )
+                        }
                     </div>
                 </div>
             </div>
