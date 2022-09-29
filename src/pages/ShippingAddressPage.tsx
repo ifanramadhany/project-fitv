@@ -288,7 +288,21 @@ const ShippingAddressPage = () => {
                             helperText={receiverDataValidation.receiverPhoneNumberValidation}
                             value={receiverData.receiverPhoneNumber}
                             disabled={!receiverData.receiverName}
-                            sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                            sx={{
+                                input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
+                                "& .MuiInputBase-root.Mui-disabled": {
+                                    "& > fieldset": {
+                                        borderColor: darkMode ?
+                                            colors.disabledGrayColor :
+                                            "",
+                                    }
+                                },
+                                Label: {
+                                    '&.Mui-disabled': {
+                                        color: darkMode ? colors.disabledGrayColor : ""
+                                    },
+                                },
+                            }}
                             InputProps={{
                                 inputProps: {
                                     type: 'number',
@@ -314,7 +328,21 @@ const ShippingAddressPage = () => {
                         helperText={receiverDataValidation.receiverEmailValidation}
                         value={receiverData.receiverEmail}
                         disabled={disabledValidation.disabledEmail}
-                        sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                        sx={{
+                            input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
+                            "& .MuiInputBase-root.Mui-disabled": {
+                                "& > fieldset": {
+                                    borderColor: darkMode ?
+                                        colors.disabledGrayColor :
+                                        "",
+                                }
+                            },
+                            Label: {
+                                '&.Mui-disabled': {
+                                    color: darkMode ? colors.disabledGrayColor : ""
+                                },
+                            },
+                        }}
                         style={{marginBottom: "1em"}}
                         InputProps={{
                             sx: {
@@ -343,7 +371,21 @@ const ShippingAddressPage = () => {
                             disabled={disabledValidation.disabledChoosingLocation}
                             onClick={() => !disabledValidation.disabledChoosingLocation &&
                                 clearReceiverLocationDataG()}
-                            sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                            sx={{
+                                input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
+                                "& .MuiInputBase-root.Mui-disabled": {
+                                    "& > fieldset": {
+                                        borderColor: darkMode ?
+                                            colors.disabledGrayColor :
+                                            "",
+                                    }
+                                },
+                                Label: {
+                                    '&.Mui-disabled': {
+                                        color: darkMode ? colors.disabledGrayColor : ""
+                                    },
+                                },
+                            }}
                             FormHelperTextProps={{
                                 style: {
                                     color: darkMode ?
@@ -379,7 +421,21 @@ const ShippingAddressPage = () => {
                             disabled={disabledValidation.disabledRestOfField}
                             value={receiverData.receiverAddress}
                             onChange={e => onChangeRestOfReceiverFields("receiverAddress", e)}
-                            sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                            sx={{
+                                input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
+                                "& .MuiInputBase-root.Mui-disabled": {
+                                    "& > fieldset": {
+                                        borderColor: darkMode ?
+                                            colors.disabledGrayColor :
+                                            "",
+                                    }
+                                },
+                                Label: {
+                                    '&.Mui-disabled': {
+                                        color: darkMode ? colors.disabledGrayColor : ""
+                                    },
+                                },
+                            }}
                             fullWidth
                             multiline
                             label="Alamat"
@@ -411,12 +467,19 @@ const ShippingAddressPage = () => {
                             onChange={e => onChangeRestOfReceiverFields("receiverDistrict", e)}
                             className="margin-input1"
                             sx={{
-                                ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                                    borderWidth: "0.063em",
-                                    borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
-                                    borderRadius: "0.5em"
+                                input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
+                                "& .MuiInputBase-root.Mui-disabled": {
+                                    "& > fieldset": {
+                                        borderColor: darkMode ?
+                                            colors.disabledGrayColor :
+                                            "",
+                                    }
                                 },
-                                input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}
+                                Label: {
+                                    '&.Mui-disabled': {
+                                        color: darkMode ? colors.disabledGrayColor : ""
+                                    },
+                                },
                             }}
                             InputLabelProps={{
                                 sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
@@ -431,7 +494,21 @@ const ShippingAddressPage = () => {
                             disabled={disabledValidation.disabledRestOfField}
                             value={receiverData.receiverPostCode}
                             onChange={e => onChangeReceiverPostCode(e)}
-                            sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                            sx={{
+                                input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
+                                "& .MuiInputBase-root.Mui-disabled": {
+                                    "& > fieldset": {
+                                        borderColor: darkMode ?
+                                            colors.disabledGrayColor :
+                                            "",
+                                    }
+                                },
+                                Label: {
+                                    '&.Mui-disabled': {
+                                        color: darkMode ? colors.disabledGrayColor : ""
+                                    },
+                                },
+                            }}
                             InputProps={{
                                 inputProps: {
                                     type: 'number',
@@ -456,7 +533,21 @@ const ShippingAddressPage = () => {
                         disabled={disabledValidation.disabledRestOfField}
                         value={receiverData.receiverNote}
                         onChange={e => onChangeRestOfReceiverFields("receiverNote", e)}
-                        sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                        sx={{
+                            input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
+                            "& .MuiInputBase-root.Mui-disabled": {
+                                "& > fieldset": {
+                                    borderColor: darkMode ?
+                                        colors.disabledGrayColor :
+                                        "",
+                                }
+                            },
+                            Label: {
+                                '&.Mui-disabled': {
+                                    color: darkMode ? colors.disabledGrayColor : ""
+                                },
+                            },
+                        }}
                         InputProps={{
                             sx: {
                                 ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {

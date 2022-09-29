@@ -14,6 +14,7 @@ $red-base-color: rgb(242, 76, 76);
 $pink-base-color: rgb(255, 135, 178);
 $green-highlight-color: rgb(193, 255, 215);
 $border-base-color: rgb(71, 181, 255);
+$disabled-gray-color: rgb(141, 141, 170);
 
 // mixins
 @mixin minMaxWidth($width) {
@@ -57,4 +58,5 @@ $border-base-color: rgb(71, 181, 255);
   pinkBaseColor: $pink-base-color;
   greenHighlightColor: $green-highlight-color;
   borderBaseColor: $border-base-color;
+  disabledGrayColor: $disabled-gray-color;
 }
