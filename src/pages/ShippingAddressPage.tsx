@@ -97,7 +97,6 @@ const ShippingAddressPage = () => {
     }
 
     const enableSaveButton = () => {
-        console.info("Enabling save button...");
         if (!receiverDataValidation.receiverNameValidation && !receiverDataValidation.receiverPhoneNumberValidation &&
             !receiverDataValidation.receiverEmailValidation && !receiverDataValidation.receiverAddressValidation &&
             !receiverDataValidation.receiverDistrictValidation && !receiverDataValidation.receiverPostCodeValidation &&
@@ -107,7 +106,6 @@ const ShippingAddressPage = () => {
             receiverData.receiverDistrict !== "" && receiverData.receiverPostCode !== "" &&
             receiverData.receiverLocationData !== ""
         ) {
-            console.info("Setting state...");
             setIsAllFieldsCorrect(true)
         }
     }

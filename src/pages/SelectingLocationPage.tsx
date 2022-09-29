@@ -34,7 +34,6 @@ const SelectingLocationPage = () => {
     const {ref, autocompleteRef} = usePlacesWidget({
         apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY!,
         onPlaceSelected: async (place) => {
-            console.log(place);
             const address = await place.address_components;
             const newAddress = place.formatted_address
             let newDistrictName: string = ""
