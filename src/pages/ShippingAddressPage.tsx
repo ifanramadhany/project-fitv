@@ -34,13 +34,6 @@ interface IReceiverDataValidation {
     receiverNoteValidation: string;
 }
 
-interface IDisabledValidation {
-    disabledEmail: boolean;
-    disabledChoosingLocation: boolean;
-    disabledRestOfField: boolean;
-    disabledSaveButton: boolean;
-}
-
 const ShippingAddressPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -50,7 +43,9 @@ const ShippingAddressPage = () => {
         cookies.dark_mode === "true"
     )
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [isAllFieldsCorrect, setIsAllFieldsCorrect] = useState<boolean>(false)
+    const [isAllFieldsCorrect, setIsAllFieldsCorrect] = useState<boolean>(true)
+    const [disabledEmailField, setDisabledEmailField] = useState<boolean>(true)
+    const [disabledLocationDataField, setDisabledLocationDataField] = useState<boolean>(true)
     const [receiverData, setReceiverData] = useState<IReceiverData>({
         receiverName: "",
         receiverPhoneNumber: "",
@@ -73,13 +68,6 @@ const ShippingAddressPage = () => {
         receiverNoteValidation: ""
     })
 
-    const [disabledValidation, setDisabledValidation] = useState<IDisabledValidation>({
-        disabledEmail: true,
-        disabledChoosingLocation: true,
-        disabledRestOfField: true,
-        disabledSaveButton: true
-    })
-
     const MaterialSymbolsLocationOn = (props: SvgIconProps) => (
         <SvgIcon {...props}>
             <path fill="currentColor"
@@ -92,20 +80,18 @@ const ShippingAddressPage = () => {
         setTimeout(() => {
             setIsLoading(false)
             navigate("/checkout")
-        }, 800)
+        }, 1000)
 
     }
 
     const enableSaveButton = () => {
-        if (!receiverDataValidation.receiverNameValidation && !receiverDataValidation.receiverPhoneNumberValidation &&
-            !receiverDataValidation.receiverEmailValidation && !receiverDataValidation.receiverAddressValidation &&
-            !receiverDataValidation.receiverDistrictValidation && !receiverDataValidation.receiverPostCodeValidation &&
-            !receiverDataValidation.receiverLocationDataValidation &&
-            receiverData.receiverName !== "" && receiverData.receiverPhoneNumber !== "" &&
-            receiverData.receiverEmail !== "" && receiverData.receiverAddress !== "" &&
-            receiverData.receiverDistrict !== "" && receiverData.receiverPostCode !== "" &&
-            receiverData.receiverLocationData !== ""
+        if (receiverDataG.receiverName.length && receiverDataG.receiverPhoneNumber.length &&
+            receiverDataG.receiverEmail.length && receiverDataG.receiverAddress.length &&
+            receiverDataG.receiverDistrict.length && receiverDataG.receiverPostCode.length > 4 &&
+            receiverDataG.receiverPostCode.length < 6 && receiverDataG.receiverLocationData.length
         ) {
+            setIsAllFieldsCorrect(false)
+        } else {
             setIsAllFieldsCorrect(true)
         }
     }
@@ -117,15 +103,8 @@ const ShippingAddressPage = () => {
         setTimeout(() => {
             if (!e.target.value) {
                 setReceiverDataValidation({...receiverDataValidation, [dataValidation]: textValidation})
-                setTimeout(() => {
-                    setIsAllFieldsCorrect(false)
-                }, 300)
-
             } else {
                 setReceiverDataValidation({...receiverDataValidation, [dataValidation]: ""})
-                setTimeout(() => {
-                    enableSaveButton()
-                }, 300)
             }
         }, 600);
     }
@@ -141,21 +120,14 @@ const ShippingAddressPage = () => {
         setReceiverData({...receiverData, receiverPhoneNumber: e.target.value})
         setTimeout(() => {
             if (!e.target.value || e.target.value.length < 10 || !e.target.value.startsWith("08")) {
-                setDisabledValidation({...disabledValidation, disabledEmail: true})
+                setDisabledEmailField(true)
                 setReceiverDataValidation({
                     ...receiverDataValidation,
                     receiverPhoneNumberValidation: `Mulai dengan "08" dan isi minimal 10 digit angka!`
                 })
-                setTimeout(() => {
-                    setIsAllFieldsCorrect(false)
-                }, 300)
-
             } else {
+                setDisabledEmailField(false)
                 setReceiverDataValidation({...receiverDataValidation, receiverPhoneNumberValidation: ""})
-                setDisabledValidation({...disabledValidation, disabledEmail: false})
-                setTimeout(() => {
-                    enableSaveButton()
-                }, 300)
             }
         }, 600);
     }
@@ -165,19 +137,12 @@ const ShippingAddressPage = () => {
         setReceiverData({...receiverData, receiverEmail: e.target.value})
         setTimeout(() => {
             if (!e.target.value || !EmailValidator.validate(e.target.value)) {
-                setDisabledValidation({...disabledValidation, disabledChoosingLocation: true})
+                setDisabledLocationDataField(true)
                 setReceiverDataValidation(
                     {...receiverDataValidation, receiverEmailValidation: "Mohon isi dengan format email yang benar!"})
-                setTimeout(() => {
-                    setIsAllFieldsCorrect(false)
-                }, 300)
-
             } else {
+                setDisabledLocationDataField(false)
                 setReceiverDataValidation({...receiverDataValidation, receiverEmailValidation: ""})
-                setDisabledValidation({...disabledValidation, disabledChoosingLocation: false})
-                setTimeout(() => {
-                    enableSaveButton()
-                }, 300)
             }
         }, 600);
     }
@@ -186,33 +151,19 @@ const ShippingAddressPage = () => {
         dispatch(setReceiverDataG({...receiverDataG, receiverPostCode: e.target.value}))
         setReceiverData({...receiverData, receiverPostCode: e.target.value})
         setTimeout(() => {
-            if (!e.target.value || e.target.value.length !== 5 || !receiverData.receiverAddress ||
+            if (!e.target.value || e.target.value.length > 5 || e.target.value.length < 5 ||
+                !receiverData.receiverAddress ||
                 !receiverData.receiverDistrict) {
                 setReceiverDataValidation(
                     {...receiverDataValidation, receiverPostCodeValidation: "Mohon isi data berikut dengan benar!"})
-                setTimeout(() => {
-                    setIsAllFieldsCorrect(false)
-                    setDisabledValidation({...disabledValidation, disabledSaveButton: true})
-                }, 100)
-
             } else {
                 setReceiverDataValidation({...receiverDataValidation, receiverPostCodeValidation: ""})
-                setTimeout(() => {
-                    enableSaveButton()
-                    setDisabledValidation({...disabledValidation, disabledSaveButton: false})
-                }, 100)
             }
         }, 200);
     }
 
     const onChangeRestOfReceiverFields = (
         key: string, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (!e.target.value || !receiverData.receiverAddress || !receiverData.receiverDistrict ||
-            !receiverData.receiverPostCode || receiverData.receiverPostCode.length !== 5) {
-            setDisabledValidation({...disabledValidation, disabledSaveButton: true})
-        } else {
-            setDisabledValidation({...disabledValidation, disabledSaveButton: false})
-        }
         dispatch(setReceiverDataG({...receiverDataG, [key]: e.target.value}))
         setReceiverData({...receiverData, [key]: e.target.value})
         if (key === "receiverAddress") {
@@ -235,23 +186,23 @@ const ShippingAddressPage = () => {
     }
 
     useEffect(() => {
-        setReceiverData(receiverDataG)
-        if (receiverDataG.receiverEmail) {
-            setDisabledValidation(
-                {...disabledValidation, disabledChoosingLocation: false, disabledEmail: false})
-        }
-        if (receiverDataG.receiverLocationData && receiverDataG.receiverAddress && receiverDataG.receiverDistrict &&
-            receiverDataG.receiverPostCode) {
-            setDisabledValidation(
-                {
-                    ...disabledValidation,
-                    disabledChoosingLocation: false,
-                    disabledEmail: false,
-                    disabledRestOfField: false,
-                    disabledSaveButton: false
-                })
-        }
+        setReceiverData(receiverDataG);
+        enableSaveButton();
     }, [receiverDataG, receiverData]);
+
+    useEffect(() => {
+        if (receiverDataG.receiverPhoneNumber) {
+            setDisabledEmailField(false)
+        }
+        if (receiverDataG.receiverEmail) {
+            setDisabledLocationDataField(false)
+        }
+        if (receiverDataG.receiverName && receiverDataG.receiverPhoneNumber && receiverDataG.receiverEmail &&
+            receiverDataG.receiverLocationData && receiverDataG.receiverAddress && receiverDataG.receiverDistrict &&
+            receiverDataG.receiverPostCode && receiverDataG.receiverPostCode) {
+            setIsAllFieldsCorrect(false)
+        }
+    }, [])
 
     return (
         <div className="container-shipping-address-page flex flex-col">
@@ -327,7 +278,7 @@ const ShippingAddressPage = () => {
                         error={!!receiverDataValidation.receiverEmailValidation}
                         helperText={receiverDataValidation.receiverEmailValidation}
                         value={receiverData.receiverEmail}
-                        disabled={disabledValidation.disabledEmail}
+                        disabled={disabledEmailField}
                         sx={{
                             input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                             "& .MuiInputBase-root.Mui-disabled": {
@@ -368,8 +319,10 @@ const ShippingAddressPage = () => {
                     <div className="column-textfield2">
                         <TextField
                             value={receiverData.receiverLocationData}
-                            disabled={disabledValidation.disabledChoosingLocation}
-                            onClick={() => !disabledValidation.disabledChoosingLocation &&
+                            disabled={disabledLocationDataField}
+                            onClick={() =>
+                                !disabledLocationDataField
+                                &&
                                 clearReceiverLocationDataG()}
                             sx={{
                                 input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
@@ -418,7 +371,7 @@ const ShippingAddressPage = () => {
                         <TextField
                             error={!!receiverDataValidation.receiverAddressValidation}
                             helperText={receiverDataValidation.receiverAddressValidation}
-                            disabled={disabledValidation.disabledRestOfField}
+                            disabled={!receiverData.receiverLocationData}
                             value={receiverData.receiverAddress}
                             onChange={e => onChangeRestOfReceiverFields("receiverAddress", e)}
                             sx={{
@@ -462,7 +415,7 @@ const ShippingAddressPage = () => {
                         <TextField
                             error={!!receiverDataValidation.receiverDistrictValidation}
                             helperText={receiverDataValidation.receiverDistrictValidation}
-                            disabled={disabledValidation.disabledRestOfField}
+                            disabled={!receiverData.receiverAddress}
                             value={receiverData.receiverDistrict}
                             onChange={e => onChangeRestOfReceiverFields("receiverDistrict", e)}
                             className="margin-input1"
@@ -481,6 +434,15 @@ const ShippingAddressPage = () => {
                                     },
                                 },
                             }}
+                            InputProps={{
+                                sx: {
+                                    ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                                        borderWidth: "0.063em",
+                                        borderColor: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor,
+                                        borderRadius: "0.5em"
+                                    },
+                                },
+                            }}
                             InputLabelProps={{
                                 sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},
                             }}
@@ -491,7 +453,7 @@ const ShippingAddressPage = () => {
                         <TextField
                             error={!!receiverDataValidation.receiverPostCodeValidation}
                             helperText={receiverDataValidation.receiverPostCodeValidation}
-                            disabled={disabledValidation.disabledRestOfField}
+                            disabled={!receiverData.receiverDistrict}
                             value={receiverData.receiverPostCode}
                             onChange={e => onChangeReceiverPostCode(e)}
                             sx={{
@@ -530,7 +492,7 @@ const ShippingAddressPage = () => {
                     </div>
 
                     <TextField
-                        disabled={disabledValidation.disabledRestOfField}
+                        disabled={!receiverData.receiverPostCode}
                         value={receiverData.receiverNote}
                         onChange={e => onChangeRestOfReceiverFields("receiverNote", e)}
                         sx={{
@@ -572,8 +534,8 @@ const ShippingAddressPage = () => {
                                 </Button>
                             ) : (
                                 <Button onClick={toCheckoutPage}
-                                        disabled={disabledValidation.disabledSaveButton ? true : false}
-                                        className={disabledValidation.disabledSaveButton ?
+                                        disabled={isAllFieldsCorrect ? true : false}
+                                        className={isAllFieldsCorrect ?
                                             "save-button-disabled" :
                                             "save-button"}>
                                     <span>Simpan</span>

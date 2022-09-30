@@ -54,9 +54,12 @@ const HomePage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['dark_mode'])
-    const darkMode = (cookies.dark_mode === "true")
+    const darkMode = (
+        cookies.dark_mode === "true"
+    )
     const itemService = new ItemService();
-    const {checkoutButton, totalProduct, estimatePrice, allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
+    const {checkoutButton, totalProduct, estimatePrice, allCheckoutItems} = useSelector(
+        (state: RootStore) => state.globalState);
     const [searchItemsLocal, setSearchItemsLocal] = useState<any>(null)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
@@ -176,9 +179,9 @@ const HomePage = () => {
                 "content-full overflow-y-auto overflow-x-hidden"}>
                 <div style={{backgroundColor: darkMode ? colors.blueBaseColorDarken : colors.blueBaseColor}}
                      className="header-search flex flex-col justify-center items-center">
-                    <div className="text-1">Produk dan jasa yang tersedia merupakan tanggung jawab dari Kimia Farma,
-                        bila terjadi kendala pada pemesanan dan transaksi silakan menghubungi customer service Kimia
-                        Farma <span>1-500-255</span> atau melalui email <span>kimiafarmacare@kimiafarma.co.id</span>
+                    <div className="text-1">Produk dan jasa yang tersedia merupakan tanggung jawab dari Toko Obat,
+                        bila terjadi kendala pada pemesanan dan transaksi silakan menghubungi customer service Toko
+                        Obat <span>9-999-999</span> atau melalui email <span>tokoobat999@obat.co.id</span>
                     </div>
                     <div className="text-2">Cek syarat dan ketentuan <span>disini</span></div>
                 </div>

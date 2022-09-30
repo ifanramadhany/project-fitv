@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import Geocode from "react-geocode";
 import "../scss/_selectingLocationPage.scss"
 import {Button, IconButton, Input} from "@mui/material";
 import colors from '../scss/_variables.module.scss';
@@ -12,6 +13,12 @@ import {RootStore} from "../store";
 import {setLatLngG, setReceiverDataG} from "../store/actions/global.action";
 
 const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places']
+
+// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY!);
+Geocode.setLanguage("en");
+Geocode.setRegion("id");
+Geocode.setLocationType("ROOFTOP");
 
 const SelectingLocationPage = () => {
     const dispatch = useDispatch();
@@ -74,6 +81,48 @@ const SelectingLocationPage = () => {
             componentRestrictions: {country: "id"}
         },
     });
+
+    const onClickLocation = (e: google.maps.MapMouseEvent) => {
+        const newLatLng = {
+            lat: e.latLng?.lat(),
+            lng: e.latLng?.lng(),
+        }
+        Geocode.fromLatLng(`${newLatLng.lat}`, `${newLatLng.lng}`).then(
+            async (response: any) => {
+                const address = await response.results[0].address_components;
+                const newAddress = await response.results[0].formatted_address
+                let newDistrictName: string = ""
+                await address?.forEach((el: any) => {
+                    if (el.types[0] === "administrative_area_level_3") {
+                        newDistrictName = `${el.long_name.slice(10)}`
+                    }
+                });
+                const {long_name: postalCode = ''} =
+                await address?.find((c: any) => c.types.includes('postal_code')) || {};
+                dispatch(setReceiverDataG({
+                    ...receiverDataG,
+                    receiverLocationData: newAddress,
+                    receiverAddress: newAddress,
+                    receiverDistrict: newDistrictName,
+                    receiverPostCode: postalCode
+                }))
+                dispatch(setLatLngG({
+                    lat: Number(newLatLng.lat),
+                    lng: Number(newLatLng.lng)
+                }))
+                setMarker({
+                    lat: Number(newLatLng.lat),
+                    lng: Number(newLatLng.lng)
+                })
+                // console.log(address, newAddress, newDistrictName, postalCode)
+            },
+            (error: any) => {
+                console.error(error);
+            }
+        ).catch((error: any) => {
+            console.error(error)
+        });
+    }
 
     const {isLoaded} = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY!,
@@ -140,6 +189,9 @@ const SelectingLocationPage = () => {
                             streetViewControl: false,
                             mapTypeControl: false,
                             fullscreenControl: false,
+                        }}
+                        onClick={(e: google.maps.MapMouseEvent) => {
+                            onClickLocation(e)
                         }}
                     >
                         <MarkerF position={marker}/>

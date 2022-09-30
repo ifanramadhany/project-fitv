@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import "../scss/_shippingAddressPage.scss"
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -8,8 +8,6 @@ import FormControl from '@mui/material/FormControl';
 import Autocomplete from '@mui/material/Autocomplete';
 import {Button, Paper} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {RootStore} from "../store";
 import {useCookies} from "react-cookie";
 
 const sub_districts = [
@@ -25,7 +23,9 @@ const sub_districts = [
 const ShippingAddressPage = () => {
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['dark_mode'])
-    const darkMode = (cookies.dark_mode === "true")
+    const darkMode = (
+        cookies.dark_mode === "true"
+    )
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
     const MaterialSymbolsLocationOn = (props: SvgIconProps) => (
@@ -196,7 +196,13 @@ const ShippingAddressPage = () => {
                             <TextField
                                 onClick={() => navigate("/selecting-location")}
                                 sx={{input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
-                                FormHelperTextProps={{style: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}}
+                                FormHelperTextProps={{
+                                    style: {
+                                        color: darkMode ?
+                                            colors.baseBackgroundColor :
+                                            colors.blackBaseColor
+                                    }
+                                }}
                                 InputProps={{
                                     startAdornment:
                                         <InputAdornment position="start"><MaterialSymbolsLocationOn sx={{
@@ -247,9 +253,40 @@ const ShippingAddressPage = () => {
                         </Button>
                     </div>
                 </div>
+                {/*<TextField*/}
+                {/*    error={!!receiverDataValidation.receiverDistrictValidation}*/}
+                {/*    helperText={receiverDataValidation.receiverDistrictValidation}*/}
+                {/*    disabled={(*/}
+                {/*        receiverDataValidation.receiverAddressValidation === "false"*/}
+                {/*    )}*/}
+                {/*    value={receiverData.receiverDistrict}*/}
+                {/*    onChange={e => onChangeRestOfReceiverFields("receiverDistrict", e)}*/}
+                {/*    className="margin-input1"*/}
+                {/*    sx={{*/}
+                {/*        input: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},*/}
+                {/*        "& .MuiInputBase-root.Mui-disabled": {*/}
+                {/*            "& > fieldset": {*/}
+                {/*                borderColor: darkMode ?*/}
+                {/*                    colors.disabledGrayColor :*/}
+                {/*                    "",*/}
+                {/*            }*/}
+                {/*        },*/}
+                {/*        Label: {*/}
+                {/*            '&.Mui-disabled': {*/}
+                {/*                color: darkMode ? colors.disabledGrayColor : ""*/}
+                {/*            },*/}
+                {/*        },*/}
+                {/*    }}*/}
+                {/*    InputLabelProps={{*/}
+                {/*        sx: {color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor},*/}
+                {/*    }}*/}
+                {/*    label="Kecamatan"*/}
+                {/*    placeholder="Kecamatan"*/}
+                {/*    fullWidth/>*/}
             </div>
         </div>
     );
 };
 
 export default ShippingAddressPage;
+

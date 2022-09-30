@@ -24,7 +24,7 @@ const CheckoutPage = () => {
     const darkMode = (
         cookies.dark_mode === "true"
     )
-    const {allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
+    const {allCheckoutItems, receiverDataG} = useSelector((state: RootStore) => state.globalState);
     const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [selectingShipper, setSelectingShipper] = useState<boolean>(false);
@@ -47,7 +47,7 @@ const CheckoutPage = () => {
             dispatch(setTotalEndPrice(totalEndPriceLocal))
             setIsLoading(false)
             navigate("/checkout-success")
-        }, 800)
+        }, 1000)
     }
 
     const toHomePage = () => {
@@ -331,14 +331,18 @@ const CheckoutPage = () => {
                         <div className="receiver-detail flex flex-col justify-center items-center">
                             <div className="receiver-name">
                                 <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
-                                      className="name">Cahyadi Andri</span>
+                                      className="name">{receiverDataG.receiverName}</span>
                                 <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
                                       className="divider-receiver-name">-</span>
                                 <span style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
-                                      className="phone-number">0812917512996</span>
+                                      className="phone-number">{receiverDataG.receiverPhoneNumber}</span>
                             </div>
                             <div className="receiver-address">
-                                <span style={{color: darkMode ? colors.baseBackgroundColorGray : colors.grayBaseColor}}>Jl. Pakubuwono VI No.24, RT.9/RW.6, Gunung, Kec. Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12120 Jl. Pakubuwono VI No.24, RT.9/RW.6, Gunung, Kec. Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12120</span>
+                                <span style={{
+                                    color: darkMode ?
+                                        colors.baseBackgroundColorGray :
+                                        colors.grayBaseColor
+                                }}>{receiverDataG.receiverAddress}</span>
                             </div>
                         </div>
                     </div>
@@ -349,7 +353,7 @@ const CheckoutPage = () => {
                             <div className="shipped-by-address-distance flex justify-between items-center">
                                 <span
                                     style={{color: darkMode ? colors.baseBackgroundColor : colors.blackBaseColor}}
-                                    className="shipped-by-address">Apotek Kimia Farma Blok M Apotek Kimia Farma Blok M</span>
+                                    className="shipped-by-address">Apotek Toko Obat Blok M</span>
                                 <span className="shipped-by-distance">2.0 Km</span>
                             </div>
                         </div>
