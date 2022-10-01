@@ -78,10 +78,6 @@ const HomePage = () => {
         setCookie('dark_mode', event.target.checked, {path: '/'});
     };
 
-    function isBlank(str: string) {
-        return !str || /^\s*$/.test(str);
-    }
-
     const refCari = React.useRef<HTMLDivElement>(null);
 
     function componentDidMount() {
@@ -91,8 +87,8 @@ const HomePage = () => {
     }
 
     const open = Boolean(anchorEl);
-    const openSearchItem = () => {
-        setAnchorEl(refCari.current);
+    const openSearchItem = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setInputSearchItem(e.target.value)
     };
     const closeSearchItem = () => {
         setAnchorEl(null);
@@ -119,9 +115,21 @@ const HomePage = () => {
     //     )
     // }
 
+    // useEffect(() => {
+    //     const delayDebounceFnSearchItem = setTimeout(() => {
+    //         if (!isBlank(inputSearchItem) && inputSearchItem.length > 3) {
+    //             setAnchorEl(refCari.current);
+    //         }
+    //
+    //     }, 500);
+    //
+    //     return () => clearTimeout(delayDebounceFnSearchItem);
+    // }, [inputSearchItem]);
+
     useEffect(() => {
         // getRecommendedItems();
         componentDidMount();
+        setSearchItemsLocal(allItemsLocal)
         dispatch(setEstimatePrice(0))
         dispatch(setTotalProduct(0))
         setTimeout(() => {
@@ -198,8 +206,8 @@ const HomePage = () => {
                             fullWidth={true}
                             value={inputSearchItem}
                             onChange={(
-                                ev: React.ChangeEvent<HTMLTextAreaElement>,
-                            ): void => setInputSearchItem(ev.target.value)}
+                                e: React.ChangeEvent<HTMLTextAreaElement>,
+                            ): void => openSearchItem(e)}
                         />
                     </div>
                 </div>
@@ -245,8 +253,8 @@ const HomePage = () => {
                         {/*all card items*/}
                         {
                             isLoading ? <LoadingItemComponent/> : (
-                                allItemsLocal ? (
-                                    allItemsLocal.map((item: Object, index: number) => (
+                                searchItemsLocal ? (
+                                    searchItemsLocal.map((item: Object, index: number) => (
                                         <ItemComponent key={index} item={item}></ItemComponent>
                                     ))
                                 ) : (
