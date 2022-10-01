@@ -25,7 +25,7 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
     const darkMode = (
         cookies.dark_mode === "true"
     )
-    const {totalProduct, estimatePrice, allCheckoutItems} = useSelector((state: RootStore) => state.globalState);
+    const {totalProduct, estimatePrice, inputSearchItemG} = useSelector((state: RootStore) => state.globalState);
     const {item} = props;
     const navigate = useNavigate();
     const [addToCart, setAddToCart] = useState<boolean>(false)
@@ -107,6 +107,10 @@ const ItemComponent = ({children, ...props}: ItemProps) => {
             totalPrice: counter * item.price,
         }))
     }, [counter]);
+
+    useEffect(() => {
+        setAddToCart(false)
+    }, [inputSearchItemG])
 
     return (
         <>
