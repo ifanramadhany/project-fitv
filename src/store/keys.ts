@@ -9,6 +9,7 @@ export const SET_TOTAL_END_PRICE = 'global/setTotalEndPrice'
 export const SET_DETAIL_ITEM_DATA = 'global/setDetailItemData'
 export const SET_RECEIVER_DATA_G = 'global/setReceiverDataG'
 export const SET_LAT_LNG_G = 'global/setLatLngG'
+export const SET_INPUT_SEARCH_ITEM_G = 'global/setInputSearchItemG'
 
 /* ITEM */
 export const SET_ALL_ITEMS = 'item/setAllItems'

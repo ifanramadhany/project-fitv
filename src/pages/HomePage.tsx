@@ -11,9 +11,14 @@ import {allItemsLocal} from "../dummy_data/home.page";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStore} from "../store";
 import {styled} from "@mui/material/styles";
-import {setCheckoutButton, setEstimatePrice, setTotalProduct} from "../store/actions/global.action";
+import {
+    setAllCheckoutItems,
+    setCheckoutButton,
+    setEstimatePrice, setInputSearchItemG,
+    setTotalProduct
+} from "../store/actions/global.action";
 import {ItemService} from "../services";
-import {numberWithCommas} from "../helpers/utils";
+import {isBlank, numberWithCommas} from "../helpers/utils";
 
 const ITEM_HEIGHT = 48;
 
@@ -58,7 +63,7 @@ const HomePage = () => {
         cookies.dark_mode === "true"
     )
     const itemService = new ItemService();
-    const {checkoutButton, totalProduct, estimatePrice, allCheckoutItems} = useSelector(
+    const {checkoutButton, totalProduct, estimatePrice, allCheckoutItems, inputSearchItemG} = useSelector(
         (state: RootStore) => state.globalState);
     const [searchItemsLocal, setSearchItemsLocal] = useState<any>(null)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -89,6 +94,13 @@ const HomePage = () => {
     const open = Boolean(anchorEl);
     const openSearchItem = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setInputSearchItem(e.target.value)
+        dispatch(setInputSearchItemG(e.target.value))
+        if (!isBlank(e.target.value)) {
+            let result = allItemsLocal.filter(o => o.name.toLowerCase().includes(e.target.value.toLowerCase()));
+            setSearchItemsLocal(result)
+        } else {
+            setSearchItemsLocal(allItemsLocal)
+        }
     };
     const closeSearchItem = () => {
         setAnchorEl(null);
@@ -136,6 +148,12 @@ const HomePage = () => {
             setIsLoading(false)
         }, 1000)
     }, []);
+
+    useEffect(() => {
+        dispatch(setEstimatePrice(0))
+        dispatch(setTotalProduct(0))
+        dispatch(setAllCheckoutItems())
+    }, [inputSearchItemG])
 
     return (
         <div style={{backgroundColor: darkMode ? colors.blackBaseColor : colors.baseBackgroundColor}}
@@ -253,13 +271,27 @@ const HomePage = () => {
                         {/*all card items*/}
                         {
                             isLoading ? <LoadingItemComponent/> : (
-                                searchItemsLocal ? (
-                                    searchItemsLocal.map((item: Object, index: number) => (
-                                        <ItemComponent key={index} item={item}></ItemComponent>
-                                    ))
-                                ) : (
-                                    <LoadingItemComponent/>
-                                )
+                                (
+                                    () => {
+                                        if (!searchItemsLocal) {
+                                            return (
+                                                <LoadingItemComponent/>
+                                            );
+                                        } else if (searchItemsLocal.length === 0) {
+                                            return (
+                                                <div className="item-not-found-wrapper flex justify-center items-center">
+                                                    <span>Produk tidak ditemukan!</span>
+                                                </div>
+                                            )
+                                        } else if (searchItemsLocal.length > 0) {
+                                            return (
+                                                searchItemsLocal.map((item: Object, index: number) => (
+                                                    <ItemComponent key={index} item={item}></ItemComponent>
+                                                ))
+                                            )
+                                        }
+                                    }
+                                )()
                             )
                         }
                         {/* last element */}

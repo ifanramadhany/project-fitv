@@ -4,7 +4,7 @@ import {
     SET_CHECKOUT_BUTTON,
     SET_DARK_MODE,
     SET_DETAIL_ITEM_DATA,
-    SET_ESTIMATE_PRICE,
+    SET_ESTIMATE_PRICE, SET_INPUT_SEARCH_ITEM_G,
     SET_LAT_LNG_G,
     SET_RECEIVER_DATA_G,
     SET_TOTAL_END_PRICE,
@@ -22,6 +22,7 @@ interface InitialState {
     detailItemData: object | undefined;
     receiverDataG: IReceiverData;
     latLngG: ILatLng | undefined;
+    inputSearchItemG: string;
 }
 
 interface ActionType {
@@ -47,7 +48,8 @@ const initialState: InitialState = {
         receiverPostCode: "",
         receiverNote: ""
     },
-    latLngG: undefined
+    latLngG: undefined,
+    inputSearchItemG: ""
 }
 
 
@@ -80,6 +82,8 @@ export default function (state: InitialState = initialState, action: ActionType)
             return {...state, receiverDataG: payload}
         case SET_LAT_LNG_G:
             return {...state, latLngG: payload}
+        case SET_INPUT_SEARCH_ITEM_G:
+            return {...state, inputSearchItemG: payload}
         default:
             return state
     }

@@ -97,6 +97,14 @@
       .items-product-wrapper {
         @include minMaxWidth(30em);
         @include minMaxHeight(auto);
+        .item-not-found-wrapper {
+          width: 100vw;
+          height: 10em;
+          span {
+            color: $blue-base-color;
+            font-weight: 500;
+          }
+        }
         .the-item-loading {
           @include minMaxWidth(10.5em);
           @include minMaxHeight(16em);
@@ -469,6 +477,14 @@
         @include minMaxWidth(72em);
         @include minMaxHeight(auto);
         background-color: $base-background-color;
+        .item-not-found-wrapper {
+          width: 100vw;
+          height: 10em;
+          span {
+            color: $blue-base-color;
+            font-weight: 500;
+          }
+        }
         .the-item-loading {
           @include minMaxWidth(15em);
           @include minMaxHeight(22em);

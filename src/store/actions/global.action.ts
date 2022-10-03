@@ -4,7 +4,7 @@ import {
     SET_CHECKOUT_BUTTON,
     SET_DARK_MODE,
     SET_DETAIL_ITEM_DATA,
-    SET_ESTIMATE_PRICE,
+    SET_ESTIMATE_PRICE, SET_INPUT_SEARCH_ITEM_G,
     SET_LAT_LNG_G,
     SET_RECEIVER_DATA_G,
     SET_TOTAL_END_PRICE,
@@ -77,6 +77,13 @@ export function setReceiverDataG(payload: IReceiverData) {
 export function setLatLngG(payload: ILatLng) {
     return {
         type: SET_LAT_LNG_G,
+        payload,
+    };
+}
+
+export function setInputSearchItemG(payload: string) {
+    return {
+        type: SET_INPUT_SEARCH_ITEM_G,
         payload,
     };
 }

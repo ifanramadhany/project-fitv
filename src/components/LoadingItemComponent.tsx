@@ -17,6 +17,10 @@ const LoadingItemComponent = () => {
             <Skeleton sx={{ bgcolor: darkMode ? colors.baseBackgroundColorDarken : "" }} variant="rounded" className="the-item-loading" />
             <Skeleton sx={{ bgcolor: darkMode ? colors.baseBackgroundColorDarken : "" }} variant="rounded" className="the-item-loading" />
             <Skeleton sx={{ bgcolor: darkMode ? colors.baseBackgroundColorDarken : "" }} variant="rounded" className="the-item-loading" />
+            <Skeleton sx={{ bgcolor: darkMode ? colors.baseBackgroundColorDarken : "" }} variant="rounded" className="the-item-loading" />
+            <Skeleton sx={{ bgcolor: darkMode ? colors.baseBackgroundColorDarken : "" }} variant="rounded" className="the-item-loading" />
+            <Skeleton sx={{ bgcolor: darkMode ? colors.baseBackgroundColorDarken : "" }} variant="rounded" className="the-item-loading" />
+            <Skeleton sx={{ bgcolor: darkMode ? colors.baseBackgroundColorDarken : "" }} variant="rounded" className="the-item-loading" />
         </>
     );
 };
